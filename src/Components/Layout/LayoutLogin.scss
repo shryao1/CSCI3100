@@ -1,0 +1,35 @@
+@import '../../shared/Styles/breakpoints';
+@import '../../shared/Styles/colors';
+
+.LayoutLogin__Container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background-color: $color_background_login;
+    height: 100vh;
+    width: 100vw;
+
+
+    .ContainerLogin__Content {
+        height: 650px;
+        width: 600px;
+        background-color: $background_Twitter;
+        border-radius: 16px;
+        display: flex;
+
+        @media(max-height: $TabletS) {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            justify-content: center;
+        }
+
+        @media(max-width: $TabletM) {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            justify-content: center;
+        }
+
+    } 
+}

@@ -1,0 +1,347 @@
+@use '../../shared/Styles/hoverIconOption' as *;
+
+@import '../../shared/Styles/breakpoints';
+@import '../../shared/Styles/colors';
+
+
+.login_container {
+
+    .login {
+        width: 600px;
+        height: 650px;
+        
+        @media(max-width: $TabletS) {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        @media (max-width: $MobileL) {
+            overflow-y: scroll;
+            overflow-x: scroll;
+            position: relative;
+            
+        }
+
+        @media(max-height: $TabletS) {
+            width: 100vw;
+            height: 100vh;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            position: relative;
+        }
+
+        .login_up_container{
+
+            display: flex;
+            .login_exit {
+
+                @include iconOptionGrey;
+                padding: 5px 0px 0 10px;
+
+                @media(max-width: $TabletM) {
+                    position: absolute; 
+                    top: 0; 
+                    left: 0;
+                }
+                @media(max-height: $TabletS) {
+                    position: absolute; 
+                    top: 0; 
+                    left: 0;
+                }
+                i {
+                    cursor: pointer;
+                    width: 38px;
+                    height: 38px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+            
+            .login_icon_twitter {
+                padding: 5px 0px 0 245px;
+
+                @media (max-width: $TabletM) {
+                    padding: 5px 0px 0 50%;
+                    
+                }
+                @media (max-height: $TabletS) {
+                    padding: 5px 0px 0 50%;
+                    
+                }
+            }
+            
+        }
+        .login_body_container {
+
+            @media(max-width: $MobileS) {
+                position: absolute; 
+                padding: 0 20px 0 20px;
+            }
+
+            .login_title{
+                display: flex;
+                justify-content: center;
+                padding-top: 25px;
+                .login_span_title {
+                    font-size: 23px;
+                    font-weight: 700;
+                }
+            }
+            .login_with_container {
+                .login_with {
+                    display: flex;
+                    justify-content: center;
+                    padding-top: 25px;
+                    .login_with_button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: pointer;
+                        font-size: 16px;
+                        background: $color_font_light;
+                        border-radius: 20px;
+                        height: 40px;
+                        width: 300px;
+                        svg{
+                            color: $background_Twitter;
+                        }
+                        .login_with_tittle {
+                            padding: 0 0 0 10px;
+                            color: $background_Twitter;
+                        }
+                        .bold{
+                            font-weight: bold;
+                        }
+                    }
+                }
+            }
+            .login_divider {
+                display: flex;
+                justify-content: center;
+                padding-top: 20px;
+                font-size: 17px;
+                .divider {
+                    h1 {
+                        display: inline-block;
+                        position: relative;
+                    }
+                    h1::after, h1::before {
+                        content: '';
+                        position: absolute;
+                        width: 135px;
+                        height: 2px;
+                        background-color: $border_color_light;
+                        top: 0.4em;
+                    }
+                    h1::before {
+                        left: -140px;
+                    }
+                    h1::after {
+                        right: -140px;
+                    }
+                }
+            }
+            .login_enter_mail {
+                display: flex;
+                justify-content: center;
+                padding-top: 10px;
+                position: relative;
+                overflow: hidden;
+
+                .login_info {
+                    padding: 5px 0 0 0;
+                    position: absolute;
+                    pointer-events: none;
+                    span{
+                        color: $blue_Twitter;
+                        font-size: 14px;
+                    }
+                }
+                input[type="text"] {
+                    background: transparent;
+                    border: transparent;
+                    width: 300px;
+                    height: 60px;
+                    border: 3px solid $border_color_light;
+                    border-radius: 5px;
+                    color: $color_font_light;
+                }
+                .login_span_info {
+                    color: $border_color_light;
+                    font-size: 20px;
+                }
+                .enter_login_info:focus {
+                    border: 3px solid $blue_Twitter;
+                }
+                .show{
+                    display: block;
+                }
+                .hide{
+                    display: none;
+                }
+            }
+			.login_enter_password {
+                display: flex;
+                justify-content: center;
+                padding-top: 10px;
+                position: relative;
+                overflow: hidden;
+
+                .login_info {
+                    padding: 5px 0 0 0;
+                    position: absolute;
+                    pointer-events: none;
+                    span{
+                        color: $blue_Twitter;
+                        font-size: 14px;
+                    }
+                }
+                input[type="text"] {
+                    background: transparent;
+                    border: transparent;
+                    width: 300px;
+                    height: 60px;
+                    border: 3px solid $border_color_light;
+                    border-radius: 5px;
+                    color: $color_font_light;
+                }
+                .login_span_info {
+                    color: $border_color_light;
+                    font-size: 20px;
+                }
+                .enter_login_info:focus {
+                    border: 3px solid $blue_Twitter;
+                }
+                .show{
+                    display: block;
+                }
+                .hide{
+                    display: none;
+                }
+            }
+            .login_button_login {
+                display: flex;
+                justify-content: center;
+                padding-top: 25px;
+                .login_button {
+                    display: flex;
+                    justify-content: center;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: $color_font_light;
+                    border-radius: 20px;
+                    height: 40px;
+                    width: 300px;
+                    .login_span {
+                        padding-top: 10px;
+                        color: $background_Twitter;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .login_button_forget {
+                display: flex;
+                justify-content: center;
+                padding-top: 25px;
+                .login_forget_button {
+                    display: flex;
+                    justify-content: center;
+                    cursor: pointer;
+                    font-size: 16px;
+                    background: none;
+                    border-radius: 20px;
+                    height: 40px;
+                    width: 300px;
+                    border: 3px solid $border_color_light;
+                    .lofin_forgett_message {
+                        padding-top: 10px;
+                        color: $color_font_light;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .login_signup {
+                display: flex;
+                justify-content: center;
+                padding-top: 40px;
+                font-size: 15px;
+                .login_message {
+                    color: $color_text_gray;
+                }
+                .login_link {
+                    cursor: pointer;
+                    padding: 0 0 0 5px;
+                    color: $blue_Twitter;
+                }
+            }
+        }
+        .login_enterPasswordContainer{
+            padding: 30px;
+            .login_data{
+                .login_title{
+                    overflow-wrap: break-word;
+                    font-size: 23px;
+                    font-weight: bold;
+                    line-height: 28px;
+                    padding: 0 0 16px 0;
+                }
+                section{
+                    width: 100%;
+                    min-height: 60px;
+                    border: 1px solid $gray__Twitter_transparent;
+                    border-radius: 5px;
+                    line-height: 16px;
+                    span{
+                        padding: 0 0 0 10px;
+                        font-size: 12px;
+                        color: $color_text_gray;
+                    }
+                    div{
+                        display: flex;
+                        padding: 0 10px;
+                        font-size: 16px;
+                        color: $color_text_gray;
+                        input[type="password"] {
+                            background: transparent;
+                            border: transparent;
+                            width: 100%;
+                            height: 25px;
+                            border-radius: 5px;
+                            color: $color_text_gray;
+                        }
+                    }
+                }
+                .forgetPassword{
+                    font-size: 12px;
+                    color: $blue_Twitter;
+                    cursor: pointer;
+                }
+            }
+            .btn_LogIn{
+                margin: 150px 0 0 0;
+                width: 100%;
+                height: 40px;
+                background-color: $color_font_light;
+                border-radius: 25px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                span{
+                    color: $background_Twitter;
+                    font-weight: bold;
+                }
+            }
+            .btn_sigUp{
+                margin: 15px 0 0 0;
+                color: $color_text_gray;
+                span{
+                    padding: 0 0 0 5px;
+                    color: $blue_Twitter;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

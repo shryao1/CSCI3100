@@ -1,0 +1,49 @@
+@use '../../shared/Styles/hoverIconOption' as *;
+
+@import '../../shared/Styles/breakpoints';
+@import '../../shared/Styles/colors';
+
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h1, h2 {
+    color: #6E1E6F;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #6E1E6F;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  .line {
+    height: 1px;
+    background-color: gray;
+    margin: 10px 0;
+  }

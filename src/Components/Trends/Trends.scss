@@ -1,0 +1,36 @@
+.trends__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+
+    .search-logo {
+        margin-left: 2rem; // Provide space between search area and logo
+    }
+    
+    .container__search {
+        margin-right: auto;
+    }
+
+    .search-input {
+        padding: 8px 50px 8px 50px;
+        border: 2px solid;
+        border-radius: 30px;
+        color: #e8a217;
+    }
+
+    .search-button {
+        padding: 5px 10px;
+        border: none;
+        
+        color: #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        margin-left: 5px;
+    }
+
+    div{
+        width: 90%;
+        max-width: 350px;
+    }
+}
