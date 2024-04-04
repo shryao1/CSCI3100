@@ -41,11 +41,8 @@ const Default = () => {
 								<div></div>
 							</div>
 							<Link to={'/register'} className="option phoneEmail">
-								<span>Sign up with Email</span>
+								<span>Sign up</span>
 							</Link>
-							<div className="message__cookies">
-								By signing up, you agree to the <span>Terms of Service</span> and <span>Privacy Policy</span>, including the <span>Use of Cookies policy</span>.
-							</div>
 						</div>
 						
 					</div>
@@ -59,28 +56,6 @@ const Default = () => {
 						<img src = {CUChatIcon} alt = "Custom Twitter Icon" style={{ width: '400px', height: '400px' }}/>
 					</div>
 				</div>
-			</div>
-			<div className="navigation">
-				<nav className="navBottom">
-					<span>About</span>
-					<span>Help center</span>
-					<span>Terms of Service</span>
-					<span>Privacy policies</span>
-					<span>Cookies policy</span>
-					<span>Accessibility</span>
-					<span>Ad information</span>
-					<span>Blog</span>
-					<span>State</span>
-					<span>Jobs</span>
-					<span>Brand resources</span>
-					<span>Advertising</span>
-					<span>Marketing</span>
-					<span>Twitter for business</span>
-					<span>Developers</span>
-					<span>Guide</span>
-					<span>Setting</span>
-					<span>CloneTwitter &copy;{new Date().getFullYear()}</span>
-				</nav>
 			</div>
 		</div>
 	)

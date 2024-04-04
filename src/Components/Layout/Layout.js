@@ -1,7 +1,6 @@
 import Menu from '../Menus/Menu/Menu'
 import MenuDown from '../Menus/MenuDown/MenuDown'
 import Trends from '../Trends/Trends'
-
 import './Layout.scss'
 
 const Layout = ({ children }) => {

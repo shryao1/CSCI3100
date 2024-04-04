@@ -5,7 +5,8 @@
     justify-content: center;
 
     .search-logo {
-        margin-left: 2rem; // Provide space between search area and logo
+        display: block;
+        margin-right: auto;
     }
     
     .container__search {

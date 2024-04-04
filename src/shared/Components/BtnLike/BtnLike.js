@@ -8,6 +8,9 @@ import { getAllPost, newLike } from '../../../Services/api'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt'
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt'
+
 import './BtnLike.scss'
 
 const BtnLike = ({ likes, id, showDetail }) => {
@@ -32,11 +35,11 @@ const BtnLike = ({ likes, id, showDetail }) => {
 			<div className="option like" onClick={handleSubmitNewLike}>
 				{useILikeThis(likes) ?
 					<i className="active">
-						<FavoriteIcon />
+						<ThumbUpAltIcon />
 					</i>
 					:
 					<i>
-						<FavoriteBorderOutlinedIcon />
+						<ThumbUpOffAltIcon />
 					</i>
 				}
 				{showDetail && <span>{likes?.length}</span>}

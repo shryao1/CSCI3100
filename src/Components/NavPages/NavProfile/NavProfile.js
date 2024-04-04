@@ -3,7 +3,7 @@ import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
 import TextBlue from '../../../shared/Components/TextBlue/TextBlue'
 import { purple, yellow } from '@mui/material/colors'
 // import useGetJoinedDate from '../../../Hooks/useGetJoinedDate'
-
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'
 
@@ -23,6 +23,7 @@ const NavProfile = ({
 	isFollowing,
 	handleButtonClick
 }) => {
+	const navigate = useNavigate()
 	return (
 		<div className="container__navProfile">
 			<section className="header__navProfile">
@@ -32,7 +33,7 @@ const NavProfile = ({
 					</i>
 				</div>
 				<div>
-					<h2>{name}</h2>
+					<h2 style={{ marginBottom: '1px' }}>{name}</h2> {/* Add margin-bottom here */}
 					<span>{count_tweets} Tweets</span>
 				</div>
 			</section>
@@ -88,11 +89,12 @@ const NavProfile = ({
 					<div className='main__followBtns'>
 						<div>
 							<span className='followBtn__number'>{following}</span>
-							<span className='followBtn__text'>Following</span>
+							<span className='followBtn__text'onClick={() => navigate('/followList')}>Following</span>
 						</div>
+
 						<div>
 							<span className='followBtn__number'>{followers}</span>
-							<span className='followBtn__text'>Followers</span>
+							<span className='followBtn__text'onClick={() => navigate('/followList')}>Followers</span>
 						</div>
 					</div>
 				</div>
