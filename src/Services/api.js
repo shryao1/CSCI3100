@@ -81,6 +81,18 @@ export const newLike = async (id, newLike) => {
 		.catch(error => { console.error(error) })
 }
 
+export const newDislike = async (id, newDislike) => {
+	const config = {
+		headers: {
+			'Content-type': 'application/json'
+		}
+	}
+	const req = axios.put(`${PRODUCTION_URL}/post/dislike/${id}`, newDislike, config)
+	return req
+		.then((res) => res.data)
+		.catch(error => { console.error(error) })
+}
+
 export const signUpUser = async (register) => {
 	const config = {
 		headers: {
