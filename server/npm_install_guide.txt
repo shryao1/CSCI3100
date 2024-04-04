@@ -1,0 +1,2 @@
+# to launch the backend
+node server.js

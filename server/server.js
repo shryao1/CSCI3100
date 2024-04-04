@@ -18,7 +18,7 @@ app.use(express.json()); // This should be at the top, before defining your rout
 
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/test', {
+mongoose.connect('mongodb://127.0.0.1:27017', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -72,7 +72,7 @@ async function createUser(userID, password, username) {
 
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
-// createUser('uniqueUserID@example.com', 'securePassword', 'uniqueUsername');
+createUser('123', 'securePassword', 'uniqueUsername');
 app.post("/login", async (req, res) => {
   try {
     const { userID, password } = req.body; // Assuming you're receiving userID instead of username
