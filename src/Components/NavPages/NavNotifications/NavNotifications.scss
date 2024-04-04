@@ -2,9 +2,10 @@
 @import '../../../shared/Styles/colors.scss';
 
 .container__NavNotification{
-    height: 106px;
+    
     width: 100%;
     border-bottom: 1px solid $border_color_light;
+    background-color: #F0AA23;
 
     .header__NavNotification{
         height: 53px;
@@ -12,6 +13,11 @@
         justify-content: space-between;
         align-items: center;
         margin: 0 15px;
+        
+        .notificationTitle {
+			color: purple;
+			margin-top: 17px;
+		}
 
         .container__NavNotification-title{
             display: flex;
