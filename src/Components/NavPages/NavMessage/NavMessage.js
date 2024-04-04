@@ -9,7 +9,7 @@ const NavMessage = () => {
 		<div className="containerMessage">
 			<section className="containerMessage_header">
 				<div>
-					<h2>Messages</h2>
+					<h2 className="message_header">Messages</h2>
 				</div>
 				<div className="containerMessage_icons">
 					<div className="icon">
