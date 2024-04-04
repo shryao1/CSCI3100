@@ -142,7 +142,7 @@
                     }
                 }
             }
-            .login_enter_mail {
+            .login_enter_userid {
                 display: flex;
                 justify-content: center;
                 padding-top: 10px;
@@ -197,7 +197,7 @@
                         font-size: 14px;
                     }
                 }
-                input[type="text"] {
+                input[type="password"] {
                     background: transparent;
                     border: transparent;
                     width: 300px;
