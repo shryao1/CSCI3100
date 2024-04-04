@@ -1,83 +1,74 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-
-import { signUpUser } from '../../Services/api'
-
+import { useNavigate } from 'react-router-dom'
 
 import './Register.scss'
-import ViewStep2 from './partials/View_Step2'
-import ViewStep1and3 from './partials/View_Step1and3'
-
 
 const Register = () => {
-
-	const [step, setStep] = useState(1)
+	const navigate = useNavigate()
 
 	const [user_name, setUser_name] = useState('')
-	const [user_email, setUser_email] = useState('')
-	const [user_phone, setUser_phone] = useState('')
 	const [user_password, setUser_password] = useState('')
-	const [user_birthday, setUser_birthday] = useState({
-		month: '',
-		day: '',
-		year: ''
-	})
-
-
 
 	const validation = () => {
-		if (user_name === '' || user_email === '' || user_birthday.month === '' || user_birthday.day === '' || user_birthday.year === '') {
-			return false
-		}
-		return true
+		return user_name !== '' && user_password !== ''
 	}
 
-	const handleStep = async () => {
-		if (step < 3) {
-			if (validation()) {
-				setStep(step + 1)
+	const handleSignUp = async () => {
+		if (validation()) {
+			try {
+				const response = await fetch('http://localhost:3001/register', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						user_name,
+						user_password,
+					}),
+				})
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+
+				const data = await response.json()
+				alert(`Register Successfully, Your User ID is ${data.userId}`)
+			} catch (error) {
+				console.error('There has been a problem with your fetch operation:', error)
 			}
-		} else {
-			await signUpUser({
-				user_name,
-				user_email,
-				user_phone,
-				user_password,
-				user_birthday: `${user_birthday.day}/${user_birthday.month}/${user_birthday.year}`
-			})
 		}
-	}
-
-	const handleGoBack = () => {
-		setStep(step - 1)
 	}
 
 	return (
 		<div className="register__container">
 			<div className="register__content">
-				{(step === 1 || step === 3) &&
-					<ViewStep1and3
-						step={step}
-						user_name={user_name}
-						setUser_name={setUser_name}
-						user_email={user_email}
-						setUser_email={setUser_email}
-						user_phone={user_phone}
-						setUser_phone={setUser_phone}
-						user_password={user_password}
-						setUser_password={setUser_password}
-						user_birthday={user_birthday}
-						setUser_birthday={setUser_birthday}
-						handleGoBack={handleGoBack}
+				<div className="content__register">
+					<input
+						type="text"
+						value={user_name}
+						onChange={(e) => setUser_name(e.target.value)}
+						className="registerInput__name"
+						placeholder="    Username"
+						required
 					/>
-				}
-				{step === 2 &&
-					<ViewStep2 handleGoBack={handleGoBack} />
-				}
+				</div>
+				<div className="content__register">
+					<input
+						type="password"
+						value={user_password}
+						onChange={(e) => setUser_password(e.target.value)}
+						className="registerInput__password"
+						placeholder="    Password"
+						required
+					/>
+				</div>
 				<div className="content__nextButton">
-					<Link to={step === 3 ? '/' : ''}>
-						<input type="button" value={step !== 3 ? 'Next' : 'Sign Up'} onClick={() => handleStep()} className="nextButton"></input>
-					</Link>
+					<input
+						type="button"
+						value="Sign Up"
+						onClick={handleSignUp}
+						className="nextButton"
+					/>
 				</div>
 			</div>
 		</div>
