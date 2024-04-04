@@ -95,6 +95,37 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Generate Unique UserID
+const generateUniqueUserID = async () => {
+	var userID;
+	var isUnique = false;
+
+	while (!isUnique) {
+	userID = Math.floor(1000 + Math.random() * 9000).toString();
+	const existingUser = await User.findOne({ userID });
+		if (!existingUser) isUnique = true;
+	}
+
+	return userID;
+};
+
+// Registration Endpoint
+app.post('/register', async (req, res) => {
+	try {
+		const { user_name, user_password } = req.body;
+		const userID = await generateUniqueUserID();
+
+		createUser(userID, user_password, user_name);
+
+		// Check if newUser actually has a userID property
+
+		res.status(201).json({ message: "User registered successfully", userId: userID });
+	} catch (error) {
+		console.error('Error during registration:', error);
+		res.status(500).json({ message: "An error occurred during registration" });
+	}
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
