@@ -12,7 +12,8 @@ import Login from '../Pages/Login/Login'
 import Register from '../Pages/Register/Register'
 import Notifications from '../Pages/Notifications/Notifications'
 import Message from '../Pages/Message/Message'
-import Bookmarks from '../Pages/Bookmarks/Bookmarks'
+import Explore from '../Pages/Explore/Explore'
+import Browser from '../Pages/Browser/Browser'
 import Profile from '../Pages/Profile/Profile'
 import PostDetails from '../Pages/PostDetails/PostDetails'
 import Admin from '../Pages/Admin/Admin'
@@ -66,9 +67,14 @@ function App() {
 									<Message />
 								} isMessagePage />
 							} />
-							<Route path="/Bookmarks" element={
+							<Route path="/Explore" element={
 								<PageWrapper component={
-									<Bookmarks />
+									<Explore />
+								} isPage />
+							} />
+							<Route path="/Browser" element={
+								<PageWrapper component={
+									<Browser />
 								} isPage />
 							} />
 							<Route path="/:user/status/:idPost" element={

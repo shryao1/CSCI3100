@@ -1,0 +1,9 @@
+@use '../../shared/Styles/breakpoints' as *;
+
+.browser__container{
+    .browser__tweetsList{
+        @media(max-width: $MobileXL){
+            padding: 53px 0 0 0;
+        }
+    }
+}
