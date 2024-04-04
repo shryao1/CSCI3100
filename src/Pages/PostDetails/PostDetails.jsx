@@ -14,6 +14,7 @@ import SettingsMenu from '../../shared/Components/SettingsMenu/SettingsMenu'
 import TextBlue from '../../shared/Components/TextBlue/TextBlue'
 import NewTweet from '../../shared/Components/NewTweet/NewTweet'
 import BtnLike from '../../shared/Components/BtnLike/BtnLike'
+import BtnDislike from '../../shared/Components/BtnDislike/BtnDislike'
 
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined'
@@ -72,6 +73,9 @@ const PostDetails = () => {
 					<div>
 						{post?.likes?.length} <span>Likes</span>
 					</div>
+					<div>
+						{post?.dislikes?.length} <span>Dislikes</span>
+					</div>
 				</div>
 				<div className="tweetDetails__icons">
 					<div className="option comments">
@@ -86,6 +90,10 @@ const PostDetails = () => {
 					</div>
 					<BtnLike
 						likes={post?.likes}
+						id={idPost}
+					/>
+					<BtnDislike
+						dislikes={post?.dislikes}
 						id={idPost}
 					/>
 					<div className="option share">
