@@ -73,6 +73,8 @@ async function createUser(userID, password, username) {
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 createUser('123', 'securePassword', 'uniqueUsername');
+createUser('8', '3100', 'winnie');
+createUser('100', '123', 'test');
 app.post("/login", async (req, res) => {
   try {
     const { userID, password } = req.body; // Assuming you're receiving userID instead of username
