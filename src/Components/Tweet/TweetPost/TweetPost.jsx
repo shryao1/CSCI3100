@@ -5,6 +5,7 @@ import { AppContext } from '../../../Context/AppContext'
 import useIsMyTweet from '../../../Hooks/useIsMyTweet'
 
 import BtnLike from '../../../shared/Components/BtnLike/BtnLike'
+import BtnDislike from '../../../shared/Components/BtnDislike/BtnDislike'
 import TweetData from '../TweetData/TweetData'
 
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
@@ -23,7 +24,8 @@ const TweetPost = ({
 		content,
 		comments,
 		retweets,
-		likes
+		likes,
+		dislikes
 	},
 	post
 }) => {
@@ -41,14 +43,19 @@ const TweetPost = ({
 						</i>
 						<span>{comments?.length}</span>
 					</div>
-					<div className="option retweet" onClick={() => console.log('click retweets')} >
+					{/* <div className="option retweet" onClick={() => console.log('click retweets')} >
 						<i>
 							<AutorenewOutlinedIcon />
 						</i>
 						<span>{retweets?.length}</span>
-					</div>
+					</div> */}
 					<BtnLike
 						likes={likes}
+						id={id ? id : _id}
+						showDetail
+					/>
+					<BtnDislike
+						dislikes={dislikes}
 						id={id ? id : _id}
 						showDetail
 					/>
@@ -57,13 +64,13 @@ const TweetPost = ({
 							<IosShareOutlinedIcon />
 						</i>
 					</div>
-					{useIsMyTweet(username, appContext?.user?.username) &&
+					{/* {useIsMyTweet(username, appContext?.user?.username) &&
 						<div className="option statistics" onClick={() => console.log('click statistics')} >
 							<i>
 								<BarChartOutlinedIcon />
 							</i>
 						</div>
-					}
+					} */}
 				</div>
 			</div>
 		</div>
