@@ -47,25 +47,7 @@ const samplepost = [
 	}
 ]
   
-// Hardcoded user data with userID, username, and password
-const sampleuser = [
-	{ 
-	  id: 1, 
-	  username: 'user1', 
-	  password: 'password1'
-	},
-	{ 
-	  id: 2, 
-	  username: 'user2', 
-	  password: 'password2'
-	},
-	{ 
-	  id: 3, 
-	  username: 'user3', 
-	  password: 'password3'
-	}
-]
-  
+
 
 
 
@@ -96,7 +78,7 @@ const MainContent = () => {
 	return (
 	  <main className="container">
 			<h1>Hi, admin!</h1>
-			<h2>Click Post Database and User Datebase above to check and modify!</h2>
+			<h2>Click Post Database and User Datebase to check and modify!</h2>
 			<button className="create-btn" onClick={() => navigate('/Admin/userDatabase')}>View User</button>
 			<button className="create-btn" onClick={() => navigate('/Admin/postDatabase')}>View Post</button>
 			<button className="create-btn" onClick={() => navigate('/')}>Log Out</button>
@@ -108,37 +90,43 @@ const MainContent = () => {
 
 
 const UserDatabase = () => {
-	const [userData, setUserData] = useState(null)
+	const [userData, setUserData] = useState([])
 	const navigate = useNavigate()
   
 	useEffect(() => {
-		setUserData(sampleuser)
-	  	// fetch("http://localhost:3001/user")
-		// .then((response) => response.json())
-		// .then((data) => {
-		//   setUserData(data);
-		// })
-		// .catch((error) => {
-		//   console.error("Error fetching user data:", error);
-		// });
-	}, [])
-  
-	const handleDelete = (userId) => {
-	  const confirmDelete = window.confirm('Are you sure you want to delete this user?')
-	  if (confirmDelete) {
-			fetch(`http://localhost:3001/user/${userId}`, {
-		  		method: 'DELETE',
+	  fetch('http://localhost:3001/user')
+			.then((response) => {
+		  if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+		  return response.json()
 			})
-		  	.then((response) => {
-					if (!response.ok) throw new Error('Network response was not ok.')
-					setUserData((prevData) =>
-			  			prevData.filter((user) => user._id !== userId)
-					)
-		  		})
-		  	.catch((error) => {
-					console.error('Error:', error)
-		  		})
-		}
+			.then((data) => {
+		  setUserData(data)
+		  console.log(data)
+			})
+			.catch((error) => {
+		  console.error('Error fetching user data:', error)
+			})
+	}, [])
+
+
+	const handleDelete = (userId) => {
+	//   const confirmDelete = window.confirm('Are you sure you want to delete this user?')
+	//   if (confirmDelete) {
+	// 		fetch(`http://localhost:3001/user/${userId}`, {
+	// 	  		method: 'DELETE',
+	// 		})
+	// 	  	.then((response) => {
+	// 				if (!response.ok) throw new Error('Network response was not ok.')
+	// 				setUserData((prevData) =>
+	// 		  			prevData.filter((user) => user._id !== userId)
+	// 				)
+	// 	  		})
+	// 	  	.catch((error) => {
+	// 				console.error('Error:', error)
+	// 	  		})
+	// 	}
 	}
   
 	return (
@@ -154,12 +142,16 @@ const UserDatabase = () => {
 			{userData && (
 		  		<ul>
 					{userData.map((user) => (
-						<li key={user._id}> {/* Make sure this is the correct identifier for your user */}
-	  						<strong>User ID:</strong> {user.id}
-	  						<br />
-	  						<strong>Username:</strong> {user.username}
+						<li key={user.userID}> {/* Make sure this is the correct identifier for your user */}
+	  						<strong>User ID:</strong> {user.userID}
 	  						<br />
 	  						<strong>Password:</strong> {user.password}
+	  						<br />
+							<strong>User Name:</strong> {user.username}
+	  						<br />
+							<strong>Followers:</strong> {user.followers}
+	  						<br />
+							<strong>Following:</strong> {user.following}
 	  						<br />
 	  						<UpdateUserButton userId={user.id} /> {/* This should pass the correct user ID */}
 	  						<button onClick={() => handleDelete(user.id)}>Delete</button>
@@ -171,7 +163,7 @@ const UserDatabase = () => {
 	)
 }
 
-
+   
 
 
 
