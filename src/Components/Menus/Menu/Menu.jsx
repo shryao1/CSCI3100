@@ -1,7 +1,8 @@
 import { useContext } from 'react'
-
+import { useParams } from 'react-router-dom'
 import MenuItem from './MenuItem/MenuItem'
-import { ListOptionsMenu } from './ListOptions'
+
+import { getListOptionsMenu } from './ListOptions'
 
 import { MenuActiveContext } from '../../../Context/menuActive'
 import { disableScroll } from '../../../Hooks/useScroll'
@@ -17,7 +18,9 @@ import userPhoto from './img/Winnie.png'
 import './Menu.scss'
 
 const Menu = () => {
+	const { userID } = useParams()
 	const menuContext = useContext(MenuActiveContext)
+	const ListOptionsMenu = getListOptionsMenu(userID)
 
 	const OpenPopUp = () => {
 		menuContext?.setPopUp(true)
