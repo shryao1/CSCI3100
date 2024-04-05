@@ -62,7 +62,7 @@ function App() {
 									<Notifications />
 								} isPage />
 							} />
-							<Route path="/message/:userID/:chatwithID" element={
+							<Route path="/message/:userID" element={
 								<PageWrapper component={
 									<Message />
 								} isMessagePage />
