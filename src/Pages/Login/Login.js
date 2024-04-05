@@ -8,11 +8,7 @@ const Login = () => {
 	const [login, setLogin] = useState(false)
 	const navigate = useNavigate()
 
-	// Redirects to home if already logged in
-	if (login) {
-		navigate('/home')
-	}
-
+	
 	return (
 		<div className="login_container">
 			<div className="login">
