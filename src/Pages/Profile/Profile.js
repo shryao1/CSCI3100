@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import MichealAvatar from './michaelAvatar.png'
 import MichealBG from './MichaelWorking.png'
 import { AppContext } from '../../Context/AppContext'
@@ -46,6 +47,8 @@ const Profile = () => {
 	const appContext = useContext(AppContext)
 	const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState(false)
+	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
+	console.log(userID)
 
 
 	useEffect(() => {

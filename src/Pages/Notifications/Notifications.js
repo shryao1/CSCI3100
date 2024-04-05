@@ -1,5 +1,6 @@
 import NavNotifications from '../../Components/NavPages/NavNotifications/NavNotifications'
 import NotificationItem from '../../Components/NotificationItem/NotificationItem'
+import { useParams } from 'react-router-dom'
 
 import './Notifications.scss'
 
@@ -45,6 +46,8 @@ const user = {
 }
 
 const Notifications = () => {
+	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
+
 	return (
 		<div className="notifications__container">
 			<NavNotifications />

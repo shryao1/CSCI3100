@@ -1,4 +1,5 @@
 import './FollowList.scss'
+import { useParams } from 'react-router-dom'
 import { useContext } from 'react'
 import React from 'react'
 import { useLocation } from 'react-router-dom'
@@ -7,6 +8,7 @@ const followers = ['Follower 1', 'Follower 2', 'Follower 3'] // Example follower
 
 const FollowList = () => {
 	const location = useLocation()
+	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
 	const { judger } = location.state || {}
 	// Assuming followers are passed as props or fetched from an API
   	return (

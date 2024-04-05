@@ -47,32 +47,32 @@ function App() {
 								// } isPage />
 								<Admin/>
 							} />
-							<Route path="/followList" element={
+							<Route path="/followList/:userID" element={
 								<PageWrapper component={
 									<FollowList />
 								} isPage />
 							} />
-							<Route path="/profile" element={
+							<Route path="/profile/:userID" element={
 								<PageWrapper component={
 									<Profile />
 								} isPage />
 							} />
-							<Route path="/notifications" element={
+							<Route path="/notifications/:userID" element={
 								<PageWrapper component={
 									<Notifications />
 								} isPage />
 							} />
-							<Route path="/Message" element={
+							<Route path="/message/:sessionID/:userID" element={
 								<PageWrapper component={
 									<Message />
 								} isMessagePage />
 							} />
-							<Route path="/Explore" element={
+							<Route path="/explore/:userID" element={
 								<PageWrapper component={
 									<Explore />
 								} isPage />
 							} />
-							<Route path="/Browser" element={
+							<Route path="/browser" element={
 								<PageWrapper component={
 									<Browser />
 								} isPage />
