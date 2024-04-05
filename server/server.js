@@ -78,6 +78,9 @@ createUser('123', 'securePassword', 'uniqueUsername');
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
 createUser('0', 'admin', 'admin');
+
+
+//handle login authentication
 app.post("/login", async (req, res) => {
   try {
     const { userID, password } = req.body; // Assuming you're receiving userID instead of username
@@ -97,6 +100,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
+
 // Generate Unique UserID
 const generateUniqueUserID = async () => {
 	var userID;
@@ -111,7 +115,7 @@ const generateUniqueUserID = async () => {
 	return userID;
 };
 
-// Registration Endpoint
+// handle register: create new user
 app.post('/register', async (req, res) => {
 	try {
 		const { user_name, user_password } = req.body;
@@ -126,6 +130,24 @@ app.post('/register', async (req, res) => {
 		console.error('Error during registration:', error);
 		res.status(500).json({ message: "An error occurred during registration" });
 	}
+});
+
+
+// handle admin: list all users
+app.get("/user", async (req, res) => {
+  try {
+
+    const userData = await User.find({},'userID username password')
+      .populate('followers', 'userID') // Assuming you want to display usernames of followers and following
+      .populate('following', 'userID')
+      .exec(); // Execute the query
+
+    console.log(`Fetched ${userData.length} users.`);
+    res.json(userData); // Use `.json()` for proper content-type header
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res.status(500).send("Internal server error");
+  }
 });
 
 
