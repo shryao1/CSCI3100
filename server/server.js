@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema({
   avatar: Buffer,
   introduction: String,
   background_image: Buffer,
+  newNotification: Boolean,
   self_post: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
   // Add any additional fields as needed
 });
@@ -59,6 +60,7 @@ async function createUser(userID, password, username) {
     avatar: null,
     introduction: null,
     background_image: null,
+    newNotification: false,
     self_post: [],
   });
 
