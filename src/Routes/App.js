@@ -36,7 +36,7 @@ function App() {
 									<Default />
 								} isDefaultPage />
 							} />
-							<Route path="/home" element={
+							<Route path="/home/:userID" element={
 								<PageWrapper component={
 									<Home />
 								} isPage />

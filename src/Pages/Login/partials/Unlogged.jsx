@@ -30,7 +30,7 @@ const Unlogged = ({ setLogin, navigate }) => {
 					}
 					else{
 						//redirect for normal user
-						navigate('/home')
+						navigate(`/home/${data.userID}`)
 					}
 			
 				} else {
