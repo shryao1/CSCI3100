@@ -6,9 +6,9 @@ import { useParams } from 'react-router-dom'
 import './Message.scss'
 
 const Message = () => {
-	const { userID, sessionID } = useParams() // fetch the passed-in userID parameters from the search path
+	const { userID, chatwithID } = useParams() // fetch the passed-in userID parameters from the search path
 	console.log(userID)
-	console.log(sessionID)
+	console.log(chatwithID)
 
 	const { userMessage } = useContext(MessageContext)
 	return (
