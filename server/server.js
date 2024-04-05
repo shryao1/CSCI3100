@@ -35,9 +35,9 @@ const userSchema = new mongoose.Schema({
   likePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
   dislikePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
   favorite: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
-  avatar: String,
+  avatar: Buffer,
   introduction: String,
-  background_image: String,
+  background_image: Buffer,
   self_post: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
   // Add any additional fields as needed
 });
@@ -125,6 +125,7 @@ app.post('/register', async (req, res) => {
 		res.status(500).json({ message: "An error occurred during registration" });
 	}
 });
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
