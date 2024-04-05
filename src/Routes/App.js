@@ -72,7 +72,7 @@ function App() {
 									<Explore />
 								} isPage />
 							} />
-							<Route path="/browser" element={
+							<Route path="/browser/:userID" element={
 								<PageWrapper component={
 									<Browser />
 								} isPage />

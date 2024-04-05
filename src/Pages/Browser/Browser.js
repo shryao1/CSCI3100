@@ -2,10 +2,13 @@ import { useContext, useEffect } from 'react'
 import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'
 import { AppContext } from '../../Context/AppContext'
 import { getAllPost } from '../../Services/api'
+import { useParams } from 'react-router-dom'
 import './Browser.scss'
 
 const Browser = () => {
 	const appContext = useContext(AppContext)
+	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
+	console.log(userID)
 
 
 	return (
