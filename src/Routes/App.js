@@ -77,7 +77,7 @@ function App() {
 									<Browser />
 								} isPage />
 							} />
-							<Route path="/:user/status/:idPost" element={
+							<Route path="/status/:userID/:postID" element={
 								<PageWrapper component={
 									<PostDetails />
 								} isPage />

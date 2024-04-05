@@ -23,14 +23,14 @@ import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined'
 import './PostDetails.scss'
 
 const PostDetails = () => {
-
+//:userID/:postID
 	const appContext = useContext(AppContext)
-	const { idPost } = useParams()
+	const { postID } = useParams()
 	const [post, setPost] = useState(null)
 
 	useEffect(() => {
-		setPost(appContext?.posts?.find((post) => post.id === idPost))
-	}, [appContext?.posts, idPost])
+		setPost(appContext?.posts?.find((post) => post.id === postID))
+	}, [appContext?.posts, postID])
 
 	return (
 		<div className="container__tweetDetails">
@@ -90,11 +90,11 @@ const PostDetails = () => {
 					</div>
 					<BtnLike
 						likes={post?.likes}
-						id={idPost}
+						id={postID}
 					/>
 					<BtnDislike
 						dislikes={post?.dislikes}
-						id={idPost}
+						id={postID}
 					/>
 					<div className="option share">
 						<i>
@@ -107,7 +107,7 @@ const PostDetails = () => {
 						placeholder="Tweet you reply"
 						isComment
 						toUser={post?.username}
-						idPost={post?.id}
+						postID={post?.id}
 					/>
 				</div>
 			</section>
