@@ -23,14 +23,23 @@ const Unlogged = ({ setLogin, navigate }) => {
 
 				if (response.ok) {
 					localStorage.setItem('userTwitterClone', data.userID)
-					navigate('/home')
+					if(data.userID=='0'){
+						//redirect for admin
+						navigate('/admin')
+
+					}
+					else{
+						//redirect for normal user
+						navigate('/home')
+					}
+			
 				} else {
-					// Handle login failure (you might want to set a state to show the error message)
-					console.log(data.message) // Assuming the backend sends back a message field on error
+					// Handle login failure
+					console.log(data.message) 
 				}
 			} catch (error) {
 				console.error('Failed to log in:', error)
-				// Handle login failure (you might want to set a state to show the error message)
+				// Handle login failure 
 			}
 		}
 	}
