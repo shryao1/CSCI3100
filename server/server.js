@@ -296,19 +296,25 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
+    let userData = await User.find({}, 'userID username password').lean();
 
-    const userData = await User.find({},'userID username password')
-      .populate('followers', 'userID') // Assuming you want to display usernames of followers and following
-      .populate('following', 'userID')
-      .exec(); // Execute the query
+    for (let user of userData) {
+      const followers = await User.find({ 'username': { $in: user.followers } }, 'username');
+      const following = await User.find({ 'username': { $in: user.following } }, 'username');
+      user.followers = followers;
+      user.following = following;
+    }
 
     console.log(`Fetched ${userData.length} users.`);
-    res.json(userData); // Use `.json()` for proper content-type header
+    res.json(userData);
   } catch (error) {
     console.error("Error fetching user data:", error);
     res.status(500).send("Internal server error");
   }
 });
+
+
+
 
 // handle admin: delete a user
 app.delete('/deleteuser/:userID', async (req, res) => {
