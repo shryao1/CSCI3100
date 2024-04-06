@@ -346,9 +346,36 @@ app.post('/createuser', async (req, res) => {
   }
 
 
+});
 
 
 
+// handle admin: list all posts
+app.get('/listpost', async (req, res) => {
+  try {
+    let postData = await Post.find({}, 'postID tag content visible like dislike').lean();
+
+    console.log(`Fetched ${postData.length} posts.`);
+    res.json(postData);
+  } catch (error) {
+    console.error("Error fetching post data:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+// handle admin: delete a post
+app.delete('/deletepost/:postID', async (req, res) => {
+  try {
+    const { postID } = req.params;
+    const deletedPost = await Post.findOneAndDelete({ postID: postID })
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json({ message: `Post ${postID} deleted successfully` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 });
 
 

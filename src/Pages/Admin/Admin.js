@@ -8,45 +8,7 @@ import CreateUser from './CreateUser'
 
 
 
-// hard-code test data
-const samplepost = [
-	{ 
-	  id: 1, 
-	  userId: 1, 
-	  title: 'Post 1', 
-	  content: 'Content of Post 1', 
-	  likes: 10, 
-	  comments: [
-			{ userId: 2, content: 'Comment 1 on Post 1' },
-			{ userId: 3, content: 'Comment 2 on Post 1' }
-	  	],
-		availability: 0
-	},
-	{ 
-	  id: 2, 
-	  userId: 1, 
-	  title: 'Post 2', 
-	  content: 'Content of Post 2', 
-	  likes: 5, 
-	  comments: [
-			{ userId: 2, content: 'Comment 1 on Post 2' },
-			{ userId: 3, content: 'Comment 2 on Post 2' }
-		],
-		availability: -1
-	},
-	{ 
-	  id: 3, 
-	  userId: 2, 
-	  title: 'Post 3', 
-	  content: 'Content of Post 3', 
-	  likes: 3, 
-	  comments: [
-			{ userId: 1, content: 'Comment 1 on Post 3' }
-	  ],
-	  availability: 1
-	}
-]
-  
+
 
 
 
@@ -107,7 +69,6 @@ const UserDatabase = () => {
 			})
 			.then((data) => {
 		  setUserData(data)
-		  console.log(data)
 			})
 			.catch((error) => {
 		  console.error('Error fetching user data:', error)
@@ -174,36 +135,40 @@ const UserDatabase = () => {
 const PostDatabase = () => {
 	const [postData, setPostData] = useState(null)
 	const navigate = useNavigate()
-  
+
 	useEffect(() => {
-		setPostData(samplepost)
-	  	// fetch("http://localhost:3001/post")
-		// .then((response) => response.json())
-		// .then((data) => {
-		//   setPostData(data);
-		// })
-		// .catch((error) => {
-		//   console.error("Error fetching post data:", error);
-		// });
-	}, [])
-  
-	const handleDelete = (postId) => {
-	  const confirmDelete = window.confirm('Are you sure you want to delete this post?')
-	  if (confirmDelete) {
-			fetch(`http://localhost:3001/post/${postId}`, {
-		  	method: 'DELETE',
+		fetch('http://localhost:3001/listpost')
+			.then((response) => {
+				if (!response.ok) {
+					  throw new Error('Network response was not ok')
+				}
+				return response.json()
 			})
-		  .then((response) => {
-					if (!response.ok) throw new Error('Network response was not ok.')
-					// Remove the post from the state to update the UI
+			.then((data) => {
+				setPostData(data)
+			})
+			.catch((error) => {
+				console.error('Error fetching user data:', error)
+			})
+	  }, [])
+  
+  
+	const handleDelete = (pid) => {
+		const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+		if (confirmDelete) {
+			  fetch(`http://localhost:3001/deletepost/${pid}`, {
+				method: 'DELETE',
+			  })
+				.then((response) => {
+					  if (!response.ok) throw new Error('Network response was not ok.')
 					setPostData((prevData) =>
-			  		prevData.filter((post) => post.postId !== postId)
-					)
-		  	})
-		  .catch((error) => {
-					console.error('Error:', error)
-		  	})
-	  }
+						prevData.filter((post) => post.postID !== pid)
+					  )
+				})
+				.catch((error) => {
+					  console.error('Error:', error)
+				})
+		  }
 	}
   
 	return (
@@ -220,19 +185,21 @@ const PostDatabase = () => {
 			{postData && (
 		  		<ul>
 					{postData.map((post) => (
-			  			<li key={post.postId}>
-							<strong>Post ID:</strong> {post.id}
+			  			<li key={post.postID}>
+							<strong>Post ID:</strong> {post.postID}
 							<br />
-							<strong>Post title:</strong> {post.title}
+							<strong>Tag:</strong> {post.tag}
 							<br />
 							<strong>Content:</strong> {post.content}
 							<br />
-							<strong>Author ID:</strong> {post.userId}
+							<strong>Like:</strong> {post.like}
 							<br />
-							<strong>Availability:</strong> {post.availability}
+							<strong>Dislike:</strong> {post.dislike}
 							<br />
-							<UpdatePostButton postId={post.postId} />
-							<button onClick={() => handleDelete(post.postId)}>Delete</button>
+							<strong>Visibility:</strong> {post.visible}
+							<br />
+							<UpdatePostButton postId={post.postID} />
+							<button onClick={() => handleDelete(post.postID)}>Delete</button>
 			  			</li>
 					))}
 		  		</ul>
