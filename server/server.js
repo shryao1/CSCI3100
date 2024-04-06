@@ -27,19 +27,19 @@ mongoose.connect('mongodb://127.0.0.1:27017', {
 
 // User Schema
 const userSchema = new mongoose.Schema({
-  followers: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
-  following: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
+  followers: [{ type: String, ref: 'User' }],
+  following: [{ type: String, ref: 'User' }],
   userID: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   username: { type: String, required: true, unique: true },
-  likePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
-  dislikePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
-  favorite: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
+  likePost: [{ type: String, ref: 'Post' }],
+  dislikePost: [{ type: String, ref: 'Post' }],
+  favorite: [{ type: String, ref: 'Post' }],
   avatar: Buffer,
   introduction: String,
   background_image: Buffer,
   newNotification: Boolean,
-  self_post: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
+  self_post: [{ type: String, ref: 'Post' }],
   // Add any additional fields as needed
 });
 
@@ -204,6 +204,34 @@ async function createUser(userID, password, username) {
   }
 }
 
+async function admincreateUser(userID, username, password, introduction) {
+  const user = new User({
+    userID,
+    password,
+    username,
+    followers: [],
+    following: [],
+    likePost:[],
+    dislikePost: [],
+    favorite: [],
+    avatar: null,
+    introduction,
+    background_image: null,
+    newNotification: false,
+    self_post: [],
+
+  });
+
+  try {
+    const result = await user.save();
+    console.log('User created successfully:', result);
+    return result; 
+  } catch (error) {
+    console.error('Error creating the user:', error.message);
+    throw error; 
+  }
+}
+
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 createUser('123', 'securePassword', 'uniqueUsername');
@@ -294,6 +322,27 @@ app.delete('/deleteuser/:userID', async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
+});
+
+
+
+// handle admin: create a user
+app.post('/createuser', async (req, res) => {
+
+  try {
+    const {userID, username, password, introduction} = req.body;
+    admincreateUser(userID, password, username, introduction)
+
+    res.status(201).json("good"); // Send the created user back
+  } catch (error) {
+    console.error('Error during creating user', error); // Log the full error
+    res.status(400).json({ message: error.message });
+  }
+
+
+
+
+
 });
 
 

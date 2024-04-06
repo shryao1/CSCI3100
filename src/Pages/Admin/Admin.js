@@ -1,10 +1,10 @@
 import './Admin.scss'
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-// import CreatePostForm from "./CreatePostForm";
-// import UpdatePostForm from "./UpdatePostForm";
-// import CreateUserForm from "./CreateUserForm";
-// import UpdateUserForm from "./UpdateUserForm";
+// import CreatePostForm from './CreatePostForm'
+// import UpdatePostForm from './UpdatePostForm'
+import CreateUser from './CreateUser'
+// import UpdateUserForm from './UpdateUserForm'
 
 
 
@@ -56,20 +56,24 @@ const samplepost = [
 
 
 
-const Admin = () => (
-	<>
-	  <Routes>
-			<Route index element={<MainContent />} />
-			<Route path="userDatabase" element={<UserDatabase />} />
-			<Route path="postDatabase" element={<PostDatabase />} />
-			{/* <Route path="createPost" element={<CreatePostForm />} />
-			<Route path="createUser" element={<CreateUserForm />} />
-			<Route path="user/update/:userId" element={<UpdateUserForm />} />
-			<Route path="post/update/:postId" element={<UpdatePostForm />} /> */}
-			<Route path="*" element={<NoMatch />} />
-	  </Routes>
-	</>
-)
+const Admin = () => {
+	const navigate = useNavigate()
+	return(
+		<>
+		  <Routes>
+				<Route index element={<MainContent />} />
+				<Route path="userDatabase" element={<UserDatabase />} />
+				<Route path="postDatabase" element={<PostDatabase />} />
+				{/* <Route path="createPost" element={<CreatePostForm />} /> */}
+				<Route path="createUser" element={<CreateUser navigate={navigate} />} />
+				{/* <Route path="updateUser/:userID" element={<UpdateUserForm />} /> */}
+				{/* <Route path="post/update/:postId" element={<UpdatePostForm />} /> */}
+				<Route path="*" element={<NoMatch />} />
+	  	</Routes>
+		</>
+	)
+	
+}
 
 
 const MainContent = () => {
@@ -142,7 +146,7 @@ const UserDatabase = () => {
 			{userData && (
 		  		<ul>
 					{userData.map((user) => (
-						<li key={user.userID}> {/* Make sure this is the correct identifier for your user */}
+						<li key={user.userID}> 
 	  						<strong>User ID:</strong> {user.userID}
 	  						<br />
 	  						<strong>Password:</strong> {user.password}
@@ -153,7 +157,7 @@ const UserDatabase = () => {
 	  						<br />
 							<strong>Following:</strong> {user.following}
 	  						<br />
-	  						<UpdateUserButton userId={user.id} /> {/* This should pass the correct user ID */}
+	  						<UpdateUserButton userID={user.userID} /> 
 	  						<button onClick={() => handleDelete(user.userID)}>Delete</button>
 						</li>
   					))}
@@ -252,11 +256,11 @@ const UpdatePostButton = ({ postId }) => {
 	return <button className="update-btn" onClick={handleUpdate}>Update</button>
 }
   
-const UpdateUserButton = ({ userId }) => {
+const UpdateUserButton = ({ userID }) => {
 	const navigate = useNavigate()
   
 	const handleUpdate = () => {
-	  navigate(`/Admin/user/update/${userId}`)
+	  navigate(`/Admin/user/update/${userID}`)
 	}
   
 	return <button className="update-btn" onClick={handleUpdate}>Update</button>
