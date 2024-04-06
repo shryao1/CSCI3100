@@ -111,22 +111,22 @@ const UserDatabase = () => {
 	}, [])
 
 
-	const handleDelete = (userId) => {
-	//   const confirmDelete = window.confirm('Are you sure you want to delete this user?')
-	//   if (confirmDelete) {
-	// 		fetch(`http://localhost:3001/user/${userId}`, {
-	// 	  		method: 'DELETE',
-	// 		})
-	// 	  	.then((response) => {
-	// 				if (!response.ok) throw new Error('Network response was not ok.')
-	// 				setUserData((prevData) =>
-	// 		  			prevData.filter((user) => user._id !== userId)
-	// 				)
-	// 	  		})
-	// 	  	.catch((error) => {
-	// 				console.error('Error:', error)
-	// 	  		})
-	// 	}
+	const handleDelete = (uid) => {
+	  const confirmDelete = window.confirm('Are you sure you want to delete this user?')
+	  if (confirmDelete) {
+			fetch(`http://localhost:3001/deleteuser/${uid}`, {
+		  		method: 'DELETE',
+			})
+		  	.then((response) => {
+					if (!response.ok) throw new Error('Network response was not ok.')
+					setUserData((prevData) =>
+			  			prevData.filter((user) => user.userID !== uid)
+					)
+		  		})
+		  	.catch((error) => {
+					console.error('Error:', error)
+		  		})
+		}
 	}
   
 	return (
@@ -154,7 +154,7 @@ const UserDatabase = () => {
 							<strong>Following:</strong> {user.following}
 	  						<br />
 	  						<UpdateUserButton userId={user.id} /> {/* This should pass the correct user ID */}
-	  						<button onClick={() => handleDelete(user.id)}>Delete</button>
+	  						<button onClick={() => handleDelete(user.userID)}>Delete</button>
 						</li>
   					))}
 		  		</ul>

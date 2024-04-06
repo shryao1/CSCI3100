@@ -150,6 +150,20 @@ app.get("/user", async (req, res) => {
   }
 });
 
+// handle admin: delete a user
+app.delete('/deleteuser/:userID', async (req, res) => {
+  try {
+    const { userID } = req.params;
+    const deletedUser = await User.findOneAndDelete({ userID: userID })
+    if (!deletedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json({ message: `User ${userID} deleted successfully` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
