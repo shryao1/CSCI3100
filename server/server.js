@@ -27,19 +27,19 @@ mongoose.connect('mongodb://127.0.0.1:27017', {
 
 // User Schema
 const userSchema = new mongoose.Schema({
-  followers: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
-  following: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'User' }],
+  followers: [{ type: String, ref: 'User' }],
+  following: [{ type: String, ref: 'User' }],
   userID: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   username: { type: String, required: true, unique: true },
-  likePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
-  dislikePost: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
-  favorite: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
+  likePost: [{ type: String, ref: 'Post' }],
+  dislikePost: [{ type: String, ref: 'Post' }],
+  favorite: [{ type: String, ref: 'Post' }],
   avatar: Buffer,
   introduction: String,
   background_image: Buffer,
   newNotification: Boolean,
-  self_post: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Post' }],
+  self_post: [{ type: String, ref: 'Post' }],
   // Add any additional fields as needed
 });
 
@@ -204,6 +204,34 @@ async function createUser(userID, password, username) {
   }
 }
 
+async function admincreateUser(userID, username, password, introduction) {
+  const user = new User({
+    userID,
+    password,
+    username,
+    followers: [],
+    following: [],
+    likePost:[],
+    dislikePost: [],
+    favorite: [],
+    avatar: null,
+    introduction,
+    background_image: null,
+    newNotification: false,
+    self_post: [],
+
+  });
+
+  try {
+    const result = await user.save();
+    console.log('User created successfully:', result);
+    return result; 
+  } catch (error) {
+    console.error('Error creating the user:', error.message);
+    throw error; 
+  }
+}
+
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 createUser('123', 'securePassword', 'uniqueUsername');
@@ -268,19 +296,25 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
+    let userData = await User.find({}, 'userID username password').lean();
 
-    const userData = await User.find({},'userID username password')
-      .populate('followers', 'userID') // Assuming you want to display usernames of followers and following
-      .populate('following', 'userID')
-      .exec(); // Execute the query
+    for (let user of userData) {
+      const followers = await User.find({ 'username': { $in: user.followers } }, 'username');
+      const following = await User.find({ 'username': { $in: user.following } }, 'username');
+      user.followers = followers;
+      user.following = following;
+    }
 
     console.log(`Fetched ${userData.length} users.`);
-    res.json(userData); // Use `.json()` for proper content-type header
+    res.json(userData);
   } catch (error) {
     console.error("Error fetching user data:", error);
     res.status(500).send("Internal server error");
   }
 });
+
+
+
 
 // handle admin: delete a user
 app.delete('/deleteuser/:userID', async (req, res) => {
@@ -291,6 +325,54 @@ app.delete('/deleteuser/:userID', async (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json({ message: `User ${userID} deleted successfully` });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
+
+// handle admin: create a user
+app.post('/createuser', async (req, res) => {
+
+  try {
+    const {userID, username, password, introduction} = req.body;
+    admincreateUser(userID, password, username, introduction)
+
+    res.status(201).json("good"); // Send the created user back
+  } catch (error) {
+    console.error('Error during creating user', error); // Log the full error
+    res.status(400).json({ message: error.message });
+  }
+
+
+});
+
+
+
+// handle admin: list all posts
+app.get('/listpost', async (req, res) => {
+  try {
+    let postData = await Post.find({}, 'postID tag content visible like dislike').lean();
+
+    console.log(`Fetched ${postData.length} posts.`);
+    res.json(postData);
+  } catch (error) {
+    console.error("Error fetching post data:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+// handle admin: delete a post
+app.delete('/deletepost/:postID', async (req, res) => {
+  try {
+    const { postID } = req.params;
+    const deletedPost = await Post.findOneAndDelete({ postID: postID })
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+    res.json({ message: `Post ${postID} deleted successfully` });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
