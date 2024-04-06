@@ -94,7 +94,7 @@ const UserDatabase = () => {
 	const navigate = useNavigate()
   
 	useEffect(() => {
-	  fetch('http://localhost:3001/user')
+	  fetch('http://localhost:3001/listuser')
 			.then((response) => {
 		  if (!response.ok) {
 					throw new Error('Network response was not ok')

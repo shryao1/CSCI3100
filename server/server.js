@@ -134,7 +134,7 @@ app.post('/register', async (req, res) => {
 
 
 // handle admin: list all users
-app.get("/user", async (req, res) => {
+app.get("/listuser", async (req, res) => {
   try {
 
     const userData = await User.find({},'userID username password')
