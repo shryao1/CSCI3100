@@ -33,6 +33,7 @@ const Register = () => {
 
 				const data = await response.json()
 				alert(`Register Successfully, Your User ID is ${data.userId}`)
+				navigate('/home')
 			} catch (error) {
 				console.error('There has been a problem with your fetch operation:', error)
 			}
