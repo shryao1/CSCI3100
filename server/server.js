@@ -515,6 +515,42 @@ app.get('/profilePosts/:userID', async (req, res) => {
   });
 
 
+
+  app.post("/post", async (req, res) => {
+    try {
+      // Assuming req.user is populated with the user's data after authentication
+      const { userID, text_posted } = req.body;
+    
+      const attachment = null;
+      const visible = 1;
+      const content = text_posted;
+      // Create a unique postID, for example using MongoDB's ObjectId
+     
+      createPost(userID, content, attachment, visible)
+      res.status(201).json('');
+    } catch (error) {
+      console.error("Create post error:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+  
+  app.get('/getallpost', async (req, res) => {
+    try {
+      let postData = await Post.find();
+        // const postData = await Post.find({}, 'postID userID tag content visible like dislike')
+        // .populate('userID', 'userID username') 
+        // .lean();
+  
+        console.log(`Fetched ${postData.length} posts.`);
+        res.json(postData);
+      } catch (error) {
+        console.error("Error fetching post data:", error);
+        res.status(500).send("Internal server error");
+      }
+    });
+  
+
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
