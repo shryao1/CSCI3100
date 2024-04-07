@@ -5,8 +5,10 @@ class CreatePost extends React.Component {
 		super(props)
 		this.state = {
 			userID: '',
+			tag: '',
+			like: 0,
+			dislike: 0,
 			content: '',
-			attachment: '',
 			visible: 1
 		}
 	}
@@ -25,8 +27,10 @@ class CreatePost extends React.Component {
 			body: JSON.stringify({
 				userID: this.state.userID,
             	content: this.state.content, 
-            	attachment: this.state.attachment, 
             	visible: this.state.visible,
+				tag: this.state.tag,
+				like: this.state.like,
+				dislike: this.state.dislike,
 			}),
 		})
 			.then(response => {
@@ -92,22 +96,44 @@ class CreatePost extends React.Component {
 					/>
 				</label>
 				<label className="form-label">
-					Attachment:
+					Visibility:
 					<input
 						type="text"
-						name="attachment"
-						value={this.state.attachment}
+						name="visible"
+						value={this.state.visible}
 						onChange={this.handleChange}
 						className="form-input"
 						style={styles.formInput}
 					/>
 				</label>
 				<label className="form-label">
-					Visibility:
+					Tag:
 					<input
 						type="text"
-						name="visible"
-						value={this.state.visible}
+						name="tag"
+						value={this.state.tag}
+						onChange={this.handleChange}
+						className="form-input"
+						style={styles.formInput}
+					/>
+				</label>
+				<label className="form-label">
+					Like:
+					<input
+						type="text"
+						name="like"
+						value={this.state.like}
+						onChange={this.handleChange}
+						className="form-input"
+						style={styles.formInput}
+					/>
+				</label>
+				<label className="form-label">
+					Dislike:
+					<input
+						type="text"
+						name="dislike"
+						value={this.state.dislike}
 						onChange={this.handleChange}
 						className="form-input"
 						style={styles.formInput}
