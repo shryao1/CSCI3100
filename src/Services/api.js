@@ -1,12 +1,11 @@
 import axios from 'axios'
-const PRODUCTION_URL = 'https://twitter-clone-backend-mongo.herokuapp.com/api'
-const LOCAL_URL = 'http://localhost:3001'
+const PRODUCTION_URL = 'http://localhost:3001'
+const LOCAL_URL = 'http://localhost:3001/api'
 
 export const getAllPost = async () => {
 	try {
-		// const response = await fetch(`${LOCAL_URL}/home`)
-		// const data = await response.json()
-		const data= await fetch(`${PRODUCTION_URL}/home`)
+		const response = await fetch('http://localhost:3001/getallpost')
+		const data = await response.json()
 		return data
 	} catch (error) {
 		console.error(error)
