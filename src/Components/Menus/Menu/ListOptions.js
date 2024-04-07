@@ -21,7 +21,7 @@ export const getListOptionsMenu = (userID) => {
 		{ icon: <TagOutlinedIcon fontSize='large'/>, icon2: <TagOutlinedIcon fontSize='large'/>, url: `/browser/${userID}`, label: 'Browser', id: 'browserItem', className: 'browserItem' },
 		{ icon: <NotificationsOutlinedIcon fontSize='large'/>, icon2: <NotificationsIcon fontSize='large'/>, url: `/notifications/${userID}`, label: 'Notifications'},
 		{ icon: <EmailOutlinedIcon fontSize='large'/>, icon2: <EmailIcon fontSize='large'/>, url: `/message/${userID}/1`, label: 'Messages'}, // Note that :chatwithID needs to be handled dynamically as well
-		{ icon: <PermIdentityOutlinedIcon fontSize='large'/>, icon2: <PersonIcon fontSize='large'/>, url: `/profile/${userID}`, label: 'Profile'},
+		{ icon: <PermIdentityOutlinedIcon fontSize='large'/>, icon2: <PersonIcon fontSize='large'/>, url: `/profile/${userID}/${userID}`, label: 'Profile'},
 	]
   
 	return ListOptionsMenu
