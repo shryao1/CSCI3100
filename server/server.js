@@ -94,20 +94,24 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;
 
-const generateUniquePostID = async () => {
 
-  const maxPostId = await Post.find().sort({ postID: -1 }).limit(1);
-  if(maxPostId[0]===undefined)
-  {
-    const newPostId = 1;
-    return newPostId;
+const generateUniquePostID = async () => {
+  try {
+    // Find the maximum postID in the database
+    const maxPost = await Post.findOne().sort({ postID: -1 }).exec();
+    if (!maxPost) {
+      // If no posts found, start postID from 1
+      return 1;
+    } else {
+      // Increment the max postID found by 1
+      return maxPost.postID + 1;
+    }
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error('Error generating unique postID:', error);
+    throw error;
   }
-  else
-  {
-    const newPostId = parseInt(maxPostId[0].postID)+1;
-    return newPostId;
-  }
-  };
+};
 
   async function createPost(userID, content, attachment, visible) {
     try {
