@@ -28,8 +28,8 @@ const Admin = () => {
 				<Route path="postDatabase" element={<PostDatabase />} />
 				<Route path="createUser" element={<CreateUser navigate={navigate} />} />
 				<Route path="createPost" element={<CreatePost navigate={navigate} />} />
-				{/* <Route path="updateuser/:userID" element={<UpdateUser />} /> */}
-				{/* <Route path="updatepost/:postID" element={<UpdatePost />} /> */}
+				{/* <Route path="updateuser/:userID" element={<UpdateUser navigate={navigate}/>} /> */}
+				{/* <Route path="updatepost/:postID" element={<UpdatePost navigate={navigate}/>} /> */}
 				<Route path="*" element={<NoMatch />} />
 	  	</Routes>
 		</>
@@ -120,7 +120,7 @@ const UserDatabase = () => {
 	  						<br />
 							  <strong>Self post:</strong> {user.self_post.join(',' )}
 	  						<br />
-	  						<UpdateUserButton userID={user.userID} /> 
+	  						{/* <UpdateUserButton userID={user.userID} />  */}
 	  						<button onClick={() => handleDelete(user.userID)}>Delete</button>
 						</li>
   					))}
@@ -203,7 +203,7 @@ const PostDatabase = () => {
 							<br />
 							<strong>Visibility:</strong> {post.visible}
 							<br />
-							<UpdatePostButton postID={post.postID} />
+							{/* <UpdatePostButton postID={post.postID} /> */}
 							<button onClick={() => handleDelete(post.postID)}>Delete</button>
 			  			</li>
 					))}
