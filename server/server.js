@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   introduction: String,
   background_image: Buffer,
   newNotification: Boolean,
-  self_post: [{ type: String, ref: 'Post' }],
+  //self_post: [{ type: String, ref: 'Post' }],
   // Add any additional fields as needed
 });
 
@@ -193,7 +193,7 @@ async function createUser(userID, password, username) {
     introduction: null,
     background_image: null,
     newNotification: false,
-    self_post: [],
+    //self_post: [],
   });
 
   try {
@@ -218,7 +218,7 @@ async function admincreateUser(userID, username, password, introduction) {
     introduction,
     background_image: null,
     newNotification: false,
-    self_post: [],
+    //self_post: [],
 
   });
 
@@ -232,12 +232,42 @@ async function admincreateUser(userID, username, password, introduction) {
   }
 }
 
+async function admincreatepost(userID, content, visible, tag, like, dislike) {
+  try {
+  // Generate a unique postID
+  const postID_ = await generateUniquePostID(Post);
+  // Create a new Post document
+  const newPost = new Post({
+  postID: postID_,
+  tag,
+  content,
+  attachment: null,
+  userID,
+  like,
+  dislike,
+  visible
+  });
+  // Save the new post to the database
+  const savedPost = await newPost.save();
+  console.log('Post created successfully:', savedPost);
+  //console.log(postID_);
+  //return postID_;
+  } catch (error) {
+  // Handle any errors that occur during the process
+  console.error('Error creating post:', error);
+  throw error; // Rethrow the error for further handling
+  }
+  }
+
+
+
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 createUser('123', 'securePassword', 'uniqueUsername');
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
-createUser('0', 'admin', 'admin');
+createUser('0', 'admin', 'admin'); //admin
+createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is michael",1);
 
 //handle login authentication
@@ -296,13 +326,12 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
-    let userData = await User.find({}, 'userID username password').lean();
+    let userData = await User.find({}, 'userID username password followers following').lean();
+
 
     for (let user of userData) {
-      const followers = await User.find({ 'username': { $in: user.followers } }, 'username');
-      const following = await User.find({ 'username': { $in: user.following } }, 'username');
-      user.followers = followers;
-      user.following = following;
+      const posts = await Post.find({ 'userID': user.userID }, 'postID').lean();
+      user.self_post = posts.map(post => post.postID);
     }
 
     console.log(`Fetched ${userData.length} users.`);
@@ -312,7 +341,6 @@ app.get("/listuser", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
 
 
 
@@ -354,9 +382,7 @@ app.post('/createuser', async (req, res) => {
 app.get('/listpost', async (req, res) => {
   try {
     let postData = await Post.find({}, 'postID userID tag content visible like dislike');
-      // const postData = await Post.find({}, 'postID userID tag content visible like dislike')
-      // .populate('userID', 'userID username') 
-      // .lean();
+
 
       console.log(`Fetched ${postData.length} posts.`);
       res.json(postData);
@@ -364,17 +390,7 @@ app.get('/listpost', async (req, res) => {
       console.error("Error fetching post data:", error);
       res.status(500).send("Internal server error");
     }
-  
-//   res.json(postData.map(post => ({
-//     ...post,
-//     userID: post.userID.userID,
-//     username: post.userID.username, // Add username to each post object
-//     // Ensure you remove or overwrite userID if you don't want to expose ObjectId to the frontend
-//   })));
-// } catch (error) {
-//   console.error("Error fetching post data:", error);
-//   res.status(500).send("Internal server error");
-// }
+
 });
 
 
@@ -396,7 +412,7 @@ app.delete('/deletepost/:postID', async (req, res) => {
 app.post('/createpost', async (req, res) => {
 
   try {
-    const {userID, content, attachment, visible} = req.body;
+    const {userID, content, visible, tag, like, dislike} = req.body;
     // try {
     //   const user = await User.findOne({ userID: userID });
     //   if (user) {
@@ -411,7 +427,8 @@ app.post('/createpost', async (req, res) => {
     //   return null;
     // }
 
-    createPost(userID, content, attachment, visible)
+    admincreatepost(userID, content, visible, tag, like, dislike)
+    //attachPost2User(userID, new_postID)
 
     res.status(201).json("good"); 
   } catch (error) {
