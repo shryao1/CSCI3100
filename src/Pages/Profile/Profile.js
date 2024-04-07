@@ -51,11 +51,12 @@ const Profile = () => {
 	const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState(false)
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
-
+	const { visituserID } = useParams() // fetch the passed-in userID parameters from the search path
+	localStorage.setItem('visitUserID', visituserID)
 	useEffect(() => {
-		console.log(userID)
-		if (userID) {
-			fetch(`http://localhost:3001/profilePosts/${userID}`)
+		console.log(visituserID)
+		if (visituserID) {
+			fetch(`http://localhost:3001/profilePosts/${visituserID}`)
 				.then((response) => {
 					if (!response.ok) {
 						throw new Error('Network response was not ok')
