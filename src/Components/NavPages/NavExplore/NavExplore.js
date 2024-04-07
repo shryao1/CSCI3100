@@ -1,3 +1,14 @@
+<<<<<<< Updated upstream
+=======
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import { AppContext } from '../../../Context/AppContext'
+import ExplorePosts from '../../../Services/api'
+import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
+import NewTweet from '../../../shared/Components/NewTweet/NewTweet'
+import StarRateOutlinedIcon from '@mui/icons-material/StarRateOutlined'
+
+>>>>>>> Stashed changes
 import './NavExplore.scss'
 
 const NavExplore = () => {
@@ -10,9 +21,8 @@ const NavExplore = () => {
 					</div>
 				</div>
 			</section>
-			
-            
 		</div>
+		
 	)
 }
 
