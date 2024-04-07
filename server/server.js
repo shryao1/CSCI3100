@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
   introduction: String,
   background_image: Buffer,
   newNotification: Boolean,
-  self_post: [{ type: String, ref: 'Post' }],
+  //self_post: [{ type: String, ref: 'Post' }],
   // Add any additional fields as needed
 });
 
@@ -83,7 +83,7 @@ const postSchema = new mongoose.Schema({
   tag: Number, // If multiple, can be an array of strings
   content: { type: String, required: true },
   attachment: attachmentSchema,
-  userID: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  userID: { type: String, ref: 'User', required: true },
   like: { type: Number, default: 0 },
   dislike: { type: Number, default: 0 },
   visible: { type: Number, enum: [-1, 0, 1], default: 0 }
@@ -94,20 +94,25 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postSchema);
 module.exports = Post;
 
-const generateUniquePostID = async () => {
 
-  const maxPostId = await Post.find().sort({ postID: -1 }).limit(1);
-  if(maxPostId[0]===undefined)
-  {
-    const newPostId = 1;
-    return newPostId;
+const generateUniquePostID = async () => {
+  try {
+    // Find the maximum postID in the database
+    const maxPost = await Post.findOne().sort({ postID: -1 }).exec();
+    if (!maxPost) {
+      // If no posts found, start postID from 1
+      return 1;
+    } else {
+      // Increment the max postID found by 1
+      return +maxPost.postID + 1;
+    }
+  } catch (error) {
+    // Handle any errors that occur during the process
+    console.error('Error generating unique postID:', error);
+    throw error;
   }
-  else
-  {
-    const newPostId = parseInt(maxPostId[0].postID)+1;
-    return newPostId;
-  }
-  };
+};
+
 
   async function createPost(userID, content, attachment, visible) {
     try {
@@ -193,7 +198,7 @@ async function createUser(userID, password, username) {
     introduction: null,
     background_image: null,
     newNotification: false,
-    self_post: [],
+    //self_post: [],
   });
 
   try {
@@ -218,7 +223,7 @@ async function admincreateUser(userID, username, password, introduction) {
     introduction,
     background_image: null,
     newNotification: false,
-    self_post: [],
+    //self_post: [],
 
   });
 
@@ -232,13 +237,45 @@ async function admincreateUser(userID, username, password, introduction) {
   }
 }
 
+async function admincreatepost(userID, content, visible, tag, like, dislike) {
+  try {
+  // Generate a unique postID
+  const postID_ = await generateUniquePostID(Post);
+  // Create a new Post document
+  const newPost = new Post({
+  postID: postID_,
+  tag,
+  content,
+  attachment: null,
+  userID,
+  like,
+  dislike,
+  visible
+  });
+  // Save the new post to the database
+  const savedPost = await newPost.save();
+  console.log('Post created successfully:', savedPost);
+  //console.log(postID_);
+  //return postID_;
+  } catch (error) {
+  // Handle any errors that occur during the process
+  console.error('Error creating post:', error);
+  throw error; // Rethrow the error for further handling
+  }
+  }
+
+
+
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 createUser('123', 'securePassword', 'uniqueUsername');
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
-createUser('0', 'admin', 'admin');
-createPost("66112a017e5156627ff9f471","Hi, this is michael",1);
+createUser('0', 'admin', 'admin'); //admin
+createUser('1', '123', 'File Transfer');
+createPost("8","Hi, this is Winnie", 1);
+// createPost("8","Hi, this is Winnie 2", 1);
+// createPost("8","Hi, this is Winnie 3", 1);
 
 //handle login authentication
 app.post("/login", async (req, res) => {
@@ -296,13 +333,12 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
-    let userData = await User.find({}, 'userID username password').lean();
+    let userData = await User.find({}, 'userID username password followers following').lean();
+
 
     for (let user of userData) {
-      const followers = await User.find({ 'username': { $in: user.followers } }, 'username');
-      const following = await User.find({ 'username': { $in: user.following } }, 'username');
-      user.followers = followers;
-      user.following = following;
+      const posts = await Post.find({ 'userID': user.userID }, 'postID').lean();
+      user.self_post = posts.map(post => post.postID);
     }
 
     console.log(`Fetched ${userData.length} users.`);
@@ -312,7 +348,6 @@ app.get("/listuser", async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
 
 
 
@@ -353,14 +388,16 @@ app.post('/createuser', async (req, res) => {
 // handle admin: list all posts
 app.get('/listpost', async (req, res) => {
   try {
-    let postData = await Post.find({}, 'postID tag content visible like dislike').lean();
+    let postData = await Post.find({}, 'postID userID tag content visible like dislike');
 
-    console.log(`Fetched ${postData.length} posts.`);
-    res.json(postData);
-  } catch (error) {
-    console.error("Error fetching post data:", error);
-    res.status(500).send("Internal server error");
-  }
+
+      console.log(`Fetched ${postData.length} posts.`);
+      res.json(postData);
+    } catch (error) {
+      console.error("Error fetching post data:", error);
+      res.status(500).send("Internal server error");
+    }
+
 });
 
 
@@ -377,6 +414,103 @@ app.delete('/deletepost/:postID', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// handle admin: create a post
+app.post('/createpost', async (req, res) => {
+
+  try {
+    const {userID, content, visible, tag, like, dislike} = req.body;
+    // try {
+    //   const user = await User.findOne({ userID: userID });
+    //   if (user) {
+    //     console.log("Found user ID:", user._id);
+    //     objectid = user._id; // Returning the ObjectId for further use
+    //   } else {
+    //     console.log("No user found with the userID:", userID);
+    //     return null;
+    //   }
+    // } catch (err) {
+    //   console.error("An error occurred:", err);
+    //   return null;
+    // }
+
+    admincreatepost(userID, content, visible, tag, like, dislike)
+    //attachPost2User(userID, new_postID)
+
+    res.status(201).json("good"); 
+  } catch (error) {
+    console.error('Error during creating post', error); 
+    res.status(400).json({ message: error.message });
+  }
+
+
+});
+
+/**
+ * PROFILE
+ */
+// app.get('/profile/:userID', async (req, res, next) => {
+//   try {
+//     const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+//     const userData = await User.findOne({ userID })
+//                                 .select('avatar background_image username description following followers userID')
+//                                 .exec();
+  
+//       const posts = await Post.find({ 'userID': userID }, 'postID').lean();
+//       userData.self_post = posts.map(post => post.postID);
+//       console.log(userData)
+
+//     if (userData) {
+//       res.json(userData);
+//     } else {
+//       next(); // Move to the next middleware if the user is not found
+//     }
+//   } catch (error) {
+//     console.error("Error fetching user profile:", error);
+//     res.status(500).send("Internal server error");
+//   }
+// });
+
+app.get('/profile/:userID', async (req, res, next) => {
+  try {
+    const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+    const userData = await User.findOne({ userID })
+                                .select('avatar background_image username description following followers userID')
+                                .exec();
+  
+    const posts = await Post.find({ 'userID': userID }, 'postID').lean();
+    const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
+    userObject.self_post = posts.map(post => post.postID);
+    console.log(userObject);
+
+    if (userData) {
+      res.json(userObject);
+    } else {
+      next(); // Move to the next middleware if the user is not found
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+
+// list all posts in profile
+app.get('/profilePosts/:userID', async (req, res) => {
+  try {
+    const { userID } = req.params;
+    // console.log(userID);
+    const postData = await Post.find({ userID })
+                               .select('username postID content attachment userID like dislike visible post_time')
+                               .exec();
+  
+      console.log(`Fetched ${postData.length} posts.`);
+      res.json(postData);
+  }catch (error) {
+      console.error("Error fetching post data:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
 
 
 const PORT = process.env.PORT || 3001;

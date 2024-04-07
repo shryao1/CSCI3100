@@ -11,14 +11,15 @@ import useGetPostTime from '../../../Hooks/useGetPostTime'
 
 const TweetData = ({
 	post: {
-		id,
-		_id,
-		user_photo,
-		nameUser,
 		username,
-		postTime,
-		text_posted,
-		media_posted
+		postID,
+		content,
+		attachment, 
+		userID, 
+		like, 
+		dislike, 
+		visible, 
+		post_time,
 	}
 }) => {
 
@@ -34,32 +35,29 @@ const TweetData = ({
 
 	return (
 		<div className="tweet__linkContainer">
-			<Link to={`/${username}/status/${id ? id : _id}`} className="tweet__linkContent link">
+			<div className="tweet__ID">{'Post #'}{postID}</div>
+			<Link to={`/${userID}/status/${userID}`} className="tweet__linkContent link">
 				<div className="tweet__container-tweetData" >
 					<div className="tweet__container-photo">
-						<PhotoUser url={user_photo} />
+						{/* <PhotoUser url={avatar} /> */}
 					</div>
 					<div className="tweet__container-content">
 						<div className="content__nav">
 							<div className="content__nav-data">
-								<span className="nav__data-name">{nameUser}</span>
+								{/* <span className="nav__data-name">{nameUser}</span> */}
 								<span className="nav__data-username">{username}</span>
-								<span className="nav__data-time">· {useGetPostTime(postTime)}</span>
 							</div>
 						</div>
-						<div className="content__text">
-							{text_posted}
-						</div>
-						<div className="content__media">
-							{media_posted && <ImagePosted url={media_posted} />}
-						</div>
+						{/* <div className="content__text">
+							{content}
+						</div> */}
 					</div>
 				</div>
 			</Link>
 			<div className="content__nav-settings">
 				<SettingsMenu
 					username={username}
-					id={`${id ? id : _id}`}
+					// id={`${id ? id : _id}`}
 					listOptions={ListOptions}
 					showMenu={showMenu}
 					handleShowMenu={handleShowMenuTweet}

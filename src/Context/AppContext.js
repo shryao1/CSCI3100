@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { getAllPost, getUser } from '../Services/api'
+import { getAllPost, myGetUser } from '../Services/api'
 
 export const AppContext = createContext({})
 
@@ -18,7 +18,8 @@ const AppProvider = ({ children }) => {
 				return
 			} else {
 				if (localStorage.getItem('userTwitterClone')) {
-					setUser(await getUser(localStorage.getItem('userTwitterClone')))
+					setUser(await myGetUser(localStorage.getItem('userTwitterClone')))
+					// setUser(await myGetUser(userID))
 					setPosts(await getAllPost())
 				}
 			}

@@ -9,17 +9,19 @@ import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'
 
 import './NavProfile.scss'
 
+
 const NavProfile = ({
 	user: {
-		user_photo,
-		image_bg,
-		name,
+		avatar,
+		background_image,
 		username,
 		description,
-		count_tweets,
 		following,
-		followers
+		followers,
+		userID,
+		self_post,
 	},
+	
 	isFollowing,
 	handleButtonClick
 }) => {
@@ -33,17 +35,17 @@ const NavProfile = ({
 					</i>
 				</div>
 				<div>
-					<h2 style={{ marginBottom: '1px' }}>{name}</h2> {/* Add margin-bottom here */}
-					<span>{count_tweets} Tweets</span>
+					<h2 style={{ marginBottom: '1px' }}>{username}</h2> {/* Add margin-bottom here */}
+					<span>{self_post.length} Tweets</span>
 				</div>
 			</section>
 			<section className="main__navProfile">
 				<div className="main__navProfile-bgImage">
-					< img src={image_bg} alt="background img" width="600" />
+					< img src={background_image} alt="background img" width="600" />
 				</div>
 				<div className='main__navProfile-imgUser'>
 					<div className='photo__profile'>
-						<PhotoUser url={user_photo} size='133' />
+						<PhotoUser url={avatar} size='133' />
 					</div>
 				</div>
 				
@@ -78,8 +80,8 @@ const NavProfile = ({
 				</div>
 				<div className="main__dataProfile">
 					<div className='main__dataProfile-User'>
-						<h2>{name}</h2>
-						<span>{username}</span>
+						<h2>{username}</h2>
+						<span>{userID}</span>
 					</div>
 					<div className='main__dataProfile-description'>
 						<div>
@@ -88,12 +90,12 @@ const NavProfile = ({
 					</div>
 					<div className='main__followBtns'>
 						<div>
-							<span className='followBtn__number'>{following}</span>
+							<span className='followBtn__number'>{following.length}</span>
 							<span className='followBtn__text'onClick={() => navigate('/followList')}>Following</span>
 						</div>
 
 						<div>
-							<span className='followBtn__number'>{followers}</span>
+							<span className='followBtn__number'>{followers.length}</span>
 							<span className='followBtn__text'onClick={() => navigate('/followList')}>Followers</span>
 						</div>
 					</div>

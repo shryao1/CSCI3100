@@ -1,10 +1,10 @@
 import './Admin.scss'
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-// import CreatePostForm from './CreatePostForm'
-// import UpdatePostForm from './UpdatePostForm'
+import CreatePost from './CreatePost'
+// import UpdatePost from './UpdatePost'
 import CreateUser from './CreateUser'
-// import UpdateUserForm from './UpdateUserForm'
+// import UpdateUser from './UpdateUser'
 
 
 
@@ -26,10 +26,10 @@ const Admin = () => {
 				<Route index element={<MainContent />} />
 				<Route path="userDatabase" element={<UserDatabase />} />
 				<Route path="postDatabase" element={<PostDatabase />} />
-				{/* <Route path="createPost" element={<CreatePostForm />} /> */}
 				<Route path="createUser" element={<CreateUser navigate={navigate} />} />
-				{/* <Route path="updateUser/:userID" element={<UpdateUserForm />} /> */}
-				{/* <Route path="post/update/:postId" element={<UpdatePostForm />} /> */}
+				<Route path="createPost" element={<CreatePost navigate={navigate} />} />
+				{/* <Route path="updateuser/:userID" element={<UpdateUser />} /> */}
+				{/* <Route path="updatepost/:postID" element={<UpdatePost />} /> */}
 				<Route path="*" element={<NoMatch />} />
 	  	</Routes>
 		</>
@@ -118,6 +118,8 @@ const UserDatabase = () => {
 	  						<br />
 							<strong>Following:</strong> {user.following}
 	  						<br />
+							  <strong>Self post:</strong> {user.self_post.join(',' )}
+	  						<br />
 	  						<UpdateUserButton userID={user.userID} /> 
 	  						<button onClick={() => handleDelete(user.userID)}>Delete</button>
 						</li>
@@ -146,6 +148,7 @@ const PostDatabase = () => {
 			})
 			.then((data) => {
 				setPostData(data)
+				//console.log(data)
 			})
 			.catch((error) => {
 				console.error('Error fetching user data:', error)
@@ -190,6 +193,8 @@ const PostDatabase = () => {
 							<br />
 							<strong>Tag:</strong> {post.tag}
 							<br />
+							<strong>User ID:</strong> {post.userID}
+							<br />
 							<strong>Content:</strong> {post.content}
 							<br />
 							<strong>Like:</strong> {post.like}
@@ -198,7 +203,7 @@ const PostDatabase = () => {
 							<br />
 							<strong>Visibility:</strong> {post.visible}
 							<br />
-							<UpdatePostButton postId={post.postID} />
+							<UpdatePostButton postID={post.postID} />
 							<button onClick={() => handleDelete(post.postID)}>Delete</button>
 			  			</li>
 					))}
@@ -213,11 +218,11 @@ const PostDatabase = () => {
 
 
 
-const UpdatePostButton = ({ postId }) => {
+const UpdatePostButton = ({ postID }) => {
 	const navigate = useNavigate()
   
 	const handleUpdate = () => {
-	  navigate(`/Admin/post/update/${postId}`)
+	  navigate(`/Admin/updatepost/${postID}`)
 	}
   
 	return <button className="update-btn" onClick={handleUpdate}>Update</button>
@@ -227,7 +232,7 @@ const UpdateUserButton = ({ userID }) => {
 	const navigate = useNavigate()
   
 	const handleUpdate = () => {
-	  navigate(`/Admin/user/update/${userID}`)
+	  navigate(`/Admin/updateuser/${userID}`)
 	}
   
 	return <button className="update-btn" onClick={handleUpdate}>Update</button>

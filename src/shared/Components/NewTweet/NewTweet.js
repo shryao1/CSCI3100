@@ -10,7 +10,7 @@ import PollOutlinedIcon from '@mui/icons-material/PollOutlined'
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined'
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined'
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
-import './App.css'
+
 import './NewTweet.scss'
 import ImagePosted from '../ImagePosted/ImagePosted'
 const NewTweet = ({

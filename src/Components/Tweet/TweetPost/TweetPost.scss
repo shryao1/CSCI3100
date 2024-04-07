@@ -1,0 +1,41 @@
+// TweetPost.scss
+
+.Tweet__container {
+  // Styles for the container of the entire tweet
+}
+
+.tweet__ID {
+  font-weight: bold; // Make the Post ID bold
+}
+
+.tweet__content {
+  // Styles for the content of the tweet
+  font-weight: bold; // Make the Post ID bold
+}
+
+.content__options {
+  // Styles for the options container
+  
+}
+
+.content__option-right {
+  // Styles for the options on the right side
+}
+
+.option {
+  // Styles for each option
+  cursor: pointer; // Change cursor to pointer on hover
+  i {
+    // Styles for the icon within the option
+  }
+}
+
+// Additional styles for specific options if needed
+.comments {}
+.retweet {}
+.share {}
+.statistics {}
+
+.nav__data-time {
+  margin-left: auto; // Shift the time to the right
+}
