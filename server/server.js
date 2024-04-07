@@ -439,8 +439,43 @@ app.post('/createpost', async (req, res) => {
 
 });
 
+/**
+ * PROFILE
+ */
+app.get('/profile/:userID', async (req, res, next) => {
+  try {
+    const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+    const userData = await User.findOne({ userID })
+                                .select('avatar background_image username description following followers userID self_post')
+                                .exec();
+    if (userData) {
+      res.json(userData);
+    } else {
+      next(); // Move to the next middleware if the user is not found
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).send("Internal server error");
+  }
+});
 
 
+// list all posts in profile
+app.get('/profilePosts/:userID', async (req, res) => {
+  try {
+    const { userID } = req.params;
+    // console.log(userID);
+    const postData = await Post.find({ userID })
+                               .select('username postID content attachment userID like dislike visible post_time')
+                               .exec();
+  
+      console.log(`Fetched ${postData.length} posts.`);
+      res.json(postData);
+  }catch (error) {
+      console.error("Error fetching post data:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
 
 
 const PORT = process.env.PORT || 3001;
