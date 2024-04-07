@@ -1,7 +1,7 @@
 import './Admin.scss'
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-// import CreatePostForm from './CreatePostForm'
+import CreatePost from './CreatePost'
 // import UpdatePostForm from './UpdatePostForm'
 import CreateUser from './CreateUser'
 // import UpdateUserForm from './UpdateUserForm'
@@ -26,8 +26,8 @@ const Admin = () => {
 				<Route index element={<MainContent />} />
 				<Route path="userDatabase" element={<UserDatabase />} />
 				<Route path="postDatabase" element={<PostDatabase />} />
-				{/* <Route path="createPost" element={<CreatePostForm />} /> */}
 				<Route path="createUser" element={<CreateUser navigate={navigate} />} />
+				<Route path="createPost" element={<CreatePost navigate={navigate} />} />
 				{/* <Route path="updateUser/:userID" element={<UpdateUserForm />} /> */}
 				{/* <Route path="post/update/:postId" element={<UpdatePostForm />} /> */}
 				<Route path="*" element={<NoMatch />} />
@@ -146,6 +146,7 @@ const PostDatabase = () => {
 			})
 			.then((data) => {
 				setPostData(data)
+				console.log(data)
 			})
 			.catch((error) => {
 				console.error('Error fetching user data:', error)
@@ -189,6 +190,8 @@ const PostDatabase = () => {
 							<strong>Post ID:</strong> {post.postID}
 							<br />
 							<strong>Tag:</strong> {post.tag}
+							<br />
+							<strong>User ID:</strong> {post.userID}
 							<br />
 							<strong>Content:</strong> {post.content}
 							<br />

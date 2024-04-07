@@ -83,7 +83,7 @@ const postSchema = new mongoose.Schema({
   tag: Number, // If multiple, can be an array of strings
   content: { type: String, required: true },
   attachment: attachmentSchema,
-  userID: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
+  userID: { type: String, ref: 'User', required: true },
   like: { type: Number, default: 0 },
   dislike: { type: Number, default: 0 },
   visible: { type: Number, enum: [-1, 0, 1], default: 0 }
@@ -238,7 +238,7 @@ createUser('123', 'securePassword', 'uniqueUsername');
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
 createUser('0', 'admin', 'admin');
-createPost("66112a017e5156627ff9f471","Hi, this is michael",1);
+createPost("8","Hi, this is michael",1);
 
 //handle login authentication
 app.post("/login", async (req, res) => {
@@ -353,14 +353,28 @@ app.post('/createuser', async (req, res) => {
 // handle admin: list all posts
 app.get('/listpost', async (req, res) => {
   try {
-    let postData = await Post.find({}, 'postID tag content visible like dislike').lean();
+    let postData = await Post.find({}, 'postID userID tag content visible like dislike');
+      // const postData = await Post.find({}, 'postID userID tag content visible like dislike')
+      // .populate('userID', 'userID username') 
+      // .lean();
 
-    console.log(`Fetched ${postData.length} posts.`);
-    res.json(postData);
-  } catch (error) {
-    console.error("Error fetching post data:", error);
-    res.status(500).send("Internal server error");
-  }
+      console.log(`Fetched ${postData.length} posts.`);
+      res.json(postData);
+    } catch (error) {
+      console.error("Error fetching post data:", error);
+      res.status(500).send("Internal server error");
+    }
+  
+//   res.json(postData.map(post => ({
+//     ...post,
+//     userID: post.userID.userID,
+//     username: post.userID.username, // Add username to each post object
+//     // Ensure you remove or overwrite userID if you don't want to expose ObjectId to the frontend
+//   })));
+// } catch (error) {
+//   console.error("Error fetching post data:", error);
+//   res.status(500).send("Internal server error");
+// }
 });
 
 
@@ -377,6 +391,39 @@ app.delete('/deletepost/:postID', async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
+
+// handle admin: create a post
+app.post('/createpost', async (req, res) => {
+
+  try {
+    const {userID, content, attachment, visible} = req.body;
+    // try {
+    //   const user = await User.findOne({ userID: userID });
+    //   if (user) {
+    //     console.log("Found user ID:", user._id);
+    //     objectid = user._id; // Returning the ObjectId for further use
+    //   } else {
+    //     console.log("No user found with the userID:", userID);
+    //     return null;
+    //   }
+    // } catch (err) {
+    //   console.error("An error occurred:", err);
+    //   return null;
+    // }
+
+    createPost(userID, content, attachment, visible)
+
+    res.status(201).json("good"); 
+  } catch (error) {
+    console.error('Error during creating post', error); 
+    res.status(400).json({ message: error.message });
+  }
+
+
+});
+
+
+
 
 
 const PORT = process.env.PORT || 3001;
