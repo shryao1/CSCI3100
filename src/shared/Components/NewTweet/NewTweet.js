@@ -83,8 +83,9 @@ const NewTweet = ({
 		}
 	}
 	function handleButtonClick() {
-		fileInputRef.current.click() // 当按钮被点击时，触发文件输入框的点击事件
+		fileInputRef.current.click()
 	  }
+
 	function handleFileClick(fileId) {
 		// Construct the URL for the image
 		const fileUrl = `http://localhost:3001/file/${fileId}`
@@ -129,8 +130,13 @@ const NewTweet = ({
         						style={{ display: 'none' }}
         						onChange={handleFileChange}
       								/>
+<<<<<<< Updated upstream
       								<IconButton onClick={handleButtonClick}>
+        							<ImageOutlinedIcon style={{ color:'#F0AA23	'}}/>
+=======
+      								<IconButton onClick={handleButtonClick} style={{color: '#F0AA23'}}>
         							<ImageOutlinedIcon />
+>>>>>>> Stashed changes
       							</IconButton>
       							
     							</div>
@@ -160,6 +166,7 @@ const NewTweet = ({
 									isComment={isComment}
 									textPost={textPost}
 									setTextPost={setTextPost}
+									media_posted={previewUrl}
 									toUser={toUser}
 									idPost={idPost}
 								/>
