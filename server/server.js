@@ -268,7 +268,9 @@ createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
 createUser('0', 'admin', 'admin'); //admin
 createUser('1', '123', 'File Transfer');
-createPost("8","Hi, this is michael",1);
+createPost("8","Hi, this is Winnie", 1);
+// createPost("8","Hi, this is Winnie 2", 1);
+// createPost("8","Hi, this is Winnie 3", 1);
 
 //handle login authentication
 app.post("/login", async (req, res) => {
@@ -442,14 +444,42 @@ app.post('/createpost', async (req, res) => {
 /**
  * PROFILE
  */
+// app.get('/profile/:userID', async (req, res, next) => {
+//   try {
+//     const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+//     const userData = await User.findOne({ userID })
+//                                 .select('avatar background_image username description following followers userID')
+//                                 .exec();
+  
+//       const posts = await Post.find({ 'userID': userID }, 'postID').lean();
+//       userData.self_post = posts.map(post => post.postID);
+//       console.log(userData)
+
+//     if (userData) {
+//       res.json(userData);
+//     } else {
+//       next(); // Move to the next middleware if the user is not found
+//     }
+//   } catch (error) {
+//     console.error("Error fetching user profile:", error);
+//     res.status(500).send("Internal server error");
+//   }
+// });
+
 app.get('/profile/:userID', async (req, res, next) => {
   try {
     const { userID } = req.params; // Use req.params to get the userID from the URL parameter
     const userData = await User.findOne({ userID })
-                                .select('avatar background_image username description following followers userID self_post')
+                                .select('avatar background_image username description following followers userID')
                                 .exec();
+  
+    const posts = await Post.find({ 'userID': userID }, 'postID').lean();
+    const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
+    userObject.self_post = posts.map(post => post.postID);
+    console.log(userObject);
+
     if (userData) {
-      res.json(userData);
+      res.json(userObject);
     } else {
       next(); // Move to the next middleware if the user is not found
     }
