@@ -104,7 +104,7 @@ const generateUniquePostID = async () => {
       return 1;
     } else {
       // Increment the max postID found by 1
-      return maxPost.postID + 1;
+      return +maxPost.postID + 1;
     }
   } catch (error) {
     // Handle any errors that occur during the process
@@ -112,6 +112,7 @@ const generateUniquePostID = async () => {
     throw error;
   }
 };
+
 
   async function createPost(userID, content, attachment, visible) {
     try {
