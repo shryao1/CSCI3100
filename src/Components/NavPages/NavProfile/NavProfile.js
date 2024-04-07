@@ -81,7 +81,7 @@ const NavProfile = ({
 				<div className="main__dataProfile">
 					<div className='main__dataProfile-User'>
 						<h2>{username}</h2>
-						<span>{userID}</span>
+						<span>@{userID}</span>
 					</div>
 					<div className='main__dataProfile-description'>
 						<div>
