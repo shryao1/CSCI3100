@@ -6,6 +6,7 @@ const app = express()
 const mongoose = require('mongoose');
 
 const cors=require("cors");
+const { log } = require("console");
 const corsOptions ={
    origin:'*', 
    credentials:true,            //access-control-allow-credentials:true
@@ -75,11 +76,11 @@ const createAttachmentFromFile = (filePath) => {
   };
 };
 
-// const attachment = createAttachmentFromFile("./hahaha.png");
+const attachment = createAttachmentFromFile("./hahaha.jpeg");
 
 
 const postSchema = new mongoose.Schema({
-  postID: { type: String, required: true, unique: true },
+  postID: { type: Number, required: true, unique: true },
   tag: Number, // If multiple, can be an array of strings
   content: { type: String, required: true },
   attachment: attachmentSchema,
@@ -98,13 +99,13 @@ module.exports = Post;
 const generateUniquePostID = async () => {
   try {
     // Find the maximum postID in the database
-    const maxPost = await Post.findOne().sort({ postID: -1 }).exec();
+    const maxPost = await Post.findOne().sort({ postID: -1 }).limit(1).exec();
     if (!maxPost) {
       // If no posts found, start postID from 1
       return 1;
     } else {
       // Increment the max postID found by 1
-      return +maxPost.postID + 1;
+      return + maxPost.postID + 1;
     }
   } catch (error) {
     // Handle any errors that occur during the process
@@ -123,7 +124,7 @@ const generateUniquePostID = async () => {
     userID,
     postID: postID_,
     content,
-    attachment: null,
+    attachment,
     visible
     });
     // Save the new post to the database
@@ -273,7 +274,7 @@ createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test');
 createUser('0', 'admin', 'admin'); //admin
 createUser('1', '123', 'File Transfer');
-createPost("8","Hi, this is Winnie", 1);
+createPost("8","Hi, this is Winnie",attachment, 1);
 // createPost("8","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
 
@@ -388,10 +389,11 @@ app.post('/createuser', async (req, res) => {
 // handle admin: list all posts
 app.get('/listpost', async (req, res) => {
   try {
-    let postData = await Post.find({}, 'postID userID tag content visible like dislike');
+    let postData = await Post.find({}, 'postID userID tag attachment content visible like dislike');
 
 
       console.log(`Fetched ${postData.length} posts.`);
+      //console.log(postData);
       res.json(postData);
     } catch (error) {
       console.error("Error fetching post data:", error);

@@ -26,30 +26,36 @@ const TweetPost = ({
 		dislike, 
 		visible, 
 		post_time,
-
 	},
 	post
 }) => {
 	const appContext = useContext(AppContext)
+	const uint8ArrayToBase64 = (uint8Array) => {
+		let binary = ''
+		uint8Array.forEach((byte) => {
+			binary += String.fromCharCode(byte)
+		})
+		return btoa(binary)
+	}
 
 	return (
 		<div className="Tweet__container" style={{ marginBottom: '10px' }}>
 			<TweetData post={post} />
-			<div className="tweet__content">{content}</div>
+			<div className="tweet__content" style = {{marginLeft : '50px'}}>{content}</div>
+			<br></br>
+			{attachment && (
+				<div className="tweet__attachment">
+					{/* Assuming attachment is an image */}
+					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style = {{width: 450, marginLeft: '50px'}}/>
+				</div>
+			)}
 			<div className="content__options">
 				<div className="content__option-right">
 					<div className="option comments" onClick={() => console.log('click comments')} >
 						<i>
 							<ChatBubbleOutlineOutlinedIcon />
 						</i>
-						{/* <span>{comments?.length}</span> */}
 					</div>
-					{/* <div className="option retweet" onClick={() => console.log('click retweets')} >
-						<i>
-							<AutorenewOutlinedIcon />
-						</i>
-						<span>{retweets?.length}</span>
-					</div> */}
 					<BtnLike
 						likes={like}
 						id={postID}
