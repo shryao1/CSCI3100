@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-
+import './TweetPost.scss'
 import { AppContext } from '../../../Context/AppContext'
 
 import useIsMyTweet from '../../../Hooks/useIsMyTweet'
@@ -17,22 +17,23 @@ import '../Tweet.scss'
 
 const TweetPost = ({
 	post: {
-		id,
-		_id,
-		user_photo,
 		username,
+		postID,
 		content,
-		comments,
-		retweets,
-		likes,
-		dislikes
+		attachment, 
+		userID, 
+		like, 
+		dislike, 
+		visible, 
+		post_time,
+
 	},
 	post
 }) => {
 	const appContext = useContext(AppContext)
 
 	return (
-		<div className="Tweet__container">
+		<div className="Tweet__container" style={{ marginBottom: '10px' }}>
 			<TweetData post={post} />
 			<div className="tweet__content">{content}</div>
 			<div className="content__options">
@@ -41,7 +42,7 @@ const TweetPost = ({
 						<i>
 							<ChatBubbleOutlineOutlinedIcon />
 						</i>
-						<span>{comments?.length}</span>
+						{/* <span>{comments?.length}</span> */}
 					</div>
 					{/* <div className="option retweet" onClick={() => console.log('click retweets')} >
 						<i>
@@ -50,13 +51,13 @@ const TweetPost = ({
 						<span>{retweets?.length}</span>
 					</div> */}
 					<BtnLike
-						likes={likes}
-						id={id ? id : _id}
+						likes={like}
+						id={postID}
 						showDetail
 					/>
 					<BtnDislike
-						dislikes={dislikes}
-						id={id ? id : _id}
+						dislikes={dislike}
+						id={postID}
 						showDetail
 					/>
 					<div className="option share" onClick={() => console.log('click share')} >
