@@ -53,16 +53,27 @@ export const myGetUserPosts = async (userID) => {
 	}
 }
 
+
 export const newPost = async (newPost) => {
-	const config = {
-		headers: {
-			'Content-Type': 'application/json'
-		}
+	try{
+		const response = await fetch('http://localhost:3001/post', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newPost),
+		  }
+		)
+		if (!response.ok) {
+			// If the response is not okay, throw an error with the status
+			throw new Error('HTTP error! status: ${response.status}')
+		  }
+	  
+		  const data = await response.json()
+		  return data // This will be the resolved value of the returned promise
+	} catch (error) { console.error('Error posting new post:', error)
+		  throw error // Re-throw the error so it can be caught by the caller
 	}
-	const req = axios.post(`${LOCAL_URL}/post`, newPost, config)
-	return req
-		.then((res) => res.data)
-		.catch(error => { console.error(error) })
 }
 
 export const deletePost = async (username, id) => {
