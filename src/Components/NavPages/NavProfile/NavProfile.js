@@ -21,7 +21,7 @@ const NavProfile = ({
 		userID,
 		self_post,
 	},
-	
+	judge,
 	isFollowing,
 	handleButtonClick
 }) => {
@@ -58,18 +58,21 @@ const NavProfile = ({
                 	</Button>
 					</div>
 				</div> */}
-				<div className='btn__editProfile-container'>
-					<div className='btn_editProfile-content'>
-						<span>Edit Profile</span>
+				
+				{judge && (
+					<div className='btn__editProfile-container'>
+						<div className='btn_editProfile-content'>
+							<span>Edit Profile</span>
+						</div>
 					</div>
-				</div>
+				)}
 				{/* <div className='btn__followProfile-container'>
   					<div className='btn_editProfile-content' onClick={handleButtonClick}>
     					<span>{isFollowing ? 'Unfollow' : 'Follow'}</span>
  	 				</div>
 				</div>
 				 */}
-				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+				{/* <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 					<div className='btn__editProfile-container'>
 						<Button variant="contained"
                 	style={{ backgroundColor: isFollowing ? yellow[800] : purple[500], color: 'white'}}
@@ -77,7 +80,18 @@ const NavProfile = ({
                  		{isFollowing ? 'Unfollow' : 'Follow'}
                 	</Button>
     				</div>
-				</div>
+				</div> */}
+				{!judge && (
+    				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        			<div className='btn__editProfile-container'>
+            		<Button variant="contained"
+                		style={{ backgroundColor: isFollowing ? yellow[800] : purple[500], color: 'white'}}
+                		onClick={handleButtonClick}>
+                		{isFollowing ? 'Unfollow' : 'Follow'}
+            		</Button>
+        			</div>
+    				</div>
+				)}
 				<div className="main__dataProfile">
 					<div className='main__dataProfile-User'>
 						<h2>{username}</h2>

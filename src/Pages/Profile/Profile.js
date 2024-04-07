@@ -52,6 +52,8 @@ const Profile = () => {
 	const [isFollowing, setIsFollowing] = useState(false)
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
 	const { visituserID } = useParams() // fetch the passed-in userID parameters from the search path
+	let judgement = (userID == visituserID)
+	console.log(judgement)
 	localStorage.setItem('visitUserID', visituserID)
 	useEffect(() => {
 		console.log(visituserID)
@@ -86,6 +88,7 @@ const Profile = () => {
 					<NavProfile 
 					 user={appContext?.user} 
 					 userID = {appContext?.user.userID}
+					 judge = {judgement}
 					 isFollowing={isFollowing}
 					 handleButtonClick={handleButtonClick}
 					//  user={profileData}
