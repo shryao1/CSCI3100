@@ -41,8 +41,8 @@ const BtnTwitter = ({
 					// 'user_photo': appContext?.user?.user_photo,
 					// 'nameUser': appContext?.user?.name,
 			 		// 'username': appContext?.user?.username,
-					'userID': userID,
-			 		'text_posted': textPost
+					userID: userID,
+			 		text_posted: textPost
 				}),
 			})
 			if (!response.ok){
