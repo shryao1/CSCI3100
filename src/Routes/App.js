@@ -52,7 +52,7 @@ function App() {
 									<FollowList />
 								} isPage />
 							} />
-							<Route path="/profile/:userID" element={
+							<Route path="/profile/:userID/:visituserID" element={
 								<PageWrapper component={
 									<Profile />
 								} isPage />
