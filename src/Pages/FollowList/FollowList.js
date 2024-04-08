@@ -9,12 +9,11 @@ const followers = ['Follower 1', 'Follower 2', 'Follower 3'] // Example follower
 const FollowList = () => {
 	const location = useLocation()
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
-	const judger = localStorage.getItem('following')
-	console.log(judger)
+	const { judger } = location.state || {}
 	// Assuming followers are passed as props or fetched from an API
   	return (
 		<div>
-			<h1>{ judger == 1 ? 'Followers' : 'Following'}</h1>
+			<h1>{judger === 1 ? 'Followers' : 'Following'}</h1>
 			<ul>
         	{followers.map((follower, index) => (
 					<li key={index}>{follower}</li>
