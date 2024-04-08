@@ -75,7 +75,7 @@ const TweetData = ({
     						/>
 					)}
 					<div className="tweet__container-photo" >
-						
+						<PhotoUser url={avatar} />
 					</div>
 					<div className="tweet__container-content">
 						<div className="content__nav">
