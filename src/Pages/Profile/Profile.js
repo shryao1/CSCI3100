@@ -51,28 +51,44 @@ const Profile = () => {
 	const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState(false)
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
+	const { visituserID } = useParams() // fetch the passed-in userID parameters from the search path
+	let judgement = (userID == visituserID)
+	// console.log(judgement)
+	// localStorage.setItem('visitUserID', visituserID)
 
 	useEffect(() => {
-		console.log(userID)
-		if (userID) {
-			fetch(`http://localhost:3001/profilePosts/${userID}`)
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error('Network response was not ok')
-					}
-					return response.json()
-				})
-				.then((data) => {
-					setPosts(data)
-					console.log(data)
-				})
-				.catch((error) => {
-					console.error('Error fetching user data:', error)
-				})
-		} else {
-			console.warn('用户ID不可用')
+		let isMounted = true
+		const fetchpost = async () => {
+			if (!isMounted) return
+			console.log('hhhhhhhhhhhhhhhhh',visituserID)
+			if (visituserID) {
+				localStorage.setItem('visitUserID', visituserID)
+				fetch(`http://localhost:3001/profilePosts/${visituserID}`)
+					.then((response) => {
+						if (!response.ok) {
+							throw new Error('Network response was not ok')
+						}
+						return response.json()
+					})
+					.then((data) => {
+						setPosts(data)
+						// console.log(data)
+					})
+					.catch((error) => {
+						console.error('Error fetching user data:', error)
+					})
+			} else {
+				console.warn('用户ID不可用')
+			}
 		}
-	  }, [])
+		fetchpost()
+		
+		const intervalId = setInterval(fetchpost, 1000)
+		return () => {
+			isMounted = false
+			clearInterval(intervalId)
+		}
+	  }, [visituserID])
 
 	const handleButtonClick = () => {
 		setIsFollowing(prevState => !prevState)
@@ -85,6 +101,7 @@ const Profile = () => {
 					<NavProfile 
 					 user={appContext?.user} 
 					 userID = {appContext?.user.userID}
+					 judge = {judgement}
 					 isFollowing={isFollowing}
 					 handleButtonClick={handleButtonClick}
 					//  user={profileData}
@@ -93,7 +110,7 @@ const Profile = () => {
 					<div className="content__options" style={{ marginLeft: '10px' }}>
 						<div className="home__tweetsList">
 							{Array.isArray(posts) && posts.map((post) => {
-								return <TweetPost key={userID} post={post} owner={appContext?.user.userID === post.userID} />
+								return <TweetPost key={userID} post={post} />
 							})}
 						</div>
 					</div>

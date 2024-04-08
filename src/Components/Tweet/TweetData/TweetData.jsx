@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { ListOptions } from './ListOptions'
 
 import SettingsMenu from '../../../shared/Components/SettingsMenu/SettingsMenu'
@@ -15,9 +15,17 @@ const TweetData = ({
 		dislike, 
 		visible, 
 		post_time,
-	}
+		avatar,
+	},
+	owner = localStorage.getItem('userTwitterClone')
 }) => {
 	const [userInfo, setUserInfo] = useState(null)
+	
+	// console.log('WZXWZXWZX', localStorage.getItem('userTwitterClone'))
+	// console.log(localStorage.getItem('userTwitterClone'))
+	console.log('!!!!!!!',{owner})
+	console.log('???????',{userID})
+	const navigate = useNavigate()
 	const [showMenu, setShowMenu] = useState(false)
 	useEffect(() => {
 		fetch(`http://localhost:3001/userinfo/${postID}`) // Notice the use of backticks (`) here
@@ -57,7 +65,7 @@ const TweetData = ({
 	return (
 		<div className="tweet__linkContainer" > 
 			<div className="tweet__ID">{'Post #'}{postID}</div>
-			<Link to={`/${userID}/status/${userID}`} className="tweet__linkContent link">
+			<Link to={`/profile/${owner}/${userID}`} className="tweet__linkContent link">
 				<div className="tweet__container-tweetData" >
 					{userInfo && (
     						<img
@@ -66,6 +74,9 @@ const TweetData = ({
 							style={{ width: '48px', height: '48px' }}
     						/>
 					)}
+					<div className="tweet__container-photo" >
+						<PhotoUser url={avatar} />
+					</div>
 					<div className="tweet__container-content">
 						<div className="content__nav">
 							<div className="content__nav-data">
