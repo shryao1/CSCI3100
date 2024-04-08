@@ -23,7 +23,8 @@ const TweetData = ({
 	
 	// console.log('WZXWZXWZX', localStorage.getItem('userTwitterClone'))
 	// console.log(localStorage.getItem('userTwitterClone'))
-
+	//console.log('!!!!!!!',{owner})
+	//console.log('???????',{userID})
 	const navigate = useNavigate()
 	const [showMenu, setShowMenu] = useState(false)
 	useEffect(() => {

@@ -158,7 +158,7 @@ const generateUniquePostID = async () => {
   
 
 // Function to create a new user
-async function createUser(userID, password, username, avatarPath = null) {
+async function createUser(userID, password, username, avatarPath = './Michael_photo.jpeg') {
   let avatarData; // Define a variable to store the avatar data
   if (avatarPath) {
     try {
@@ -254,12 +254,12 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 //createUser('123', 'securePassword', 'uniqueUsername');
-//createUser('8', '3100', 'winnie');
+createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test', './hahaha.jpeg');
 createUser('0', 'admin', 'admin'); //admin
 <<<<<<< Updated upstream
 //createUser('1', '123', 'File Transfer');
-createPost("100","Hi, this is Winnie",attachment, 1);
+createPost("8","Hi, this is Winnie",attachment, 1);
 // createPost("100","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
 =======
