@@ -322,7 +322,7 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
-    let userData = await User.find({}, 'userID username password followers following').lean();
+    let userData = await User.find({}, 'userID username password followers following likePost dislikePost favorite introduction').lean();
 
 
     for (let user of userData) {
@@ -371,6 +371,46 @@ app.post('/createuser', async (req, res) => {
 
 
 });
+
+
+// handle admin: update a user
+app.post('/updateuser', async (req, res) => {
+  
+    try {
+      const {userID, username, password, followers, following, likePost, dislikePost, favorite, introduction} = req.body;
+  
+      const updatedUser = await User.findOneAndUpdate(
+        { userID: userID }, // Find a document with this userID
+        {
+          username: username,
+          password: password,
+          followers: followers,
+          following: following,
+          likePost: likePost,
+          dislikePost: dislikePost,
+          favorite: favorite,
+          introduction: introduction,
+        },
+        {
+          new: true, 
+          runValidators: true, 
+        }
+      );
+  
+      if(updatedUser) {
+        res.status(200).json(updatedUser); 
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error during updating user', error); 
+      res.status(400).json({ message: error.message });
+    }
+  
+  
+  });
+
+
 
 // get user information associated with the postID
 app.get('/userinfo/:postID', async (req, res) => {
