@@ -18,13 +18,8 @@ const NewTweet = ({
 	toUser,
 	idPost
 }) => {
-	const [files, setFiles] = useState([])
-  	const [selectedFile, setSelectedFile] = useState(null)
   	const [previewUrl, setPreviewUrl] = useState('')
 	const fileInputRef = useRef(null)
-  	useEffect(() => {
-    	fetchFiles()
-  	}, [])
 
 	const appContext = useContext(AppContext)
 
@@ -34,18 +29,7 @@ const NewTweet = ({
 	const handleChangeInput = (e) => {
 		setTextPost(e.target.value)
 	}
-	async function fetchFiles() {
-		try {
-		  const response = await fetch('http://localhost:3001/files')
-		  if (!response.ok) {
-				throw new Error('Network response was not ok')
-		  }
-		  const files = await response.json()
-		  setFiles(files)
-		} catch (error) {
-		  console.error('Failed to fetch files:', error)
-		}
-	}
+	
 	/*
 	function handleFileChange(event) {
 		setSelectedFile(event.target.files[0])
@@ -59,38 +43,10 @@ const NewTweet = ({
 		}
 	}
 
-	async function handleFileUpload(event) {
-		event.preventDefault()
-		if (!selectedFile) return
-	
-		const formData = new FormData()
-		formData.append('file', selectedFile)
-	
-		try {
-		  const response = await fetch('http://localhost:3001/upload', {
-				method: 'POST',
-				body: formData,
-		  })
-	
-		  if (!response.ok) {
-				throw new Error('Upload failed')
-		  }
-	
-		  fetchFiles() // Refresh the list after uploading
-		  setSelectedFile(null) // Reset selected file
-		} catch (error) {
-		  console.error('Upload error:', error)
-		}
-	}
 	function handleButtonClick() {
 		fileInputRef.current.click() // 当按钮被点击时，触发文件输入框的点击事件
 	  }
-	function handleFileClick(fileId) {
-		// Construct the URL for the image
-		const fileUrl = `http://localhost:3001/file/${fileId}`
-		setPreviewUrl(fileUrl)
-		ImagePosted({fileUrl})
-	}
+	
 	return (
 		<div className="newTweet__container">
 			<section className="main__navHome">

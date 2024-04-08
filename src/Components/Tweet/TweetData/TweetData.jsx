@@ -1,14 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 import { ListOptions } from './ListOptions'
 
-import ImagePosted from '../../../shared/Components/ImagePosted/ImagePosted'
 import SettingsMenu from '../../../shared/Components/SettingsMenu/SettingsMenu'
-import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
-
-import useGetPostTime from '../../../Hooks/useGetPostTime'
-
 const TweetData = ({
 	post: {
 		username,
@@ -22,9 +17,26 @@ const TweetData = ({
 		post_time,
 	}
 }) => {
-
+	const [userInfo, setUserInfo] = useState(null)
 	const [showMenu, setShowMenu] = useState(false)
-
+	useEffect(() => {
+		fetch(`http://localhost:3001/userinfo/${postID}`) // Notice the use of backticks (`) here
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+				return response.json()
+			})
+			.then((data) => {
+				setUserInfo(data)
+				console.log('here is test',data)
+			})
+			.catch((error) => {
+				console.error('Error fetching user data:', error)
+			})
+	}, [postID])
+	//const usernameElement = userInfo ? <span className="nav__data-username">{userInfo.username}</span> : null
+	//console.log('usernameElement', userInfo.avatar.data.data)
 	const handleShowMenuTweet = (target) => {
 		if (target) {
 			setShowMenu(true)
@@ -32,20 +44,33 @@ const TweetData = ({
 			setShowMenu(false)
 		}
 	}
-
+	//console.log('useravatar', userInfo.avatar)
+	const name = userInfo ? userInfo.username : null
+	const uint8ArrayToBase64 = (uint8Array) => {
+		let binary = ''
+		uint8Array.forEach((byte) => {
+			binary += String.fromCharCode(byte)
+		})
+		return btoa(binary)
+	}
+	
 	return (
-		<div className="tweet__linkContainer">
+		<div className="tweet__linkContainer" > 
 			<div className="tweet__ID">{'Post #'}{postID}</div>
 			<Link to={`/${userID}/status/${userID}`} className="tweet__linkContent link">
 				<div className="tweet__container-tweetData" >
-					<div className="tweet__container-photo">
-						{/* <PhotoUser url={avatar} /> */}
-					</div>
+					{userInfo && (
+    						<img
+        					src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userInfo.avatar.data))}`}
+        					alt="User.Avatar"
+							style={{ width: '48px', height: '48px' }}
+    						/>
+					)}
 					<div className="tweet__container-content">
 						<div className="content__nav">
 							<div className="content__nav-data">
-								{/* <span className="nav__data-name">{nameUser}</span> */}
-								<span className="nav__data-username">{username}</span>
+								{<span className="nav__data-name">{name}</span> }
+								{}
 							</div>
 						</div>
 						{/* <div className="content__text">

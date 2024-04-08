@@ -15,7 +15,7 @@ const Explore = () => {
             	})
             	.then((data) => {
                 	setPostData(data)
-                	console.log('here is test',data)
+                	//console.log('here is test',data)
             	})
             	.catch((error) => {
                		console.error('Error fetching user data:', error)

@@ -1,18 +1,10 @@
-import { useContext } from 'react'
 import './TweetPost.scss'
-import { AppContext } from '../../../Context/AppContext'
-
-import useIsMyTweet from '../../../Hooks/useIsMyTweet'
-
 import BtnLike from '../../../shared/Components/BtnLike/BtnLike'
 import BtnDislike from '../../../shared/Components/BtnDislike/BtnDislike'
 import TweetData from '../TweetData/TweetData'
 
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
-import AutorenewOutlinedIcon from '@mui/icons-material/AutorenewOutlined'
 import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined'
-import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined'
-
 import '../Tweet.scss'
 
 const TweetPost = ({
@@ -29,7 +21,6 @@ const TweetPost = ({
 	},
 	post
 }) => {
-	const appContext = useContext(AppContext)
 	const uint8ArrayToBase64 = (uint8Array) => {
 		let binary = ''
 		uint8Array.forEach((byte) => {

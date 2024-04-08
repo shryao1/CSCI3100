@@ -184,7 +184,17 @@ const generateUniquePostID = async () => {
   
 
 // Function to create a new user
-async function createUser(userID, password, username) {
+async function createUser(userID, password, username, avatarPath = null) {
+  let avatarData; // Define a variable to store the avatar data
+  if (avatarPath) {
+    try {
+      // Read the avatar file as binary data
+      avatarData = fs.readFileSync(avatarPath);
+    } catch (error) {
+      console.error('Error reading the avatar file:', error.message);
+      return; // Stop execution if there's an error with the avatar
+    }
+  }
   const user = new User({
     userID, // Assuming userID is something like an email or unique identifier
     password,
@@ -195,7 +205,7 @@ async function createUser(userID, password, username) {
     likePost: [],
     dislikePost: [],
     favorite: [],
-    avatar: null,
+    avatar : avatarData,
     introduction: null,
     background_image: null,
     newNotification: false,
@@ -269,13 +279,13 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
-createUser('123', 'securePassword', 'uniqueUsername');
-createUser('8', '3100', 'winnie');
-createUser('100', '123', 'test');
+//createUser('123', 'securePassword', 'uniqueUsername');
+//createUser('8', '3100', 'winnie');
+createUser('100', '123', 'test', './hahaha.jpeg');
 createUser('0', 'admin', 'admin'); //admin
-createUser('1', '123', 'File Transfer');
-createPost("8","Hi, this is Winnie",attachment, 1);
-// createPost("8","Hi, this is Winnie 2", 1);
+//createUser('1', '123', 'File Transfer');
+createPost("100","Hi, this is Winnie",attachment, 1);
+// createPost("100","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
 
 //handle login authentication
@@ -382,6 +392,31 @@ app.post('/createuser', async (req, res) => {
   }
 
 
+});
+
+// get user information associated with the postID
+app.get('/userinfo/:postID', async (req, res) => {
+  try {
+    const { postID } = req.params;
+    const post = await Post.findOne({ postID });
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    const userInfo = await User.findOne({ userID: post.userID })
+                                .select('username avatar')
+                                .exec();
+
+    if (!userInfo) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(userInfo);
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 

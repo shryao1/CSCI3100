@@ -5,11 +5,11 @@
 .Tweet__container{
     width: 100%;
     border-bottom: 1px solid $border_color_light;
-
+    background-color: #f6f4e8;
     .tweet__linkContainer{
+        border-bottom: 1px solid #6E1E6F;
         display: flex;
         padding: 10px 0;
-
         .tweet__linkContent{
             display: flex;
             width: 100%;
@@ -17,8 +17,10 @@
             
             .tweet__container-tweetData{
                 display: flex;
-    
+                border: 2px solid #efe296;
+                border-radius: 15px;
                 .tweet__container-photo{
+                    
                     width: 48px;
                     margin: 0 12px 0 12px;
                 }
@@ -81,6 +83,8 @@
     }
     
     .content__options{
+        border: 2px solid #6E1E6F;
+        border-radius: 50px;
         width: 100%;
         display: flex;
         justify-content: center;
