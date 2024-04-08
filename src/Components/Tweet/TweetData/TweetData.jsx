@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { ListOptions } from './ListOptions'
 
 import ImagePosted from '../../../shared/Components/ImagePosted/ImagePosted'
@@ -20,9 +20,16 @@ const TweetData = ({
 		dislike, 
 		visible, 
 		post_time,
-	}
+		avatar,
+	},
+	owner = localStorage.getItem('userTwitterClone')
 }) => {
-
+	
+	// console.log('WZXWZXWZX', localStorage.getItem('userTwitterClone'))
+	// console.log(localStorage.getItem('userTwitterClone'))
+	console.log('!!!!!!!',{owner})
+	console.log('???????',{userID})
+	const navigate = useNavigate()
 	const [showMenu, setShowMenu] = useState(false)
 
 	const handleShowMenuTweet = (target) => {
@@ -36,10 +43,10 @@ const TweetData = ({
 	return (
 		<div className="tweet__linkContainer">
 			<div className="tweet__ID">{'Post #'}{postID}</div>
-			<Link to={`/${userID}/status/${userID}`} className="tweet__linkContent link">
+			<Link to={`/profile/${owner}/${userID}`} className="tweet__linkContent link">
 				<div className="tweet__container-tweetData" >
-					<div className="tweet__container-photo">
-						{/* <PhotoUser url={avatar} /> */}
+					<div className="tweet__container-photo" >
+						<PhotoUser url={avatar} />
 					</div>
 					<div className="tweet__container-content">
 						<div className="content__nav">

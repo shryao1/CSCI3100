@@ -53,7 +53,7 @@ const Profile = () => {
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
 	const { visituserID } = useParams() // fetch the passed-in userID parameters from the search path
 	let judgement = (userID == visituserID)
-	console.log(judgement)
+	// console.log(judgement)
 	localStorage.setItem('visitUserID', visituserID)
 	useEffect(() => {
 		console.log(visituserID)
@@ -97,7 +97,7 @@ const Profile = () => {
 					<div className="content__options" style={{ marginLeft: '10px' }}>
 						<div className="home__tweetsList">
 							{Array.isArray(posts) && posts.map((post) => {
-								return <TweetPost key={userID} post={post} owner={appContext?.user.userID === post.userID} />
+								return <TweetPost key={userID} post={post} />
 							})}
 						</div>
 					</div>

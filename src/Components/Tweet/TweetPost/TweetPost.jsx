@@ -2,6 +2,8 @@ import { useContext } from 'react'
 import './TweetPost.scss'
 import { AppContext } from '../../../Context/AppContext'
 
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+
 import useIsMyTweet from '../../../Hooks/useIsMyTweet'
 
 import BtnLike from '../../../shared/Components/BtnLike/BtnLike'
@@ -27,7 +29,7 @@ const TweetPost = ({
 		visible, 
 		post_time,
 	},
-	post
+	post,
 }) => {
 	const appContext = useContext(AppContext)
 	const uint8ArrayToBase64 = (uint8Array) => {

@@ -12,7 +12,9 @@ const AppProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
+		let isMounted = true
 		const fetch = async () => {
+			if (!isMounted) return
 			if (!localStorage.getItem('visitUserID') && !window.location.href.endsWith('/')) {
 				//window.location.href = '/'
 				return
@@ -25,6 +27,12 @@ const AppProvider = ({ children }) => {
 			}
 		}
 		fetch()
+		//change the 
+		const intervalId = setInterval(fetch, 200)
+		return () => {
+			isMounted = false
+			clearInterval(intervalId)
+		}
 	}, [])
 
 	return (
