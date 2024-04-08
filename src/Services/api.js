@@ -101,28 +101,93 @@ export const newComment = async (username, id, newComment) => {
 }
 
 export const newLike = async (id, newLike) => {
-	const config = {
-		headers: {
-			'Content-type': 'application/json'
-		}
+	console.log(id)
+	console.log(newLike)
+	try{
+		const response = await fetch(`http://localhost:3001/newlike/${id}`, {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newLike)
+		  }
+		)
+		if (!response.ok) {
+			// If the response is not okay, throw an error with the status
+			throw new Error('HTTP error!')
+		  }
+		  const data = await response.json()
+		  return data 
+	} catch (error) { console.error('Error posting new post:', error)
+		  throw error // Re-throw the error so it can be caught by the caller
 	}
-	const req = axios.put(`${LOCAL_URL}/post/like/${id}`, newLike, config)
-	return req
-		.then((res) => res.data)
-		.catch(error => { console.error(error) })
 }
 
 export const newDislike = async (id, newDislike) => {
-	const config = {
-		headers: {
-			'Content-type': 'application/json'
-		}
+	try{
+		const response = await fetch(`http://localhost:3001/newdislike/${id}`, {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(newDislike)
+		  }
+		)
+		if (!response.ok) {
+			// If the response is not okay, throw an error with the status
+			throw new Error('HTTP error!')
+		  }
+		  const data = await response.json()
+		  return data 
+	} catch (error) { console.error('Error posting new post:', error)
+		  throw error // Re-throw the error so it can be caught by the caller
 	}
-	const req = axios.put(`${LOCAL_URL}/post/dislike/${id}`, newDislike, config)
-	return req
-		.then((res) => res.data)
-		.catch(error => { console.error(error) })
 }
+
+export const GetUser = async (userID) =>{
+	try{
+		const response = await fetch('http://localhost:3001/getuser', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({userID:userID})
+		  }
+		)
+		if (!response.ok) {
+			// If the response is not okay, throw an error with the status
+			throw new Error('HTTP error!')
+		  }
+		  const data = await response.json()
+		  return data 
+	} catch (error) { console.error('Error posting new post:', error)
+		  throw error // Re-throw the error so it can be caught by the caller
+	}
+}
+
+
+export const GetUserA = async (userID) =>{
+	try{
+		const response = await fetch('http://localhost:3001/getusera', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({userID:userID})
+		  }
+		)
+		if (!response.ok) {
+			// If the response is not okay, throw an error with the status
+			throw new Error('HTTP error!')
+		  }
+		  const data = await response.json()
+		  return data 
+	} catch (error) { console.error('Error posting new post:', error)
+		  throw error // Re-throw the error so it can be caught by the caller
+	}
+}
+
+
 
 export const signUpUser = async (register) => {
 	const config = {
