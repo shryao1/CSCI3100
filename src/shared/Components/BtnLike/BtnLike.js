@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-
+import { useParams } from 'react-router-dom'
 import { AppContext } from '../../../Context/AppContext'
 
 import useILikeThis from '../../../Hooks/useILikeThis'
@@ -16,13 +16,12 @@ import './BtnLike.scss'
 const BtnLike = ({ likes, id, showDetail }) => {
 
 	const appContext = useContext(AppContext)
+	const { userID } = useParams()
 
 	const handleSubmitNewLike = async (e) => {
 		e.preventDefault()
 		try {
-			const Like = {
-				'userLiked': appContext?.user?.username
-			}
+			const Like = { userID: userID }
 			await newLike(id, Like)
 			appContext?.setPosts(await getAllPost())
 		} catch (error) {
@@ -33,7 +32,7 @@ const BtnLike = ({ likes, id, showDetail }) => {
 	return (
 		<div className="BtnLike__container">
 			<div className="option like" onClick={handleSubmitNewLike}>
-				{useILikeThis(likes) ?
+				{useILikeThis(id, userID) ?
 					<i className="active">
 						<ThumbUpAltIcon />
 					</i>
@@ -42,10 +41,11 @@ const BtnLike = ({ likes, id, showDetail }) => {
 						<ThumbUpOffAltIcon />
 					</i>
 				}
-				{showDetail && <span>{likes?.length}</span>}
+				{showDetail && <span>{likes}</span>}
 			</div>
 		</div>
 	)
 }
 
 export default BtnLike
+

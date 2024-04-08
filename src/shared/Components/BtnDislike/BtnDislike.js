@@ -1,5 +1,5 @@
-import { useContext } from 'react'
-
+import { useContext,useEffect,useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { AppContext } from '../../../Context/AppContext'
 
 import useIDislikeThis from '../../../Hooks/useIDislikeThis'
@@ -11,42 +11,46 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt'
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 
 import './BtnDislike.scss'
+import { CropOriginalSharp } from '@mui/icons-material'
+
 
 const BtnDislike = ({ dislikes, id, showDetail }) => {
-
 	const appContext = useContext(AppContext)
-
+	const { userID } = useParams()
+	
 	const handleSubmitNewDislike = async (e) => {
 		e.preventDefault()
 		try {
-			const Dislike = {
-				'userDisliked': appContext?.user?.username
-			}
+			const Dislike = { userID: userID }
 			await newDislike(id, Dislike)
 			appContext?.setPosts(await getAllPost())
+			// You might need to call something here to refresh userDislikes if it does not automatically update
 		} catch (error) {
 			console.error(error)
 		}
+
 	}
 
 	return (
 		<div className="BtnDislike__container">
 			<div className="option dislike" onClick={handleSubmitNewDislike}>
-				{useIDislikeThis(dislikes) ?
+				{ useIDislikeThis(id, userID) ?
 					<i className="active">
-						<ThumbDownAltIcon />
+						<MonetizationOnIcon />
 					</i>
 					:
 					<i>
-						<ThumbDownOffAltIcon />
+						<MonetizationOnIcon />
 					</i>
 				}
-				{showDetail && <span>{dislikes?.length}</span>}
+				{showDetail && <span>{dislikes}</span>}
 			</div>
 		</div>
 	)
+
 }
 
 export default BtnDislike

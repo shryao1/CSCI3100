@@ -1,11 +1,22 @@
-import { useContext } from 'react'
-import { AppContext } from '../Context/AppContext'
 
-const useIDislikeThis = (dislikes) => {
-	const appContext = useContext(AppContext)
-	if (dislikes) {
-		return dislikes.find(dislike => dislike.username === appContext?.user?.username)
-	}
+import { AppContext } from '../Context/AppContext'
+import { GetUser } from '../Services/api'
+import { useContext,useEffect,useState } from 'react'
+
+
+const useIDislikeThis = (id, userID) => {
+	const [ userDislikes, setUserDislike] = useState(false)
+	const user = GetUser(userID)
+	useEffect(() => {
+		user.then(
+			data=>
+				setUserDislike(data.dislikePost.includes(id.toString()))
+		)
+	})
+	console.log(userDislikes)
+	return userDislikes
 }
+
+
 
 export default useIDislikeThis
