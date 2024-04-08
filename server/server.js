@@ -577,6 +577,127 @@ app.get('/profilePosts/:userID', async (req, res) => {
     });
   
 
+    app.post('/newdislike/:id', async (req, res) => {
+      try {
+        const postID = req.params.id; // Get the post ID from the URL parameter
+        const userID = req.body.userID; // The userID of the user disliking the post
+              // Find the post by ID and add the newDislike to the dislikes array
+              const post = await Post.findOneAndUpdate(
+                { postID: postID }, // Use postID from the schema to find the post
+                { $inc: { dislike: 1 } }, // Increment the dislike field
+                { new: true } // Return the updated document
+              );
+        const user = await User.findOneAndUpdate(
+                { userID: userID },
+                { $addToSet: { dislikePost: postID } },
+                { new: true }
+              );
+
+
+          if (!post) {
+            return res.status(404).send('Post not found');
+          }
+      
+          // Return the updated post data
+          res.status(200).json(user);
+        } catch (error) {
+          console.error('Error adding new dislike:', error);
+          res.status(500).send('Internal Server Error');
+        }
+    });
+
+    app.post('/checkdislike', async (req, res) => {
+      try {
+        const { id, userID } = req.body;
+        
+        // Assuming `id` is the post's ID and it's stored in the dislikePost array as an ObjectId
+        const user = await User.findOne({ userID: userID, dislikePost:id });
+        console.log(user)
+        // If the user is found, it means the user has disliked the post
+        if (user) {
+          res.json({ isDisliked: true });
+        } else {
+          res.json({ isDisliked: false });
+        }
+      } catch (error) {
+        console.error('Error checking dislike:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+    });
+
+    app.post('/getuser', async (req, res) => {
+      try {
+        const userID = req.body.userID;
+        const userData = await User.findOne({ userID });
+        if (userData) {
+          res.json(userData);
+        } else {
+          res.status(404).send("User not found");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).send("Internal server error");
+      }
+    });
+
+    app.post('/getusera', async (req, res) => {
+      try {
+        const userID = req.body.userID;
+        const userData = await User.findOne({ userID });
+        if (userData) {
+          res.json(userData);
+        } else {
+          res.status(404).send("User not found");
+        }
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).send("Internal server error");
+      }
+    });
+
+
+    app.post('/newlike/:id', async (req, res) => {
+      try {
+        const postID = req.params.id; // Get the post ID from the URL parameter
+        const userID = req.body.userID; // The userID of the user disliking the post
+              // Find the post by ID and add the newDislike to the dislikes array
+        const userData = await User.findOne({userID});
+        console.log(userData.likePost)
+        if(userData.likePost.includes(postID.toString())){
+          const post = await Post.findOneAndUpdate(
+            { postID: postID },
+            { $inc: { like: -1 }},
+            { new: true }
+          );
+          const user = await User.findOneAndUpdate(
+            { userID: userID },
+            { $pull: {likePost: postID} },
+            { new: true }
+          )
+        }
+        else{
+
+          const post = await Post.findOneAndUpdate(
+            { postID: postID },
+            { $inc: { like: 1 }},
+            { new: true }
+          );
+          const user = await User.findOneAndUpdate(
+            { userID: userID },
+            { $addToSet: {likePost: postID} },
+            { new: true }
+          )
+        }
+
+      
+          // Return the updated post data
+          res.status(200).json('');
+        } catch (error) {
+          console.error('Error adding new like:', error);
+          res.status(500).send('Internal Server Error');
+        }
+    });
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
