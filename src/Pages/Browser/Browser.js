@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import NavBrowser from '../../Components/NavPages/NavExplore/NavExplore'
+import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 import './Browser.scss'
 

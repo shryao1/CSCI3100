@@ -29,6 +29,23 @@ const MenuItem = ({
 		}
 		handleShowMenu(false)
 	}
+	/*const handleDelete = (pid) => {
+        	const confirmDelete = window.confirm('Are you sure you want to delete this post?')
+        	if (confirmDelete) {
+              	fetch(`http://localhost:3001/deletepost/${pid}`, {
+                	method: 'DELETE',
+              	})
+                	.then((response) => {
+                      	if (!response.ok) throw new Error('Network response was not ok.')
+                    	setPostData((prevData) =>
+                        	prevData.filter((post) => post.postID !== pid)
+                      	)
+                	})
+                	.catch((error) => {
+                      	console.error('Error:', error)
+                	})
+          	}
+    	}*/
 	return (
 		<li className="itemMenuTweet__container" onClick={() => activeAction(action)}>
 			<div className="itemMenuTweet__Option" >

@@ -257,18 +257,14 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test', './hahaha.jpeg');
 createUser('0', 'admin', 'admin'); //admin
-<<<<<<< Updated upstream
 //createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is Winnie",attachment, 1);
 // createPost("100","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
-=======
-createUser('1', '123', 'File Transfer');
-createPost("8","Hi, this is Winnie",attachment, 1);
-// createPost("123","I am a genius",attachment, 1);
 
 
->>>>>>> Stashed changes
+
+
 
 //handle login authentication
 app.post("/login", async (req, res) => {
@@ -401,7 +397,28 @@ app.get('/userinfo/:postID', async (req, res) => {
   }
 });
 
+// explore the post
+app.get('/explore', async (req, res) => {
+  try {
+    let postData = await Post.find({}, 'postID userID tag attachment content visible like dislike');
 
+    console.log(`Fetched ${postData.length} posts.`);
+
+    if (postData.length === 0) {
+      res.status(404).send("No posts found");
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * postData.length);
+    const randomPost = postData[randomIndex];
+
+    console.log("Selected random post:", randomPost);
+    res.json(randomPost);
+  } catch (error) {
+    console.error("Error fetching post data:", error);
+    res.status(500).send("Internal server error");
+  }
+});
 
 // handle admin: list all posts
 app.get('/listpost', async (req, res) => {
