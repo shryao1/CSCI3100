@@ -257,10 +257,18 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 createUser('8', '3100', 'winnie');
 createUser('100', '123', 'test', './hahaha.jpeg');
 createUser('0', 'admin', 'admin'); //admin
+<<<<<<< Updated upstream
 //createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is Winnie",attachment, 1);
 // createPost("100","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
+=======
+createUser('1', '123', 'File Transfer');
+createPost("8","Hi, this is Winnie",attachment, 1);
+// createPost("123","I am a genius",attachment, 1);
+
+
+>>>>>>> Stashed changes
 
 //handle login authentication
 app.post("/login", async (req, res) => {
@@ -492,7 +500,8 @@ app.get('/profile/:userID', async (req, res, next) => {
     const posts = await Post.find({ 'userID': userID }, 'postID').lean();
     const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
     userObject.self_post = posts.map(post => post.postID);
-    console.log(userObject);
+
+    // console.log(userObject);
 
     if (userData) {
       res.json(userObject);
@@ -512,11 +521,22 @@ app.get('/profilePosts/:userID', async (req, res) => {
     const { userID } = req.params;
     // console.log(userID);
     const postData = await Post.find({ userID })
-                               .select('username postID content attachment userID like dislike visible post_time')
+                               .select('username postID content attachment userID like dislike visible post_time avatar')
                                .exec();
   
+      const avatar = await User.find({ 'userID': userID }, 'avatar').lean();
+      const userObject = postData; // Convert Mongoose document to plain JavaScript object
+      userObject.avatar = avatar;
+
+      console.log(userObject);
+
       console.log(`Fetched ${postData.length} posts.`);
-      res.json(postData);
+      if (postData) {
+        res.json(userObject);
+      } else {
+        next(); // Move to the next middleware if the user is not found
+      }
+
   }catch (error) {
       console.error("Error fetching post data:", error);
       res.status(500).send("Internal server error");
@@ -548,7 +568,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
         // .populate('userID', 'userID username') 
         // .lean();
   
-        console.log(`Fetched ${postData.length} posts.`);
+        // console.log(`Fetched ${postData.length} posts.`);
         res.json(postData);
       } catch (error) {
         console.error("Error fetching post data:", error);
