@@ -60,7 +60,7 @@ const Profile = () => {
 		let isMounted = true
 		const fetchpost = async () => {
 			if (!isMounted) return
-			console.log('hhhhhhhhhhhhhhhhh',visituserID)
+			// console.log('hhhhhhhhhhhhhhhhh',visituserID)
 			if (visituserID) {
 				localStorage.setItem('visitUserID', visituserID)
 				fetch(`http://localhost:3001/profilePosts/${visituserID}`)

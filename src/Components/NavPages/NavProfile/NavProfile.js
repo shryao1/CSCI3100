@@ -8,6 +8,7 @@ import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined'
 
 import './NavProfile.scss'
+import FollowList from '../../../Pages/FollowList/FollowList'
 
 
 const NavProfile = ({
@@ -105,12 +106,23 @@ const NavProfile = ({
 					<div className='main__followBtns'>
 						<div>
 							<span className='followBtn__number'>{following.length}</span>
-							<span className='followBtn__text'onClick={() => navigate('/followList')}>Following</span>
+							<span className='followBtn__text'  onClick={() => {
+								localStorage.setItem('following', 0)
+								navigate(`/followList/${localStorage.getItem('userTwitterClone')}`)
+							}
+							}
+							>Following</span>
 						</div>
 
 						<div>
 							<span className='followBtn__number'>{followers.length}</span>
-							<span className='followBtn__text'onClick={() => navigate('/followList')}>Followers</span>
+							<span className='followBtn__text' onClick={() => {
+								localStorage.setItem('following', 1)
+								// console.log(localStorage.getItem('following'))
+								navigate(`/followList/${localStorage.getItem('userTwitterClone')}`)
+								// { state: { judger }}
+							}
+							}>Followers</span>
 						</div>
 					</div>
 				</div>
