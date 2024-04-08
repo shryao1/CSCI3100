@@ -1,4 +1,10 @@
 import './TweetPost.scss'
+import { AppContext } from '../../../Context/AppContext'
+
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+
+import useIsMyTweet from '../../../Hooks/useIsMyTweet'
+
 import BtnLike from '../../../shared/Components/BtnLike/BtnLike'
 import BtnDislike from '../../../shared/Components/BtnDislike/BtnDislike'
 import TweetData from '../TweetData/TweetData'
@@ -19,7 +25,7 @@ const TweetPost = ({
 		visible, 
 		post_time,
 	},
-	post
+	post,
 }) => {
 	const uint8ArrayToBase64 = (uint8Array) => {
 		let binary = ''

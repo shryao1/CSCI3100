@@ -12,19 +12,27 @@ const AppProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
+		let isMounted = true
 		const fetch = async () => {
-			if (!localStorage.getItem('userTwitterClone') && !window.location.href.endsWith('/')) {
+			if (!isMounted) return
+			if (!localStorage.getItem('visitUserID') && !window.location.href.endsWith('/')) {
 				//window.location.href = '/'
 				return
 			} else {
-				if (localStorage.getItem('userTwitterClone')) {
-					setUser(await myGetUser(localStorage.getItem('userTwitterClone')))
+				if (localStorage.getItem('visitUserID')) {
+					setUser(await myGetUser(localStorage.getItem('visitUserID')))
 					// setUser(await myGetUser(userID))
 					setPosts(await getAllPost())
 				}
 			}
 		}
 		fetch()
+
+		const intervalId = setInterval(fetch, 1000)
+		return () => {
+			isMounted = false
+			clearInterval(intervalId)
+		}
 	}, [])
 
 	return (
