@@ -274,8 +274,8 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 //createUser('123', 'securePassword', 'uniqueUsername');
-createUser('8', '3100', 'winnie', '', 1);
-createUser('100', '123', 'test', './hahaha.jpeg', 1);
+createUser('8', '3100', 'winnie', '', '1');
+createUser('100', '123', 'test', './hahaha.jpeg', '1');
 createUser('0', 'admin', 'admin'); //admin
 createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is Winnie",attachment, 1);
