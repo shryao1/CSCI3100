@@ -8,7 +8,7 @@ import './Message.scss'
 const Message = () => {
 	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
 	//const { chatwithID } = useParams() // temporarily remove this para
-	console.log(userID)
+	//console.log(userID)
 	//console.log(chatwithID)  
 
 	const { userMessage } = useContext(MessageContext)

@@ -24,10 +24,62 @@
             }
         }
         .messageList__sendTime{
-            margin: 2px 0 0 83px;
             font-size: 13px;
             color: $color_text_gray;
         }
+    }
+	.messageList__container{
+        display: flex;
+        flex-direction: column;
+        
+
+        &.userMessage{
+                justify-content: flex-end; // Aligns the whole block to the right
+				margin-right: 10px;
+				.messageList__photo-text{
+                    flex-direction: row-reverse;
+                    align-items: center; // Ensure avatar and text box are on the same line
+
+                    .messageList__text{
+                        background-color: purple;
+                        color: #FFFFFF;
+                        border-radius: 15px 15px 0 15px;
+                        margin-right: 10px; // Space between message box and avatar
+                    }
+
+                    .messageList__photo{
+                        margin-left: 10px; // Space after the avatar
+                    }
+                }
+				.messageList__sendTime {
+					text-align: right; // Right align for user messages
+					margin-right: 20px; // Adjust as per layout
+				}
+				
+            }
+
+        &.friendMessage{
+                justify-content: flex-start; // Aligns the whole block to the left
+
+				.messageList__photo-text{
+                    align-items: center; // Ensure avatar and text box are on the same line
+
+                    .messageList__text{
+                        background: $border_color_light;
+                        color: $color_font_light;
+                        border-radius: 15px 15px 15px 0;
+                        margin-left: 10px; // Space between message box and avatar
+                    }
+
+                    .messageList__photo{
+                        margin-right: 10px; // Space before the avatar
+                    }
+                }
+				.messageList__sendTime {
+					text-align: left; // Right align for user messages
+					margin-left: 40px; // Adjust as per layout
+				}
+            }
     }
     .container__writeMessage{
         width: 600px;

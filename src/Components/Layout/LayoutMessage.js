@@ -1,62 +1,82 @@
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import Menu from '../Menus/Menu/Menu'
 import MenuDown from '../Menus/MenuDown/MenuDown'
 import InsideMessage from '../InsideMessage/InsideMessage'
-import Michael from './michaelAvatar.png'
-
+import Michael from './michaelAvatar.png' // Assuming Michael is a default avatar
 import { MessageProvider } from '../../Context/contextMessage'
-
 import './LayoutMessage.scss'
 
-const messages = [
-	{
-		'id': '1',
-		'user_photo': Michael,
-		'name': 'Mic',
-		'username': '@Mic',
-		'time': '10m',
-		'text': 'Hello coupon',
-		'chat': {
-			'bio': 'I would like to offer you a coupon',
-			'following': 100,
-			'followers': 12,
-			'messages': [
-				{
-					'username': '@Mic',
-					'text': 'Hello coupon',
-					'sendTime': '11:00AM',
-				},
-				{
-					'username': '@Mic',
-					'text': 'Good job Group E4',
-					'sendTime': '11:02AM',
-				}
-			]
-		}
-	},
-
-	{
-		'id': '2',
-		'user_photo': Michael,
-		'name': 'hael',
-		'username': '@hael',
-		'time': '11m',
-		'text': 'Hello World',
-		'chat': {
-			'bio': 'Hello Twitter',
-			'following': 200,
-			'followers': 1,
-			'messages': [
-				{
-					'username': '@hael',
-					'text': 'Hello World',
-					'sendTime': '11:05AM',
-				}
-			]
-		}
-	}
-]
-
 const LayoutMessage = ({ children }) => {
+	const { userID, chatWithID } = useParams()
+
+	const [userChats, setUserChats] = useState([])
+	const [loading, setLoading] = useState(true)
+	const [error, setError] = useState(null)
+
+	useEffect(() => {
+		let isMounted = true
+		const fetchData = async () => {
+			if (!isMounted) return
+			try {
+				// Fetch messages
+				const messagesResponse = await fetch(`http://localhost:3001/message/${userID}/${chatWithID}`)
+				if (!messagesResponse.ok) throw new Error('Failed to fetch messages')
+				const messagesData = await messagesResponse.json()
+			
+				const userInfoResponse = await fetch(`http://localhost:3001/fetchuserinfo/${userID}/${chatWithID}`)
+				if (!userInfoResponse.ok) throw new Error('Failed to fetch user info')
+				const userInfoData = await userInfoResponse.json()
+
+				// Process messages for the chatWithID
+				const friendMessages = messagesData.filter(msg => msg.sender === chatWithID || msg.receiver === chatWithID)
+					.map(msg => ({
+						...msg,
+						username: msg.sender === userID ? '@You' : '@User', // Since we don't fetch friend data, using a placeholder
+						text: msg.text,
+						sendTime: new Date(msg.timestamp).toLocaleTimeString(),
+						messageClass: msg.sender === userID ? 'userMessage' : 'friendMessage',
+					}))
+
+				// Create a single user chat object
+				const chat = {
+					userID: chatWithID,
+					username: userInfoData.username, // Placeholder for username since we are not fetching friends
+					user_photo: Michael, // Assuming a default for simplicity
+					chat: {
+						bio: 'This is a chat bio 2', // Placeholder
+						following: 100, // Placeholder
+						followers: 12, // Placeholder
+						messages: friendMessages,
+					},
+				}
+	
+				if (isMounted) setUserChats([chat]) // Since structure should not change, wrap the single chat object in an array
+			
+			} catch (error) {
+				console.error('Error fetching data:', error)
+				setError(error)
+			} finally {
+				setLoading(false)
+			}
+		}
+
+		fetchData()
+		// Set up polling with setInterval
+		const intervalId = setInterval(fetchData, 2000)
+
+		// Clear interval on component unmount
+		return () => {
+			isMounted = false // Indicate component is unmounted
+			clearInterval(intervalId)
+		}
+		
+	}, [userID, chatWithID]) // Added chatWithID as a dependency
+
+	if (loading) return <div>Loading...</div>
+	if (error) return <div>Error: {error.message}</div>
+	
+
 	return (
 		<div className="LayoutMessage__container">
 			<div className="containerMessage__content">
@@ -64,7 +84,7 @@ const LayoutMessage = ({ children }) => {
 					<Menu />
 				</div>
 				<div className="content__main">
-					<MessageProvider value={{ userMessage: messages }}>
+					<MessageProvider value={{ userMessage: userChats }}>
 						<section className="Content__page">
 							{children}
 						</section>
@@ -74,7 +94,7 @@ const LayoutMessage = ({ children }) => {
 					</MessageProvider>
 				</div>
 				<div className="container__MenuDown">
-					<MenuDown/>
+					<MenuDown />
 				</div>
 			</div>
 		</div>
