@@ -158,7 +158,7 @@ const generateUniquePostID = async () => {
   
 
 // Function to create a new user
-async function createUser(userID, password, username, avatarPath = './Michael_photo.jpeg') {
+async function createUser(userID, password, username, avatarPath = './CUChatIcon.png') {
   let avatarData; // Define a variable to store the avatar data
   if (avatarPath) {
     try {
@@ -195,6 +195,15 @@ async function createUser(userID, password, username, avatarPath = './Michael_ph
 }
 
 async function admincreateUser(userID, username, password, introduction) {
+    let avatarData;
+    try {
+      // Read the avatar file as binary data
+      avatarData = fs.readFileSync('./CUChatIcon.png');
+    } catch (error) {
+      console.error('Error reading the avatar file:', error.message);
+      return; // Stop execution if there's an error with the avatar
+    }
+
   const user = new User({
     userID,
     password,
@@ -204,9 +213,9 @@ async function admincreateUser(userID, username, password, introduction) {
     likePost:[],
     dislikePost: [],
     favorite: [],
-    avatar: null,
+    avatar: avatarData,
     introduction,
-    background_image: null,
+    background_image: avatarData,
     newNotification: false,
     //self_post: [],
 
