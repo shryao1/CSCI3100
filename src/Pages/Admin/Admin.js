@@ -226,7 +226,7 @@ const UserDatabase = () => {
 							</label>
 							<label className="form-label">
 								<strong>Liked Posts:</strong>
-								<input
+								<input disabled
 									type="text"
 									name="likepost"
 									value={user.likePost}
@@ -238,7 +238,7 @@ const UserDatabase = () => {
 							</label>
 							<label className="form-label">
 								<strong>Couponed Posts:</strong>
-								<input
+								<input disabled
 									type="text"
 									name="couponpost"
 									value={user.dislikePost}
@@ -250,7 +250,7 @@ const UserDatabase = () => {
 							</label>
 							<label className="form-label">
 								<strong>Favorite Posts:</strong>
-								<input
+								<input disabled
 									type="text"
 									name="favoritepost"
 									value={user.favorite}

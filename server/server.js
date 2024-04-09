@@ -618,15 +618,15 @@ app.post('/createpost', async (req, res) => {
 app.post('/updateprofile', async (req, res) => {
   
     try {
-      const {userID, username, password, background_image, avatar, introduction} = req.body;
+      const {userID, username, password, introduction} = req.body;
   
       const updatedUser = await User.findOneAndUpdate(
         { userID: userID }, // Find a document with this userID
         {
           username: username,
           password: password,
-          background_image: background_image,
-          avatar: avatar,
+          //background_image: background_image,
+          //avatar: avatar,
           introduction: introduction,
         },
         {

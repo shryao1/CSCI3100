@@ -56,10 +56,36 @@ const ProfileEdit = () => {
 		console.log(value)
 	}
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
-		console.log(userData)
+	const handleUpdate = (user) => {
+		const ID = user.userID
+		fetch('http://localhost:3001/updateprofile', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				userID: user.userID,
+				username: user.username, 
+				password: user.password, 
+				//background_image: user.background_image,
+				//avatar: user.avatar,
+				introduction: user.introduction,
+
+			}),
+		})
+			.then(response => {
+				if (response.ok) {
+					window.alert('Profile update')
+					return response.json()
+				}
+				throw new Error('Network response was not ok.')
+			})
+			.catch((error) => {
+				console.error('Error:', error)
+		  	})
 	}
+  
+
 
 	const handleExit = () => {
 		console.log('Exiting profile edit...')
@@ -94,7 +120,7 @@ const ProfileEdit = () => {
 						<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.background_image.data))}`} alt="User Background" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />):(<div>No background available</div>)}
 					</div>
 					<div className={styles.profileEdit__footer}>
-						<button type="submit" className={`${styles.button} ${styles.buttonPrimary}`}>Save</button>
+						<button type="submit" className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => handleUpdate(userData)} >Save</button>
 						<button type="button" className={`${styles.button} ${styles.buttonPrimary}`} onClick={handleExit}>Exit</button>
 					</div>
 				</form>
