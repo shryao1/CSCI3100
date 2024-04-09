@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { AppContext } from '../../../Context/AppContext'
 import PhotoUser from '../PhotoUser/PhotoUser'
 import TextBlue from '../TextBlue/TextBlue'

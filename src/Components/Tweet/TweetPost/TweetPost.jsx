@@ -43,7 +43,12 @@ const TweetPost = ({
 			{attachment && (
 				<div className="tweet__attachment">
 					{/* Assuming attachment is an image */}
-					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style = {{width: 450, marginLeft: '50px'}}/>
+					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{ 
+    					maxWidth: '80%', // Ensure the image doesn't exceed the container's width
+    					height: 'auto',   // Allow the height to adjust proportionally
+    					width: '100%',    // Take up the full width of its container
+    					marginLeft: '50px' // Optional, adjust as needed
+  							}}/>
 				</div>
 			)}
 			<div className="content__options">
