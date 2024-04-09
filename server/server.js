@@ -82,6 +82,17 @@ const attachmentSchema = new mongoose.Schema({
   }
 });
 
+// Message Schema
+const messageSchema = new mongoose.Schema({
+    sender: { type: String, required: true },
+    receiver: { type: String, required: true },
+    text: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
+});
+
+const Message = mongoose.model('Message', messageSchema);
+
+
 
 const Attachment = mongoose.model('Attachment', attachmentSchema);
 
@@ -199,9 +210,18 @@ async function createUser(userID, password, username, avatarPath = './CUChatIcon
 
   try {
     const result = await user.save();
-    console.log('User created successfully:', result);
+    // Now, let's create and save the welcome message
+    const welcomeMessage = new Message({
+      sender: '1', // Predefined sender ID
+      receiver: userID, // The newly created user's ID
+      text: 'Welcome to Chat, I am File Transfer',
+      // timestamp is automatically set to now by default
+    });
+
+    await welcomeMessage.save(); // Save the welcome message
+    console.log('Welcome message sent successfully.');
   } catch (error) {
-    console.error('Error creating the user:', error.message);
+    console.error('Error creating the user or sending welcome message:', error.message);
   }
 }
 
@@ -1128,15 +1148,6 @@ app.get('/profilePosts/:userID', async (req, res) => {
         }
       });
 	  
-// Message Schema
-const messageSchema = new mongoose.Schema({
-    sender: { type: String, required: true },
-    receiver: { type: String, required: true },
-    text: { type: String, required: true },
-    timestamp: { type: Date, default: Date.now },
-});
-
-const Message = mongoose.model('Message', messageSchema);
 
 
 	// Send a message
