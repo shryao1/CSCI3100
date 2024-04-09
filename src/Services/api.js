@@ -36,7 +36,6 @@ export const myGetUser = async (userID) => {
 	try {
 		const response = await fetch(`${LOCAL_URL}/profile/${userID}`)
 		const data = await response.json()
-		console.log(data)
 		return data
 	} catch (error) {
 		console.error(error)

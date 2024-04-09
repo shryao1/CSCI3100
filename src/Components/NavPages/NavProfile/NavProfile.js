@@ -62,7 +62,8 @@ const NavProfile = ({
 				{judge && (
 					<div className='btn__editProfile-container'>
 						<div className='btn_editProfile-content'>
-							<span>Edit Profile</span>
+							<span onClick={() => navigate(`/profileedit/${userID}`)}>Edit Profile</span>
+
 						</div>
 					</div>
 				)}
