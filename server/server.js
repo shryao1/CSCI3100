@@ -158,15 +158,6 @@ const generateUniquePostID = async () => {
     }
     
   
-  const commentSchema = new mongoose.Schema({
-    postID: { type: mongoose.SchemaTypes.ObjectId, ref: 'Post', required: true },
-    commentID: { type: String, required: true, unique: true },
-    userID: { type: mongoose.SchemaTypes.ObjectId, ref: 'User', required: true },
-    content: { type: String, required: true },
-    // Timestamps can be automatically added by Mongoose
-  }, { timestamps: { createdAt: 'created_at' } });
-  
-  const Comment = mongoose.model('Comment', commentSchema);
   
   const isAuthenticated = (req, res, next) => {
     if (!req.user) {
@@ -1139,13 +1130,14 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	  
 // Message Schema
 const messageSchema = new mongoose.Schema({
-  sender: { type: String, required: true }
-  receiver: { type: String, required: true }
-  text: { type: String, required: true }
-  timestamp: { type: Date, default: Date.now },
+    sender: { type: String, required: true },
+    receiver: { type: String, required: true },
+    text: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
 });
 
-	const Message = mongoose.model('Message', messageSchema);
+const Message = mongoose.model('Message', messageSchema);
+
 
 	// Send a message
 	app.post('/send', async (req, res) => {
