@@ -135,7 +135,7 @@ const UserDatabase = () => {
 			body: JSON.stringify({
 				userID: user.userID,
             	username: user.username, 
-            	password: user.username, 
+            	password: user.password, 
 				followers: user.followers,
 				following: user.following,
 				likePost: user.likePost,
