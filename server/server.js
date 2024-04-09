@@ -46,6 +46,26 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+// Notification Schema
+const notificationSchema = new mongoose.Schema({
+	sender: { type: String, required: true },
+	receiver: { type: String, required: true },
+	content: { type: String, required: true },
+	timestamp: { type: Date, default: Date.now },
+});
+
+const Notification = mongoose.model('Notification', notificationSchema);
+
+// Comment Schema
+const CommentSchema = new mongoose.Schema({
+	postID: { type: String, required: true },
+	userID: { type: String, required: true },
+	content: { type: String, required: true },
+	timestamp: Date,
+});
+
+const Comment = mongoose.model('Comment', CommentSchema);
+
 
 const attachmentSchema = new mongoose.Schema({
   filename: {
@@ -831,13 +851,19 @@ app.get('/profilePosts/:userID', async (req, res) => {
     });
 
 
+    // New Like
     app.post('/newlike/:id', async (req, res) => {
       try {
         const postID = req.params.id; // Get the post ID from the URL parameter
         const userID = req.body.userID; // The userID of the user disliking the post
+		const textinfo = ' Liked your Post @' + postID;
               // Find the post by ID and add the newDislike to the dislikes array
         const userData = await User.findOne({userID});
-        console.log(userData.likePost)
+		const post = await Post.findOne({ postID: postID });
+		if (!post) {
+			return res.status(404).send('Post not found');
+		}
+		const posterUserID = post.userID;
         if(userData.likePost.includes(postID.toString())){
           const post = await Post.findOneAndUpdate(
             { postID: postID },
@@ -849,6 +875,13 @@ app.get('/profilePosts/:userID', async (req, res) => {
             { $pull: {likePost: postID} },
             { new: true }
           )
+		  // Remove the notification for removing a like
+		  await Notification.findOneAndDelete({
+			sender: userID,
+			receiver: posterUserID,
+			content: textinfo,
+			// Add other necessary conditions to uniquely identify the notification if needed
+		  });
         }
         else{
 
@@ -862,16 +895,154 @@ app.get('/profilePosts/:userID', async (req, res) => {
             { $addToSet: {likePost: postID} },
             { new: true }
           )
+		  
+		  // Add a notification for liking a post
+		  await Notification.create({
+			sender: userID,
+			receiver: posterUserID,
+			content: textinfo,
+		  });
+		  
         }
 
       
           // Return the updated post data
-          res.status(200).json('');
+          res.status(200).json('Success');
         } catch (error) {
           console.error('Error adding new like:', error);
           res.status(500).send('Internal Server Error');
         }
     });
+	
+	// Fetch Notification
+	app.get('/notifications/:userID', async (req, res) => {
+	  try {
+		const notifications = await Notification.find({ receiver: req.params.userID }).sort({ timestamp: -1 });
+		res.json(notifications);
+	  } catch (error) {
+		console.error('Failed to fetch notifications:', error);
+		res.status(500).send('Internal Server Error');
+	  }
+	});
+	
+	// Get Username by UserID
+	app.get('/user/username/:userId', async (req, res) => {
+	  try {
+		const { userId } = req.params;
+		const user = await User.findOne({ userID: userId }, 'username'); // Select only the username
+		if (!user) return res.status(404).send({ message: 'User not found' });
+		res.send({ username: user.username });
+	  } catch (error) {
+		console.error('Error fetching username:', error);
+		res.status(500).send({ message: 'Internal server error' });
+	  }
+	});
+	
+	
+	// Get Followers
+    app.get('/getfollowers/:userID', async (req, res, next) => {
+      try {
+        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+        const followerList = await User.findOne({ userID })
+                                    .select('followers')
+                                    .exec();
+        const followers = followerList.followers;
+  
+  
+        const followerDetails = await Promise.all(followers.map(async (followerID) => {
+          const followerProfile = await User.findOne({ 'userID': followerID })
+                                              .select('avatar username')
+                                              .lean()
+                                              .exec();
+          return {
+              ...followerProfile, // Spread avatar and username
+              _id: followerID // Add _id property to match the original followerID
+          };
+      }));
+      console.log(followers);
+      res.json(followerDetails);
+  
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).send("Internal server error");
+      }
+    });
+     
+	
+	// Get Following
+    app.get('/getfollowings/:userID', async (req, res, next) => {
+      try {
+        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+        const followingList = await User.findOne({ userID })
+                                    .select('following')
+                                    .exec();
+        const followings = followingList.following;
+  
+  
+        const followingDetails = await Promise.all(followings.map(async (followingID) => {
+          const followingProfile = await User.findOne({ 'userID': followingID })
+                                              .select('avatar username')
+                                              .lean()
+                                              .exec();
+          return {
+              ...followingProfile, // Spread avatar and username
+              _id: followingID // Add _id property to match the original followerID
+          };
+      }));
+      console.log(followings);
+      res.json(followingDetails);
+  
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        res.status(500).send("Internal server error");
+      }
+    });
+	
+	// Post Comment
+	app.post('/sendcomment/:userID/:postID', async (req, res) => {
+		// Extract userID and postID from the route parameters
+		const { userID, postID } = req.params;
+		const post = await Post.findOne({ postID: postID });
+		if (!post) {
+			return res.status(404).send('Post not found');
+		}
+		const posterUserID = post.userID;
+
+		// Prepend userID to the content
+		const contentWithUserID = `@${userID}: ${req.body.content}`;
+		const textinfo = ' Commented your Post #' + postID;
+
+		// Create a new Comment with modified content
+		const newComment = new Comment({
+			...req.body,
+			postID: postID,
+			userID: userID,
+			content: contentWithUserID
+		});
+
+		try {
+			await Notification.create({
+				sender: userID,
+				receiver: posterUserID,
+				content: textinfo,
+			});
+
+			const item = await newComment.save();
+			res.json(item);
+		} catch (err) {
+			console.error(err); // Log the error to see what's wrong
+			res.status(400).send("unable to save to database");
+		}
+	});
+
+
+
+	// Route to get comments
+	app.get('/getcomments/:postID', (req, res) => {
+		Comment.find({ postID: req.params.postID })
+			.then(comments => res.json(comments))
+			.catch(err => res.status(400).send("unable to find comments"))
+	})
 
     app.get('/getfollowers/:userID', async (req, res, next) => {
       try {
@@ -965,6 +1136,122 @@ app.get('/profilePosts/:userID', async (req, res) => {
           res.status(500).send("Internal server error");
         }
       });
+	  
+// Message Schema
+const messageSchema = new mongoose.Schema({
+  sender: { type: String, required: true }
+  receiver: { type: String, required: true }
+  text: { type: String, required: true }
+  timestamp: { type: Date, default: Date.now },
+});
+
+	const Message = mongoose.model('Message', messageSchema);
+
+	// Send a message
+	app.post('/send', async (req, res) => {
+	  const { sender, receiver, text } = req.body;
+	  const message = new Message({ sender, receiver, text });
+	  await message.save();
+	  res.status(201).send('Message sent.');
+	});
+
+	// Example server-side logic to fetch messages between two users
+	app.get('/message/:userId/:chatWith', async (req, res) => {
+	  const { userId, chatWith } = req.params;
+	  try {
+		// Ensure parameters are correctly received
+		if (!userId || !chatWith) {
+		  return res.status(400).json({ error: 'Missing userId or chatWith parameter' });
+		}
+
+		const messages = await Message.find({
+		  $or: [
+			{ sender: userId, receiver: chatWith },
+			{ sender: chatWith, receiver: userId }
+		  ]
+		}).sort('timestamp');
+		console.log(messages)
+
+		// Check if messages exist
+		if (!messages.length) {
+		  return res.status(404).json({ message: 'No messages found' });
+		}
+
+		res.json(messages);
+		console.log(messages);
+	  } catch (error) {
+		console.error('Failed to fetch messages:', error);
+		// Send a generic error message to the client
+		res.status(500).json({ error: 'Internal server error' });
+	  }
+	});
+
+
+
+	async function getUserFriends(userID) {
+	  // Find the user by userID
+	  const user = await User.findOne({ userID: userID });
+	  console.log(user)
+	  if (!user) {
+		throw new Error('User not found');
+	  }
+
+	  // The followers and following are now assumed to be arrays of strings representing userIDs
+	  const { followers, following } = user;
+	  console.log(followers)
+	  // Find common userIDs in both followers and following to identify friends
+	  const friendUserIDs = followers.filter(followerUserID => following.includes(followerUserID));
+
+	  // Fetch the friend users' details using their userID
+	  const friends = await User.find({ 'userID': { $in: friendUserIDs } });
+
+	  return friends.map(friend => ({
+		userID: friend.userID,
+		username: friend.username,
+		avatar: friend.avatar ? friend.avatar.toString('base64') : null, // Assuming avatar is stored as a Buffer
+		// Add other details you want to return
+	  }));
+	}
+
+
+	// Fetch user information route
+	app.get('/fetchuserinfo/:userID/:chatWithID', async (req, res) => {
+	  try {
+		const { chatWithID } = req.params;
+		const user = await User.findOne({ userID: chatWithID }); // Fetch user by chatWithID
+		if (!user) {
+		  return res.status(404).send({ message: 'User not found' });
+		}
+		res.json({
+		  username: user.username, // Assuming the user document has a username field
+		  // You can add more user fields here as needed
+		});
+	  } catch (error) {
+		console.error('Failed to fetch user info', error);
+		res.status(500).send({ message: 'Failed to fetch user information' });
+	  }
+	});
+
+
+	app.get('/friends/:userID', async (req, res) => {
+	  const { userID } = req.params;
+
+	  try {
+		const friends = await getUserFriends(userID);
+		res.json(friends);
+	  } catch (error) {
+		console.error('Error fetching friends:', error);
+		// Provide appropriate status codes based on the error
+		if (error.message === 'User not found') {
+		  res.status(404).send(error.message);
+		} else {
+		  res.status(500).send('Failed to fetch friends');
+		}
+	  }
+	});
+	
+	
+	
       
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
