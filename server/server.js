@@ -501,36 +501,41 @@ app.get('/explore', async (req, res) => {
 });
 
 //browser the post
-async function getFollowingPosts(userId) {
+async function getFollowingPosts(userID) {
   try {
+    //console.log("here is userID",userId);
     // First, find the user's document to get the list of users they are following
-    const user = await User.findById(userId);
+    const user = await User.findOne({ userID })
+                                .select('following')
+                                .exec();
+    console.log("here is user",user.following);
     if (!user) {
       throw new Error('User not found');
     }
-
+    const followingUserIDs = user.following.map(id => parseInt(id));
+    console.log("here is followingUserIDs",followingUserIDs);
+    const followingPosts = await Post.find({ userID: { $in: followingUserIDs.toString() } }).exec();
     // Then, fetch posts of the users the current user is following
-    const followingPosts = await Post.find({ userID: { $in: user.following } })
-      .sort({ post_time: -1 }) // Sorting by post time in descending order
-      .populate('userID'); // Populate user details in the posts
-
+    console.log("here is followingPosts",followingPosts);
     return followingPosts;
   } catch (error) {
     console.error('Error fetching following posts:', error);
     throw error; // Rethrow the error for handling by the caller
   }
-};
-app.get('/browser', async (req, res) => {
+}
+
+app.get('/browser/:userID', async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const posts = await getFollowingPosts(userId);
+    const { userID } = req.params;
+    //console.log("browseruserID", userID);
+    const posts = await getFollowingPosts(userID);
     if (posts.length === 0) {
       res.status(404).send('No posts found');
       return;
     }
     res.json(posts);
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error('Error fetching following posts:', error);
     res.status(500).send('Internal server error');
   }
 });
@@ -554,7 +559,7 @@ async function searchPostsByContent(searchQuery) {
 app.get('/search', async (req, res) => {
   try {
     const content = req.query.content;
-    console.log("!!!!!",content);
+    //console.log("!!!!!",content);
     const posts = await searchPostsByContent(content);
     if (posts.length === 0) {
       res.status(404).send('No posts found');
