@@ -275,8 +275,8 @@ const UserDatabase = () => {
 							<strong>Self post:</strong> {user.self_post.join(',' )}
 	  						<br />		
 					
-							<button onClick={() => handleUpdate(user)}>Update</button>
-	  						<button onClick={() => handleDelete(user.userID)}>Delete</button>
+							{user.userID !== '0' && (<button onClick={() => handleUpdate(user)}>Update</button>)}
+	  						{user.userID !== '0' && (<button onClick={() => handleDelete(user.userID)}>Delete</button>)}
 						</li>
   					))}
 		  		</ul>
