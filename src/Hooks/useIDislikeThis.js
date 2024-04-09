@@ -13,7 +13,7 @@ const useIDislikeThis = (id, userID) => {
 				setUserDislike(data.dislikePost.includes(id.toString()))
 		)
 	})
-	//console.log(userDislikes)
+	console.log(userDislikes)
 	return userDislikes
 }
 

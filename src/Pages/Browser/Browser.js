@@ -6,7 +6,7 @@ import './Browser.scss'
 const Browser = () => {
 	const [postData, setPostData] = useState(null)
 	useEffect(() => {
-        	fetch('http://localhost:3001/browser')
+        	fetch('http://localhost:3001/listpost')
             	.then((response) => {
                 	if (!response.ok) {
                     	  throw new Error('Network response was not ok')

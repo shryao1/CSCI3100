@@ -38,7 +38,7 @@ const AppProvider = ({ children }) => {
 		}
 		fetch()
 
-		const intervalId = setInterval(fetch, 100000)
+		const intervalId = setInterval(fetch, 1000)
 		return () => {
 			isMounted = false
 			clearInterval(intervalId)
