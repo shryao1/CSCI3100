@@ -47,7 +47,7 @@ function App() {
 								// } isPage />
 								<Admin/>
 							} />
-							<Route path="/followList/:userID" element={
+							<Route path="/followList/:userID/:visituserID" element={
 								<PageWrapper component={
 									<FollowList />
 								} isPage />
