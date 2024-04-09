@@ -322,7 +322,7 @@ app.post('/register', async (req, res) => {
 // handle admin: list all users
 app.get("/listuser", async (req, res) => {
   try {
-    let userData = await User.find({}, 'userID username password followers following likePost dislikePost favorite introduction').lean();
+    let userData = await User.find({}, 'userID username password followers following').lean();
 
 
     for (let user of userData) {
@@ -371,46 +371,6 @@ app.post('/createuser', async (req, res) => {
 
 
 });
-
-
-// handle admin: update a user
-app.post('/updateuser', async (req, res) => {
-  
-    try {
-      const {userID, username, password, followers, following, likePost, dislikePost, favorite, introduction} = req.body;
-  
-      const updatedUser = await User.findOneAndUpdate(
-        { userID: userID }, // Find a document with this userID
-        {
-          username: username,
-          password: password,
-          followers: followers,
-          following: following,
-          likePost: likePost,
-          dislikePost: dislikePost,
-          favorite: favorite,
-          introduction: introduction,
-        },
-        {
-          new: true, 
-          runValidators: true, 
-        }
-      );
-  
-      if(updatedUser) {
-        res.status(200).json(updatedUser); 
-      } else {
-        res.status(404).json({ message: 'User not found' });
-      }
-    } catch (error) {
-      console.error('Error during updating user', error); 
-      res.status(400).json({ message: error.message });
-    }
-  
-  
-  });
-
-
 
 // get user information associated with the postID
 app.get('/userinfo/:postID', async (req, res) => {
@@ -822,61 +782,6 @@ app.get('/profilePosts/:userID', async (req, res) => {
         }
     });
 
-    app.get('/getfollowers/:userID', async (req, res, next) => {
-      try {
-        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
-        const followerList = await User.findOne({ userID })
-                                    .select('followers')
-                                    .exec();
-        const followers = followerList.followers;
-  
-  
-        const followerDetails = await Promise.all(followers.map(async (followerID) => {
-          const followerProfile = await User.findOne({ 'userID': followerID })
-                                              .select('avatar username')
-                                              .lean()
-                                              .exec();
-          return {
-              ...followerProfile, // Spread avatar and username
-              _id: followerID // Add _id property to match the original followerID
-          };
-      }));
-      console.log(followers);
-      res.json(followerDetails);
-  
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        res.status(500).send("Internal server error");
-      }
-    });
-      
-    app.get('/getfollowings/:userID', async (req, res, next) => {
-      try {
-        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
-        const followingList = await User.findOne({ userID })
-                                    .select('following')
-                                    .exec();
-        const followings = followingList.following;
-  
-  
-        const followingDetails = await Promise.all(followings.map(async (followingID) => {
-          const followingProfile = await User.findOne({ 'userID': followingID })
-                                              .select('avatar username')
-                                              .lean()
-                                              .exec();
-          return {
-              ...followingProfile, // Spread avatar and username
-              _id: followingID // Add _id property to match the original followerID
-          };
-      }));
-      console.log(followings);
-      res.json(followingDetails);
-  
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        res.status(500).send("Internal server error");
-      }
-    });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
