@@ -1,18 +1,15 @@
 import ItemMenuTweetsProfile from './ItemMenuTweetsProfile/ItemMenuTweetsProfile'
 import { ListOptionsMenu } from './ListOptions'
-
+import React from 'react'
 import './MenuTweetsProfile.scss'
 
-const MenuTweetsProfile = () => {
+const MenuTweetsProfile = ({ handlePostButtonClick, handleFavoriteButtonClick }) => {
 	return (
-		<div className="menuTweetsProfile__container">
-			{ListOptionsMenu?.map((option, index) => {
-				return (
-					<ItemMenuTweetsProfile key={index} option={option} />
-				)
-			})}
-		</div>
+		<div>
+			<button onClick={handlePostButtonClick}>Show All Posts</button>
+			<button onClick={handleFavoriteButtonClick}>Show Favorite Posts</button>
+	  </div>
 	)
 }
-
+  
 export default MenuTweetsProfile
