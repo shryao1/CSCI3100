@@ -5,20 +5,10 @@ export const AppContext = createContext({})
 
 const AppProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
-	const [posts, setPosts] = useState([])
-	const [visitUserID, setVisitUserID] = useState(localStorage.getItem('visitUserID') || null)
-	
-
-	// Function to manually refresh the context data
-	const refreshData = async () => {
-		try {
-			const userData = await myGetUser(visitUserID)
-			const postsData = await getAllPost()
-			if (userData) setUser(userData)
-			if (postsData) setPosts(postsData)
-		} catch (error) {
-			console.error('Error refreshing data:', error)
-		}
+	const [posts, setPosts] = useState(null)
+	const initialState = {
+		user, setUser,
+		posts, setPosts
 	}
 
 	useEffect(() => {
@@ -46,7 +36,7 @@ const AppProvider = ({ children }) => {
 	}, [])
 
 	return (
-		<AppContext.Provider value={initialState}>
+		<AppContext.Provider value={initialState} >
 			{children}
 		</AppContext.Provider>
 	)

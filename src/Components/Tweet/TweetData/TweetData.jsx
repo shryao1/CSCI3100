@@ -69,9 +69,9 @@ const TweetData = ({
 				<div className="tweet__container-tweetData" >
 					{userInfo && (
     						<img
-        					// src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userInfo.avatar.data))}`}
-        					// alt="User.Avatar"
-							// style={{ width: '48px', height: '48px' }}
+        					src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userInfo.avatar.data))}`}
+        					alt="User.Avatar"
+							style={{ width: '48px', height: '48px' }}
     						/>
 					)}
 					<div className="tweet__container-photo" >
