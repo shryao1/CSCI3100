@@ -37,7 +37,7 @@ const TweetData = ({
 			})
 			.then((data) => {
 				setUserInfo(data)
-				console.log('here is test',data)
+				//console.log('here is test',data)
 			})
 			.catch((error) => {
 				console.error('Error fetching user data:', error)
