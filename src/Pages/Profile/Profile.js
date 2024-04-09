@@ -12,13 +12,16 @@ const Profile = () => {
 	const { user, setUser, posts, setPosts, setVisitUserID } = useContext(AppContext)
 	// const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState(false)
+	const [viewFavorite, setViewFavorite] = useState(false)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
 
 	useEffect(() => {
 		setVisitUserID(visituserID)
+		
 		const fetchPosts = async () => {
 			console.log('Fetching posts for user:', visituserID)
+
 			if (visituserID) {
 				localStorage.setItem('visitUserID', visituserID)
 				try {
@@ -26,6 +29,7 @@ const Profile = () => {
 					if (!response.ok) throw new Error('Network response was not ok')
 					const data = await response.json()
 					setPosts(data)
+					console.log(data)
 				} catch (error) {
 					console.error('Error fetching user data:', error)
 				}
@@ -33,16 +37,47 @@ const Profile = () => {
 				console.warn('Invalid user ID')
 			}
 		}
-		fetchPosts()
+
+		const fetchfavoritepost = async () => {
+
+			if (visituserID) {
+				localStorage.setItem('visitUserID', visituserID)
+				try {
+					const response = await fetch(`http://localhost:3001/profileFavourites/${visituserID}`)
+					console.log('1111111',response)
+					if (!response.ok) throw new Error('Network response was not ok')
+					const data = await response.json()
+					setPosts(data)
+					console.log(data)
+				} catch (error) {
+					console.error('Error fetching user data:', error)
+				}
+			} else {
+				console.warn('Invalid user ID')
+			}
+		}
+
+		if (viewFavorite) fetchfavoritepost()
+		else fetchPosts()
 		
-	}, [visituserID]) // Added visituserID as a dependency
+	  }, [visituserID, viewFavorite])
+
+
+		
 
 	const handleButtonClick = () => {
 		setIsFollowing(prevState => !prevState)
-	}
+	  }
+
+	const handlePostButtonClick = () => {
+		setViewFavorite(false)
+	  }
 	
-	// console.log(appContext?.user)
-	
+	const handleFavoriteButtonClick = () => {
+		setViewFavorite(true)
+	  }
+	console.log('loook', viewFavorite)
+
 	return (
 		<div className="profile__container">
 			{user &&
@@ -54,7 +89,10 @@ const Profile = () => {
 						isFollowing={isFollowing}
 						handleButtonClick={handleButtonClick}
 					/>
-					<MenuTweetsProfile />
+					<MenuTweetsProfile 
+						handlePostButtonClick={handlePostButtonClick}
+						handleFavoriteButtonClick={handleFavoriteButtonClick}
+					/>
 					<div className="content__options" style={{ marginLeft: '10px' }}>
 						<div className="home__tweetsList">
 							{Array.isArray(posts) && posts.map((post) => (
