@@ -15,7 +15,7 @@ const corsOptions ={
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
-app.use(express.json()); // This should be at the top, before defining your routes
+app.use(express.json({ limit: '50mb' }));
 
 
 // Connect to MongoDB
@@ -658,7 +658,7 @@ app.post('/createpost', async (req, res) => {
 app.post('/updateprofile', async (req, res) => {
   
     try {
-      const {userID, username, password, introduction,avatar} = req.body;
+      const {userID, username, password, introduction} = req.body;
   
       const updatedUser = await User.findOneAndUpdate(
         { userID: userID }, // Find a document with this userID
@@ -666,7 +666,7 @@ app.post('/updateprofile', async (req, res) => {
           username: username,
           password: password,
           //background_image: background_image,
-          avatar: avatar,
+          //avatar: avatar,
           introduction: introduction,
         },
         {
@@ -690,6 +690,21 @@ app.post('/updateprofile', async (req, res) => {
 
 
 
+
+// test avatar
+app.post('/upload-avatar', async (req, res) => {
+  const { userID, avatar } = req.body;
+
+  try {
+      const user = await User.findOne({ userID });
+      user.avatar = Buffer.from(avatar, 'base64');
+      await user.save();
+      res.send({ message: 'Avatar updated successfully' });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+  }
+});
 
 
 
