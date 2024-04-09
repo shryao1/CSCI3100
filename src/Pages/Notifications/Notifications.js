@@ -1,59 +1,59 @@
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import NavNotifications from '../../Components/NavPages/NavNotifications/NavNotifications'
 import NotificationItem from '../../Components/NotificationItem/NotificationItem'
-import { useParams } from 'react-router-dom'
-
 import './Notifications.scss'
 
-const user = {
-	'user_photo': 'https://sse.sysu.edu.cn/sites/sse.prod.dpcms4.sysu.edu.cn/files/styles/image_style_2/public/lyu.jpg?itok=2d4pP5Gw',
-	'image_background': 'https://www.xtrafondos.com/wallpapers/vertical/noche-en-las-montanas-con-planetas-de-fondo-7980.jpg',
-	'name': 'User Name Logged',
-	'username': '@username',
-	'description': 'user description biography',
-	'joined_date': 'May 2019',
-	'count_tweets': 33,
-	'following': 49,
-	'followers': 8,
-	'notifications': [
-		{
-			'id': '1',
-			'user_photo': 'https://sse.sysu.edu.cn/sites/sse.prod.dpcms4.sysu.edu.cn/files/styles/image_style_2/public/lyu.jpg?itok=2d4pP5Gw',
-			'name': 'Working Michael',
-			'username': '@wkmc',
-			'time': '10m',
-			'text_notification': ' Liked your Post @3100',
-			'icon_notification': 'https://icones.pro/wp-content/uploads/2021/04/icone-noire-jaune.png'
-		},
-		{
-			'id': '2',
-			'user_photo': 'https://static.aminer.cn/upload/avatar/2014/1150/392/53f48d40dabfaea7cd1d1cba.jpeg',
-			'name': 'Irwin King',
-			'username': '@IrK',
-			'time': '10m',
-			'text_notification': ' becomes your New Follower!',
-			'icon_notification': undefined
-		},
-		{
-			'id': '3',
-			'user_photo': 'https://proj.cse.cuhk.edu.hk/csci3100/assets/img/yxwan.jpg',
-			'name': 'TA Yuxuan',
-			'username': '@Yuxuan',
-			'time': '10m',
-			'text_notification': ' Commented your Post @1234',
-			'icon_notification': undefined
-		}
-	]
-}
-
 const Notifications = () => {
-	const { userID } = useParams() // fetch the passed-in userID parameters from the search path
+	const { userID } = useParams() // Use the passed-in userID parameter from the search path
+	const [notifications, setNotifications] = useState([])
+
+	useEffect(() => {
+		const fetchNotifications = async () => {
+			try {
+				const response = await fetch(`http://localhost:3001/notifications/${userID}`)
+				if (!response.ok) throw new Error('Failed to fetch notifications')
+				let data = await response.json()
+				// Fetch usernames for each notification
+				const notificationsWithUsernames = await Promise.all(data.map(async (notification) => {
+					const userResponse = await fetch(`http://localhost:3001/user/username/${notification.sender}`)
+					if (!userResponse.ok) {
+						throw new Error('Failed to fetch username')
+					}
+					const userData = await userResponse.json()
+					return {
+						...notification,
+						username: userData.username, // Assuming the backend endpoint returns { username: '...' }
+					}
+				}))
+				console.log(notificationsWithUsernames)
+				setNotifications(notificationsWithUsernames)
+			} catch (error) {
+				console.error('Error fetching notifications:', error)
+			}
+		}
+
+		fetchNotifications()
+	}, [userID])
 
 	return (
 		<div className="notifications__container">
 			<NavNotifications />
 			<div className="notificationItem__notificationsList">
-				{user?.notifications?.map((notification, id) => {
-					return <NotificationItem key={id} notification={notification} owner={user.username === notification.username} />
+				{notifications.map((notification, index) => {
+					return (
+						<NotificationItem
+							key={index}
+							notification={{
+								...notification,
+								text_notification: notification.content,
+								name: '@' + notification.sender + '  ' + notification.username + '  ', // Assuming sender is the name, adjust if it's an ID
+								// username: notification.username, // Prefix with '@', adjust according to your data
+								// You may need to adjust icon_notification based on your logic or add it in your fetch
+							}}
+							owner={userID === notification.receiver}
+						/>
+					)
 				})}
 			</div>
 		</div>

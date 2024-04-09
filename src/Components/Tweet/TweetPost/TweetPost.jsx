@@ -1,5 +1,6 @@
 import './TweetPost.scss'
 import { AppContext } from '../../../Context/AppContext'
+import React, { useState, useEffect } from 'react'
 
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 
@@ -27,6 +28,33 @@ const TweetPost = ({
 	},
 	post,
 }) => {
+	const [comment, setComment] = useState('')
+	const [comments, setComments] = useState([])
+	const [showComments, setShowComments] = useState(false) // State to toggle comment visibility
+
+	useEffect(() => {
+		fetch(`http://localhost:3001/getcomments/${postID}`)
+			.then(response => response.json())
+			.then(data => setComments(data))
+	}, [postID])
+
+	const sendComment = () => {
+		const commentData = { postID, content: comment, timestamp: new Date().toISOString() }
+		const CommenterID = localStorage.getItem('userTwitterClone')
+		fetch(`http://localhost:3001/sendcomment/${CommenterID}/${postID}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(commentData),
+		})
+			.then(response => response.json())
+			.then(data => {
+				setComments(prev => [...prev, data])
+				setComment('')
+			})
+	}
+	
 	const uint8ArrayToBase64 = (uint8Array) => {
 		let binary = ''
 		uint8Array.forEach((byte) => {
@@ -38,50 +66,45 @@ const TweetPost = ({
 	return (
 		<div className="Tweet__container" style={{ marginBottom: '10px' }}>
 			<TweetData post={post} />
-			<div className="tweet__content" style = {{marginLeft : '50px'}}>{content}</div>
+			<div className="tweet__content" style={{marginLeft : '50px'}}>{content}</div>
 			<br></br>
 			{attachment && (
 				<div className="tweet__attachment">
-					{/* Assuming attachment is an image */}
-					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{ 
-    					maxWidth: '80%', // Ensure the image doesn't exceed the container's width
-    					height: 'auto',   // Allow the height to adjust proportionally
-    					width: '100%',    // Take up the full width of its container
-    					marginLeft: '50px' // Optional, adjust as needed
-  							}}/>
+					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{width: 450, marginLeft: '50px'}}/>
 				</div>
 			)}
 			<div className="content__options">
 				<div className="content__option-right">
-					<div className="option comments" onClick={() => console.log('click comments')} >
+					<div className="option comments" onClick={() => setShowComments(!showComments)} >
 						<i>
 							<ChatBubbleOutlineOutlinedIcon />
 						</i>
 					</div>
-					<BtnLike
-						likes={like}
-						id={postID}
-						showDetail
-					/>
-					<BtnDislike
-						dislikes={dislike}
-						id={postID}
-						showDetail
-					/>
-					<div className="option share" onClick={() => console.log('click share')} >
+					<BtnLike likes={like} id={postID} showDetail />
+					<BtnDislike dislikes={dislike} id={postID} showDetail />
+					<div className="option share" onClick={() => setShowComments(!showComments)} >
 						<i>
 							<IosShareOutlinedIcon />
 						</i>
 					</div>
-					{/* {useIsMyTweet(username, appContext?.user?.username) &&
-						<div className="option statistics" onClick={() => console.log('click statistics')} >
-							<i>
-								<BarChartOutlinedIcon />
-							</i>
-						</div>
-					} */}
 				</div>
 			</div>
+			{showComments && ( // This part will now toggle based on `showComments` state
+				<div className="tweet__comments">
+					<input
+						type="text"
+						value={comment}
+						onChange={(e) => setComment(e.target.value)}
+						placeholder="Write a comment..."
+					/>
+					<button onClick={sendComment}>Send</button>
+					{comments.map((comment, index) => (
+						<div key={index} className="tweet__comment">
+							{comment.content}
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	)
 }
