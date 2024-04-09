@@ -29,11 +29,11 @@ const NavProfile = ({
 	return (
 		<div className="container__navProfile">
 			<section className="header__navProfile">
-				<div className="goBack">
+				{/* <div className="goBack">
 					<i>
 						<ArrowBackOutlinedIcon />
 					</i>
-				</div>
+				</div> */}
 				<div>
 					<h2 style={{ marginBottom: '1px' }}>{username}</h2> {/* Add margin-bottom here */}
 					<span>{self_post.length} Tweets</span>
@@ -62,25 +62,12 @@ const NavProfile = ({
 				{judge && (
 					<div className='btn__editProfile-container'>
 						<div className='btn_editProfile-content'>
-							<span>Edit Profile</span>
+							<span onClick={() => navigate(`/profileedit/${userID}`)}>Edit Profile</span>
+
 						</div>
 					</div>
 				)}
-				{/* <div className='btn__followProfile-container'>
-  					<div className='btn_editProfile-content' onClick={handleButtonClick}>
-    					<span>{isFollowing ? 'Unfollow' : 'Follow'}</span>
- 	 				</div>
-				</div>
-				 */}
-				{/* <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-					<div className='btn__editProfile-container'>
-						<Button variant="contained"
-                	style={{ backgroundColor: isFollowing ? yellow[800] : purple[500], color: 'white'}}
-                	onClick={handleButtonClick}>
-                 		{isFollowing ? 'Unfollow' : 'Follow'}
-                	</Button>
-    				</div>
-				</div> */}
+
 				{!judge && (
     				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         			<div className='btn__editProfile-container'>
@@ -105,12 +92,21 @@ const NavProfile = ({
 					<div className='main__followBtns'>
 						<div>
 							<span className='followBtn__number'>{following.length}</span>
-							<span className='followBtn__text'onClick={() => navigate('/followList')}>Following</span>
+							<span className='followBtn__text'  onClick={() => {
+								localStorage.setItem('following', 0)
+								navigate(`/followList/${localStorage.getItem('userTwitterClone')}/${localStorage.getItem('visitUserID')}`)
+							}
+							}
+							>Following</span>
 						</div>
 
 						<div>
 							<span className='followBtn__number'>{followers.length}</span>
-							<span className='followBtn__text'onClick={() => navigate('/followList')}>Followers</span>
+							<span className='followBtn__text' onClick={() => {
+								localStorage.setItem('following', 1)
+								navigate(`/followList/${localStorage.getItem('userTwitterClone')}/${localStorage.getItem('visitUserID')}`)
+							}
+							}>Followers</span>
 						</div>
 					</div>
 				</div>

@@ -18,6 +18,7 @@ import Profile from '../Pages/Profile/Profile'
 import PostDetails from '../Pages/PostDetails/PostDetails'
 import Admin from '../Pages/Admin/Admin'
 import FollowList from '../Pages/FollowList/FollowList'
+import EditProfile from '../Pages/Profile/EditProfile'
 
 import AppProvider from '../Context/AppContext'
 import MenuActiveProvider from '../Context/menuActive'
@@ -47,7 +48,7 @@ function App() {
 								// } isPage />
 								<Admin/>
 							} />
-							<Route path="/followList/:userID" element={
+							<Route path="/followList/:userID/:visituserID" element={
 								<PageWrapper component={
 									<FollowList />
 								} isPage />
@@ -55,6 +56,11 @@ function App() {
 							<Route path="/profile/:userID/:visituserID" element={
 								<PageWrapper component={
 									<Profile />
+								} isPage />
+							} />
+							<Route path="/profileedit/:userID" element={
+								<PageWrapper component={
+									<EditProfile />
 								} isPage />
 							} />
 							<Route path="/notifications/:userID" element={

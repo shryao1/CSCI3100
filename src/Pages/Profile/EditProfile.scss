@@ -1,0 +1,65 @@
+@import '../../shared/Styles/colors';
+
+.profileEdit {
+    padding: 20px;
+    border-bottom: 1px solid $border_color_light;
+}
+
+.profileEdit__header h2 {
+    color: #6E1E6F;
+    margin-bottom: 15px;
+}
+
+h1, h2 {
+    color: #6E1E6F;
+    margin-bottom: 20px;
+}
+
+
+.profileEdit__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Adjust the height as needed */
+}
+
+.profileEdit__imageUpload {
+    /* Adapted styling for image upload section */
+}
+
+.profileEdit__form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.profileEdit__footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+    border-top: 1px solid $border_color_light;
+}
+
+/* Input styles adapted from your description */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.input-container label {
+    color: $color_text_gray;
+}
+
+/* Button styles - Assuming a base class exists */
+.button--primary {
+    background-color: purple;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+
+
