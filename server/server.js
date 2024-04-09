@@ -614,6 +614,48 @@ app.post('/createpost', async (req, res) => {
 //   }
 // });
 
+// handle update profile: update a user's profile
+app.post('/updateprofile', async (req, res) => {
+  
+    try {
+      const {userID, username, password, background_image, avatar, introduction} = req.body;
+  
+      const updatedUser = await User.findOneAndUpdate(
+        { userID: userID }, // Find a document with this userID
+        {
+          username: username,
+          password: password,
+          background_image: background_image,
+          avatar: avatar,
+          introduction: introduction,
+        },
+        {
+          new: true, 
+          runValidators: true, 
+        }
+      );
+  
+      if(updatedUser) {
+        res.status(200).json(updatedUser); 
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    } catch (error) {
+      console.error('Error during updating user', error); 
+      res.status(400).json({ message: error.message });
+    }
+  
+  
+  });
+
+
+
+
+
+
+
+
+
 app.get('/profile/:userID', async (req, res, next) => {
   try {
     const { userID } = req.params; // Use req.params to get the userID from the URL parameter
