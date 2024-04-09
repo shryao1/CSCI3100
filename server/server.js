@@ -420,6 +420,73 @@ app.get('/explore', async (req, res) => {
   }
 });
 
+//browser the post
+async function getFollowingPosts(userId) {
+  try {
+    // First, find the user's document to get the list of users they are following
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Then, fetch posts of the users the current user is following
+    const followingPosts = await Post.find({ userID: { $in: user.following } })
+      .sort({ post_time: -1 }) // Sorting by post time in descending order
+      .populate('userID'); // Populate user details in the posts
+
+    return followingPosts;
+  } catch (error) {
+    console.error('Error fetching following posts:', error);
+    throw error; // Rethrow the error for handling by the caller
+  }
+};
+app.get('/browser', async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const posts = await getFollowingPosts(userId);
+    if (posts.length === 0) {
+      res.status(404).send('No posts found');
+      return;
+    }
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
+//search function
+async function searchPostsByContent(searchQuery) {
+  try {
+    // Ensure that the 'content' field has a text index
+    await Post.createIndexes();
+
+    // Perform search on the 'content' field using regex
+    const matchPosts = await Post.find({ content: { $regex: searchQuery, $options: 'i' } })
+      .populate('userID'); // Populate user details in the posts
+
+    return matchPosts;
+  } catch (error) {
+    console.error('Error searching posts:', error);
+    throw error; // Rethrow the error for handling by the caller
+  }
+}
+app.get('/search', async (req, res) => {
+  try {
+    const content = req.query.content;
+    console.log("!!!!!",content);
+    const posts = await searchPostsByContent(content);
+    if (posts.length === 0) {
+      res.status(404).send('No posts found');
+      return;
+    }
+    res.json(posts);
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 // handle admin: list all posts
 app.get('/listpost', async (req, res) => {
   try {

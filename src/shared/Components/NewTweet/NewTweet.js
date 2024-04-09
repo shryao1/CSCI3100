@@ -44,7 +44,7 @@ const NewTweet = ({
 	}
 
 	function handleButtonClick() {
-		fileInputRef.current.click() // 当按钮被点击时，触发文件输入框的点击事件
+		fileInputRef.current.click()
 	  }
 	
 	return (
