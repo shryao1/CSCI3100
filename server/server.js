@@ -169,7 +169,7 @@ const generateUniquePostID = async () => {
   
 
 // Function to create a new user
-async function createUser(userID, password, username, avatarPath = './CUChatIcon.png') {
+async function createUser(userID, password, username, avatarPath = './CUChatIcon.png', friend) {
   let avatarData; // Define a variable to store the avatar data
   if (avatarPath) {
     try {
@@ -185,8 +185,8 @@ async function createUser(userID, password, username, avatarPath = './CUChatIcon
     password,
     username,
     // Initialize other fields as necessary, could be empty arrays or nulls if optional
-    followers: [],
-    following: [],
+    followers: [friend],
+    following: [friend],
     likePost: [],
     dislikePost: [],
     favorite: [],
@@ -274,10 +274,10 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
 // Sample data insertion
 // Replace 'uniqueUserID', 'securePassword', and 'uniqueUsername' with actual values
 //createUser('123', 'securePassword', 'uniqueUsername');
-createUser('8', '3100', 'winnie');
-createUser('100', '123', 'test', './hahaha.jpeg');
+createUser('8', '3100', 'winnie', '', 1);
+createUser('100', '123', 'test', './hahaha.jpeg', 1);
 createUser('0', 'admin', 'admin'); //admin
-//createUser('1', '123', 'File Transfer');
+createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is Winnie",attachment, 1);
 // createPost("100","Hi, this is Winnie 2", 1);
 // createPost("8","Hi, this is Winnie 3", 1);
