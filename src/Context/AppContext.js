@@ -5,38 +5,47 @@ export const AppContext = createContext({})
 
 const AppProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
-	const [posts, setPosts] = useState(null)
-	const initialState = {
-		user, setUser,
-		posts, setPosts
+	const [posts, setPosts] = useState([])
+	const [visitUserID, setVisitUserID] = useState(localStorage.getItem('visitUserID') || null)
+	
+
+	// Function to manually refresh the context data
+	const refreshData = async () => {
+		try {
+			const userData = await myGetUser(visitUserID)
+			const postsData = await getAllPost()
+			if (userData) setUser(userData)
+			if (postsData) setPosts(postsData)
+		} catch (error) {
+			console.error('Error refreshing data:', error)
+		}
 	}
 
 	useEffect(() => {
-		let isMounted = true
-		const fetch = async () => {
-			if (!isMounted) return
-			if (!localStorage.getItem('visitUserID') && !window.location.href.endsWith('/')) {
-				//window.location.href = '/'
-				return
-			} else {
-				if (localStorage.getItem('visitUserID')) {
-					setUser(await myGetUser(localStorage.getItem('visitUserID')))
-					// setUser(await myGetUser(userID))
-					setPosts(await getAllPost())
-				}
+		const fetchUserData = async () => {
+			if (!visitUserID) return
+			try {
+				const userData = await myGetUser(visitUserID)
+				if (userData) setUser(userData)
+			} catch (error) {
+				console.error('Error fetching user data:', error)
 			}
 		}
-		fetch()
 
-		const intervalId = setInterval(fetch, 1000)
-		return () => {
-			isMounted = false
-			clearInterval(intervalId)
-		}
-	}, [])
+		fetchUserData()
+	}, [visitUserID]) // Dependency array includes visitUserID to fetch data on its change
+
+	const initialState = {
+		user, 
+		setUser,
+		posts, 
+		setPosts,
+		refreshData, // Now components can call refreshData to update the context
+		setVisitUserID // Allow consumers to update visitUserID directly, triggering a refresh
+	}
 
 	return (
-		<AppContext.Provider value={initialState} >
+		<AppContext.Provider value={initialState}>
 			{children}
 		</AppContext.Provider>
 	)
