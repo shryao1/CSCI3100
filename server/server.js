@@ -920,6 +920,43 @@ app.get('/profilePosts/:userID', async (req, res) => {
       }
     });
 
+    app.get('/profileFavourites/:userID', async (req, res) => {
+      try {
+        const { userID } = req.params;
+
+        const user = await User.findOne({ userID }).select('favorite').exec();
+        // console.log('here is test',user);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Fetch favorite posts details
+        const favoritePostList = user.favorite; // Assuming favorite is an array of postIDs
+        console.log('here is test', favoritePostList);
+        const postData = [];
+
+        for (let postID of favoritePostList) {
+            const post = await Post.findOne({ postID }).select('username postID content attachment userID like dislike visible post_time').exec();
+            if (post) {
+                postData.push(post);
+            }
+        }
+        const avatar = await User.find({ 'userID': userID }, 'avatar').lean();
+        const userObject = postData; // Convert Mongoose document to plain JavaScript object
+        userObject.avatar = avatar;
+        console.log(userObject);
+        if (postData) {
+          res.json(userObject);
+        } else {
+          next(); // Move to the next middleware if the user is not found
+        }
+
+      }catch (error) {
+          console.error("Error fetching post data:", error);
+          res.status(500).send("Internal server error");
+        }
+      });
+      
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
