@@ -14,6 +14,14 @@ import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
 
 import './InsideMessage.scss'
 
+const uint8ArrayToBase64 = (uint8Array) => {
+	let binary = ''
+	uint8Array.forEach((byte) => {
+		binary += String.fromCharCode(byte)
+	})
+	return btoa(binary)
+}
+
 const InsideMessage = () => {
 	const { userMessage, setUserMessage } = useContext(MessageContext)
 	const { userID, chatWithID } = useParams() // Get userID and chatWithID from URL
@@ -23,7 +31,7 @@ const InsideMessage = () => {
 
 	// Assume userMessage structure includes selectedUserId and chatWith
 	const { messages } = userMessage[0].chat
-	console.log(messages)
+	const { user_photo } = userMessage[0]
 
 	const sendMessage = () => {
 		if (!input.trim()) return
@@ -46,8 +54,10 @@ const InsideMessage = () => {
 			})
 			.catch(console.error)
 	}
-
+	const photoSrc = uint8ArrayToBase64(new Uint8Array(user_photo.data))
+	
 	return (
+	
 		<div className="insideMessage__container">
 			<MessageProfile post={userMessage[0]} />
 			<div className="container__messageList">
@@ -55,7 +65,11 @@ const InsideMessage = () => {
 					<div key={id} className={`messageList__container ${message.sender === userID ? 'userMessage' : 'friendMessage'}`}>
 						<div className="messageList__photo-text">
 							<div className="messageList__photo">
-								<PhotoUser url={userMessage[0].user_photo} size="40" />
+								<img
+									src={`data:image/jpeg;base64,${photoSrc}`}
+									alt="User.Avatar"
+									style={{ width: '48px', height: '48px' }}
+								/>
 							</div>
 							<div className="messageList__text">
 								{message.text}

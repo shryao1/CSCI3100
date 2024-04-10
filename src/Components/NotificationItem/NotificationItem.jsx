@@ -23,7 +23,8 @@ const NotificationItem = ({
 	owner
 	
 }) => {
-	//console.log('!!!!!!!', NotificationItem)
+	const photoSrc = uint8ArrayToBase64(new Uint8Array(user_photo.data))
+
 	return (
 		<div className="notification__container">
 			<div className="notification__container-icon">
@@ -32,7 +33,7 @@ const NotificationItem = ({
 			<div className="notification__container-content">
 				<div className="notification__container-photo">
 					<img
-        			src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(user_photo))}`}
+        			src={`data:image/jpeg;base64,${photoSrc}`}
         			alt="User.Avatar"
 						style={{ width: '48px', height: '48px' }}
     				/>
