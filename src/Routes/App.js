@@ -23,6 +23,7 @@ import EditProfile from '../Pages/Profile/EditProfile'
 import AppProvider from '../Context/AppContext'
 import MenuActiveProvider from '../Context/menuActive'
 import RetweetProvider from '../Context/RetweetContext'
+import VisitorHome from '../Pages/Home/Visitorhome'
 import './App.scss'
 
 function App() {
@@ -48,6 +49,11 @@ function App() {
 									// 	<Admin />
 									// } isPage />
 									<Admin/>
+								} />
+								<Route path="/visitor" element={
+									<PageWrapper component={
+										<VisitorHome />
+									} isVisitorPage />
 								} />
 								<Route path="/followList/:userID/:visituserID" element={
 									<PageWrapper component={

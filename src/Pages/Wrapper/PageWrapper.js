@@ -6,6 +6,7 @@ import Layout from '../../Components/Layout/Layout'
 import LayoutLogin from '../../Components/Layout/LayoutLogin'
 import LayoutMessage from '../../Components/Layout/LayoutMessage'
 import LayoutDefault from '../../Components/Layout/LayoutDefault'
+import Layoutvisitor from '../../Components/Layout/Layoutvisitor'
 
 import NewTweet from '../../shared/Components/NewTweet/NewTweet'
 import PopUp from '../../shared/Components/PopUp/Popup'
@@ -15,7 +16,8 @@ const PageWrapper = ({
 	isPage,
 	isMessagePage,
 	isLoginPage,
-	isDefaultPage
+	isDefaultPage,
+	isVisitorPage
 }) => {
 	const menuContext = useContext(MenuActiveContext)
 
@@ -45,6 +47,11 @@ const PageWrapper = ({
 				<LayoutDefault>
 					{Component}
 				</LayoutDefault>
+			}
+			{isVisitorPage &&
+				<Layoutvisitor>
+					{Component}
+				</Layoutvisitor>
 			}
 		</>
 	)
