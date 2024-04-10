@@ -37,7 +37,6 @@ const ProfileEdit = () => {
 					throw new Error('Failed to fetch user data')
 				}
 				const data = await response.json()
-				console.log(data)
 				setUserData(data)
 			} catch (error) {
 				console.error('Error fetching user data:', error)
@@ -54,6 +53,7 @@ const ProfileEdit = () => {
 			...prevState,
 			[name]: value
 		}))
+		console.log(value)
 	}
 
 	const handleUpdate = (user) => {
@@ -87,102 +87,6 @@ const ProfileEdit = () => {
   
 
 
-
-	const uploadAvatar = (base64String, userID) => {
-		// const fileInput = document.getElementById('fileInput1')
-		// if (fileInput.files.length > 0) {
-		// 	const file = fileInput.files[0]
-		// 	console.log('File selected by the user:', file.name)
-		// 	const formData = new FormData()
-		// 	formData.append('avatar', file)
-
-		// To display the image:
-		//const reader = new FileReader()
-		//reader.readAsDataURL(file) // Converts the file to a data URL and reads it
-		fetch('http://localhost:3001/upload-avatar', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json',},
-			body: JSON.stringify({ avatar: base64String, userID: userID })
-		}).then(response => {
-			if (!response.ok) throw new Error('Upload failed')
-			return response.json()
-		})
-			.then(result => {
-				alert('Success')
-				navigate(`/profile/${userData.userID}/${userData.userID}`)})
-			.catch(error => console.error('Error:', error))
-	}
-	const uploadBG = (base64String, userID) => {
-		// const fileInput = document.getElementById('fileInput1')
-		// if (fileInput.files.length > 0) {
-		// 	const file = fileInput.files[0]
-		// 	console.log('File selected by the user:', file.name)
-		// 	const formData = new FormData()
-		// 	formData.append('avatar', file)
-
-		// To display the image:
-		//const reader = new FileReader()
-		//reader.readAsDataURL(file) // Converts the file to a data URL and reads it
-		fetch('http://localhost:3001/upload-background', {
-			method: 'POST',
-			headers: {'Content-Type': 'application/json',},
-			body: JSON.stringify({ background_image: base64String, userID: userID })
-		}).then(response => {
-			if (!response.ok) throw new Error('Upload failed')
-			return response.json()
-		})
-			.then(result => {
-				alert('Success')
-				navigate(`/profile/${userData.userID}/${userData.userID}`)})
-			.catch(error => console.error('Error:', error))
-	}
-
-  
-	// const handleFileUpload = () => {
-	// 	const fileInput = document.getElementById('fileInput1')
-	// 	if (fileInput.files.length > 0) {
-	// 		const file = fileInput.files[0]
-	// 		const reader = new FileReader()
-	// 		reader.onload = function(e) {
-	// 			const arrayBuffer = e.target.result
-	// 			//let readyavatar = uint8ArrayToBase64(arrayBuffer)
-	// 			console.log(arrayBuffer)
-	// 			setUserData(prevState => ({...prevState,[userData.avatar.data]: arrayBuffer}))
-	// 			console.log(userData.avatar.data)
-	// 		}
-	// 		reader.readAsArrayBuffer(file)
-	// 	}
-	// }
-	const convertToBase64 = (userID) => {
-		const fileInput = document.getElementById('avatarInput')
-		if (fileInput.files.length > 0) {
-			const file = fileInput.files[0]
-			const reader = new FileReader()
-			reader.onloadend = function() {
-				const base64String = reader.result.replace('data:', '')
-					.replace(/^.+,/, '')// Optional: Removes the data type prefix
-				uploadAvatar(base64String, userID)
-				//navigate(`/profile/${userData.userID}/${userData.userID}`)
-			}
-			reader.readAsDataURL(file)
-		}
-	}
-
-	const convertToBase64BG = (userID) => {
-		const fileInput = document.getElementById('bgInput')
-		if (fileInput.files.length > 0) {
-			const file = fileInput.files[0]
-			const reader = new FileReader()
-			reader.onloadend = function() {
-				const base64String = reader.result.replace('data:', '')
-					.replace(/^.+,/, '')// Optional: Removes the data type prefix
-				uploadBG(base64String, userID)
-				//navigate(`/profile/${userData.userID}/${userData.userID}`)
-			}
-			reader.readAsDataURL(file)
-		}
-	}
-
 	const handleExit = () => {
 		console.log('Exiting profile edit...')
 		navigate(`/profile/${userData.userID}/${userData.userID}`)
@@ -197,7 +101,6 @@ const ProfileEdit = () => {
 				<div className={styles.profileEdit__imageUpload}>{userData.avatar ? (
 					<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.avatar.data))}`} alt="User Avatar" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />):(<div>No avatar available</div>)}
 				</div>
-				<input type="file" id="avatarInput" accept="image/*" onChange={()=>convertToBase64(userID)}></input>
 				<strong>User ID:</strong> {userData.userID}
 
 				<form className={styles.profileEdit__form} onSubmit={(e) =>handleChange(e)}>
@@ -214,12 +117,9 @@ const ProfileEdit = () => {
 						<input type="text" id="introduction" name="introduction" value={userData.introduction} onChange={(e) =>handleChange(e)} />
 					</div>
 					<div className={styles.profileEdit__imageUpload}>{userData.background_image ? (
-						<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.background_image.data))}`} alt="User Background" style={{ display: 'block', margin: 'auto', width: '300px', height: '300px'}} />):(<div>No background available</div>)}
+						<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.background_image.data))}`} alt="User Background" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />):(<div>No background available</div>)}
 					</div>
 					<div className={styles.profileEdit__footer}>
-						<span>Background:</span>
-						<input type="file" id="bgInput" accept="image/*" onChange={()=>convertToBase64BG(userID)}></input>
-						{/* <button type="button" className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => handleFileUpload()} >Change Avatar</button> */}
 						<button type="submit" className={`${styles.button} ${styles.buttonPrimary}`} onClick={() => handleUpdate(userData)} >Save</button>
 						<button type="button" className={`${styles.button} ${styles.buttonPrimary}`} onClick={handleExit}>Exit</button>
 					</div>
