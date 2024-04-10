@@ -39,7 +39,7 @@ const Unlogged = ({ setLogin, navigate }) => {
 				}
 			} catch (error) {
 				console.error('Failed to log in:', error)
-				// Handle login failure 
+				alert('Wrong UserID or Password!') 
 			}
 		}
 	}
