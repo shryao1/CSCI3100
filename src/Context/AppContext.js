@@ -7,6 +7,7 @@ const AppProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
 	const [posts, setPosts] = useState([])
 	const [visitUserID, setVisitUserID] = useState(localStorage.getItem('visitUserID') || null)
+	const [UserID, setUserID] = useState(localStorage.getItem('userTwitterClone') || null)
 	// Inside AppContext.js or wherever your AppContext is defined
 	const [refreshTrigger, setRefreshTrigger] = useState(false)
 
@@ -14,7 +15,6 @@ const AppProvider = ({ children }) => {
 	const toggleRefresh = () => {
 		setRefreshTrigger(prev => !prev)
 	}
-	console.log(refreshTrigger)
 
 
 
@@ -53,7 +53,9 @@ const AppProvider = ({ children }) => {
 		refreshTrigger,
 		setPosts,
 		refreshData, // Now components can call refreshData to update the context
-		setVisitUserID // Allow consumers to update visitUserID directly, triggering a refresh
+		setVisitUserID,
+		setUserID
+		// Allow consumers to update visitUserID directly, triggering a refresh
 	}
 
 	return (

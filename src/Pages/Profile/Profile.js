@@ -8,7 +8,8 @@ import MenuTweetsProfile from '../../Components/Menus/MenuTweetsProfile/MenuTwee
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 
 const Profile = () => {
-	const { user, setUser, setVisitUserID, refreshData } = useContext(AppContext)
+	const { setUser, setVisitUserID, refreshData, setUserID } = useContext(AppContext)
+	let { user, UserID }  = useContext(AppContext)
 	const [posts, setPosts] = useState()
 	const [isFollowing, setIsFollowing] = useState()
 	const [self_post, setself_post] = useState()
@@ -16,8 +17,8 @@ const Profile = () => {
 	const { refreshTrigger } = useContext(AppContext)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
+	let [userinfo, setUserinfo] = useState(null)
 	
-	console.log('2', refreshTrigger)
 
 	const checkFollowing = async () => {
 		// Get userID and visitUserID from wherever they are stored
@@ -70,9 +71,23 @@ const Profile = () => {
 	useEffect(() => {
 		checkFollowing()
 		setVisitUserID(visituserID)
+		setUserID(userID)
 		
-		// console.log('data')
-		// if(!initialState){
+		const fetchUserInfo = async () => {
+			if (visituserID) {
+				try {
+					const response = await fetch(`http://localhost:3001/profile/${visituserID}`)
+					if (!response.ok) throw new Error('Network response was not ok')
+					const data = await response.json()
+					setUserinfo(data) // Set the user info in state
+				} catch (error) {
+					console.error('Error fetching user info:', error)
+				}
+			}
+		}
+		
+		fetchUserInfo()
+		
 		const fetchPostsNumber = async () => {
 
 			if (visituserID) {
@@ -181,12 +196,12 @@ const Profile = () => {
 	  //console.log(posts)
 	return (
 		<div className="profile__container">
-			{user &&
+			{userinfo &&
 				<>
 					<NavProfile 		
-						user={user} 
+						user={userinfo} 
 						self_post = {self_post}
-						userID={user.userID}
+						userID={visituserID}
 						judge={judgement}
 						isFollowing={isFollowing}
 						handleButtonClick={handleButtonClick}
