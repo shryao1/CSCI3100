@@ -8,6 +8,7 @@ const MessageItem = () => {
 	const { userID } = useParams()
 	const [friendsMessages, setFriendsMessages] = useState([])
 	const navigate = useNavigate()
+	
 
 	useEffect(() => {
 		let isMounted = true
@@ -17,8 +18,8 @@ const MessageItem = () => {
 				const friendsResponse = await fetch(`http://localhost:3001/friends/${userID}`)
 				if (!friendsResponse.ok) throw new Error('Failed to fetch friends')
 				const friendsData = await friendsResponse.json()
+				console.log('hhh', friendsData)
 			
-				//console.log(friendsData)
 
 				const messagesPromises = friendsData.map(async (friend) => {
 					const messagesResponse = await fetch(`http://localhost:3001/message/${userID}/${friend.userID}`)
@@ -69,11 +70,15 @@ const MessageItem = () => {
 	const handleClick = (messageId, friendId) => {
 		navigate(`/message/${userID}/${friendId}`)
 	}
+	
+	console.log('hhh',friendsMessages)
 
 	// Render loading state or messages
 	if (!friendsMessages.length) {
 		return <div>Loading...</div>
 	}
+	
+	
 	
 	return (
 		<div>

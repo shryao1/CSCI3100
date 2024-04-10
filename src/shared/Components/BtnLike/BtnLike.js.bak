@@ -25,6 +25,7 @@ const BtnLike = ({ likes, id, showDetail }) => {
 			const Like = { userID: userID }
 			await newLike(id, Like)
 			toggleRefresh()
+			//window.location.reload()
 			appContext?.setPosts(await getAllPost())
 		} catch (error) {
 			console.error(error)

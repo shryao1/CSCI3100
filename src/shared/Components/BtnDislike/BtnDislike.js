@@ -20,12 +20,14 @@ import { CropOriginalSharp } from '@mui/icons-material'
 const BtnDislike = ({ dislikes, id, showDetail }) => {
 	const appContext = useContext(AppContext)
 	const { userID } = useParams()
+	const { toggleRefresh } = useContext(AppContext)
 	
 	const handleSubmitNewDislike = async (e) => {
 		e.preventDefault()
 		try {
 			const Dislike = { userID: userID }
 			await newDislike(id, Dislike)
+			toggleRefresh()
 			appContext?.setPosts(await getAllPost())
 			// You might need to call something here to refresh userDislikes if it does not automatically update
 		} catch (error) {

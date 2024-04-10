@@ -13,8 +13,11 @@ const Profile = () => {
 	const [isFollowing, setIsFollowing] = useState()
 	const [self_post, setself_post] = useState()
 	const [viewFavorite, setViewFavorite] = useState(false)
+	const { refreshTrigger } = useContext(AppContext)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
+	
+	console.log('2', refreshTrigger)
 
 	const checkFollowing = async () => {
 		// Get userID and visitUserID from wherever they are stored
@@ -63,11 +66,11 @@ const Profile = () => {
 		// refreshData()
 	  }
 
-	checkFollowing()
 	// refreshData()
 	useEffect(() => {
+		checkFollowing()
 		setVisitUserID(visituserID)
-		refreshData()
+		
 		// console.log('data')
 		// if(!initialState){
 		const fetchPostsNumber = async () => {
@@ -79,7 +82,6 @@ const Profile = () => {
 					if (!response.ok) throw new Error('Network response was not ok')
 					const data = await response.json()
 					setself_post(data)
-					// console.log(data)
 				} catch (error) {
 					console.error('Error fetching user data:', error)
 				}
@@ -136,7 +138,7 @@ const Profile = () => {
 
 
 		// }
-	  }, [visituserID, viewFavorite, self_post])
+	  }, [visituserID, viewFavorite, refreshTrigger])
 
 
 	  const handleFollowUser = async () => {
@@ -173,7 +175,7 @@ const Profile = () => {
 		handleFollowUser()
 		checkFollowing()
 		refreshData()
-		//window.location.reload()
+		window.location.reload()
 		// setIsFollowing(prevState => !prevState)
 	  }
 	  //console.log(posts)

@@ -7,7 +7,16 @@ const AppProvider = ({ children }) => {
 	const [user, setUser] = useState(null)
 	const [posts, setPosts] = useState([])
 	const [visitUserID, setVisitUserID] = useState(localStorage.getItem('visitUserID') || null)
-	
+	// Inside AppContext.js or wherever your AppContext is defined
+	const [refreshTrigger, setRefreshTrigger] = useState(false)
+
+	// Toggle function
+	const toggleRefresh = () => {
+		setRefreshTrigger(prev => !prev)
+	}
+	console.log(refreshTrigger)
+
+
 
 	// Function to manually refresh the context data
 	const refreshData = async () => {
@@ -40,6 +49,8 @@ const AppProvider = ({ children }) => {
 		user, 
 		setUser,
 		posts, 
+		toggleRefresh,
+		refreshTrigger,
 		setPosts,
 		refreshData, // Now components can call refreshData to update the context
 		setVisitUserID // Allow consumers to update visitUserID directly, triggering a refresh
