@@ -8,11 +8,13 @@ import useIsMyTweet from '../../../Hooks/useIsMyTweet'
 
 import BtnLike from '../../../shared/Components/BtnLike/BtnLike'
 import BtnDislike from '../../../shared/Components/BtnDislike/BtnDislike'
+import BtnRetweet from '../../../shared/Components/BtnRetweet/BtnRetweet'
 import TweetData from '../TweetData/TweetData'
 
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined'
 import IosShareOutlinedIcon from '@mui/icons-material/IosShareOutlined'
 import '../Tweet.scss'
+import useGetcurrentusername from '../../../Hooks/useGetcurrentusername'
 
 const TweetPost = ({
 	post: {
@@ -37,7 +39,8 @@ const TweetPost = ({
 			.then(response => response.json())
 			.then(data => setComments(data))
 	}, [postID])
-
+	
+	const current_username = useGetcurrentusername(userID)
 	const sendComment = () => {
 		const commentData = { postID, content: comment, timestamp: new Date().toISOString() }
 		const CommenterID = localStorage.getItem('userTwitterClone')
@@ -70,12 +73,19 @@ const TweetPost = ({
 			<br></br>
 			{attachment && (
 				<div className="tweet__attachment">
-					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{ 
-    					maxWidth: '90%', // Ensure the image doesn't exceed the container's width
-    					height: 'auto',   // Allow the height to adjust proportionally
-    					width: '100%',    // Take up the full width of its container
-    					marginLeft: '30px' // Optional, adjust as needed
-  							}}/>
+					{
+						!(attachment.contentType==='video/mp4')?(
+							<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{ 
+		    					maxWidth: '90%', // Ensure the image doesn't exceed the container's width
+		    					height: 'auto',   // Allow the height to adjust proportionally
+		    					width: '100%',    // Take up the full width of its container
+		    					marginLeft: '30px' // Optional, adjust as needed
+		  							}}/>
+						):(
+							<video width="450" style={{marginLeft: '50px'}} controls>
+  							<source src={`data:video/mp4;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} type="video/mp4" />
+							</video>)
+					}
 				</div>
 			)}
 			<div className="content__options">
@@ -87,11 +97,11 @@ const TweetPost = ({
 					</div>
 					<BtnLike likes={like} id={postID} showDetail />
 					<BtnDislike dislikes={dislike} id={postID} showDetail />
-					<div className="option share" onClick={() => setShowComments(!showComments)} >
-						<i>
-							<IosShareOutlinedIcon />
-						</i>
-					</div>
+					<BtnRetweet
+						content = {content}
+						attachment = {attachment}
+						username = {current_username}
+					/>
 				</div>
 			</div>
 			{showComments && ( // This part will now toggle based on `showComments` state
