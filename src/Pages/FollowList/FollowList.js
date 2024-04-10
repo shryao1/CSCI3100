@@ -1,6 +1,7 @@
 import './FollowList.scss'
 import { useParams } from 'react-router-dom'
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -13,6 +14,7 @@ const FollowList = () => {
 	console.log('UserID:', visituserID) // Log the value of viewUser
 	// const viewUser = localStorage.getItem('viewUser')
 	const judger = localStorage.getItem('following')
+	const navigate = useNavigate()
 	
 	useEffect(() => {
 		const fetchfollowers = async () => {
@@ -68,14 +70,14 @@ const FollowList = () => {
 	return (
 
 		<div>
-			<h1>{judger === 1 ? 'Followers' : 'Following'}</h1>
+			<h1>{judger == 1 ? 'Followers' : 'Following'}</h1>
 			<ul>
 				{followers && followers.map((follower) => (
 					<li key={follower.username}>
 						<div>
 							{/* Assuming there's an avatar field in follower object */}
 							{/* {follower.avatar && <img src={follower.avatar} alt={null} />} */}
-							<span>{follower.username}</span>
+							<span onClick={() => navigate(`/profile/${userID}/${follower.userID}`)}>{follower.username}</span>
 						</div>
 					</li>
 				))}
