@@ -1,5 +1,5 @@
 import './Trends.scss'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 import SearchLogo from './search_logo.png'
 import SearchIcon from './search_icon.png'
@@ -7,8 +7,10 @@ import sad from './sad.png'
 import { set } from 'mongoose'
 const Trends = () => {
 	const [searchQuery, setSearchQuery] = useState('')
+	const [showUsers, setShowUsers] = useState(false)
 	const [showTweets, setShowTweets] = useState(false)
 	const [postData, setPostData] = useState(null)
+	const [userData, setUserData] = useState(null)
 	const fetchPostsByContent = async (query) => {
 		setShowTweets(true)
 		fetch('http://localhost:3001/listpost')
@@ -19,26 +21,45 @@ const Trends = () => {
                 	return response.json()
             	})
             	.then((data) => {
-				//console.log('data', data)
-				//console.log('query', query)
 				const lowerCaseQuery = query ? query.toLowerCase() : ''
-				//console.log('lowerCaseQuery', lowerCaseQuery)
 				const filteredData = data.filter(post => {
-					//console.log('post:', post)
-					//console.log('post.text:', post.content)
-					//console.log('lowerCaseQuery:', lowerCaseQuery)
 					const includes = post && post.content && post.content.toLowerCase().includes(lowerCaseQuery)
-					//console.log('includes:', includes)
 					return includes
 				})
 				setPostData(filteredData)
-				console.log('here is test',filteredData)
+				//console.log('here is test',filteredData)
             	})
             	.catch((error) => {
                		console.error('Error fetching user data:', error)
             	})
 	}
-	  
+	const fetchUsersByContent = async (query) => {
+		setShowUsers(true)
+		fetch('http://localhost:3001/listuserforsearch')
+            	.then((response) => {
+                	if (!response.ok) {
+                    	  throw new Error('Network response was not ok')
+                	}
+                	return response.json()
+            	})
+            	.then((data) => {
+				//console.log('data', data)
+				const lowerCaseQuery = query ? query.toLowerCase() : ''
+				//console.log('lowerCaseQuery', lowerCaseQuery)
+				const filteredData = data.filter(user => {
+					const matchesQuery = 
+						(user && user.username && user.username.toLowerCase() ===lowerCaseQuery) || // Check username
+						(user && user.userID && user.userID.toLowerCase() ===lowerCaseQuery) // Check userID
+					//console.log('matchesQuery', matchesQuery)
+					return matchesQuery
+				})
+				setUserData(filteredData)
+				//console.log('here is test',filteredData)
+            	})
+            	.catch((error) => {
+               		console.error('Error fetching user data:', error)
+            	})
+	}
 	return (
 		<div className='trends__container' style={{ justifyContent: 'start', marginTop: '10px' }}>
 			<div className="container__search" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -58,10 +79,40 @@ const Trends = () => {
 						value={searchQuery}
             			onChange={(e) => setSearchQuery(e.target.value)}
 					/>
-					<button className="search-button" onClick={() => fetchPostsByContent(searchQuery)}>Search
-					</button>
+					<div className='button-container'>
+						<button className="search-button" onClick={() => fetchPostsByContent(searchQuery)}>SearchPosts
+						</button>
+						<button className="search-button" onClick={() => fetchUsersByContent(searchQuery)}>SearchUsers
+						</button>
+					</div>
 				</div>
 				<img src={SearchLogo} alt="Search Logo" className="search-logo" style={{width: 320, height: 320}}/>
+				{showUsers && ( // Conditionally render the tweets list
+					<div className="trends__tweetsList">
+						{userData === null || userData.length === 0 ? (
+            				<p>
+            				</p>
+          					) : (
+							<ul>
+								{userData && userData.map((user) => (
+									<li key={user.userID}>
+										<div className="tweet__container-tweetData" >
+											{user && (
+    											<img
+        										src={`data:image/jpeg;base64,${user.avatar}`}
+        										alt="User.Avatar"
+													style={{ width: '48px', height: '48px' }}
+    									/>
+											)}
+											<span className="username">{user.username}</span>
+										</div>
+									</li>
+								))}
+							</ul>
+							
+						)}
+					</div>
+				)}
 				{showTweets && ( // Conditionally render the tweets list
 					<div className="trends__tweetsList">
 						{postData === null || postData.length === 0 ? (
@@ -72,14 +123,12 @@ const Trends = () => {
           					) : (
 							postData.map((post) => (
 								<TweetPost key={post.postID} post={post} />
-								  ))
+							))
 						)}
 					</div>
 				)}
 			</div>
-			
 		</div>
-		
 	)
 }
 
