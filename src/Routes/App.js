@@ -22,7 +22,7 @@ import EditProfile from '../Pages/Profile/EditProfile'
 
 import AppProvider from '../Context/AppContext'
 import MenuActiveProvider from '../Context/menuActive'
-
+import RetweetProvider from '../Context/RetweetContext'
 import './App.scss'
 
 function App() {
@@ -31,77 +31,79 @@ function App() {
 			<BrowserRouter>
 				<AppProvider>
 					<MenuActiveProvider>
-						<Routes>
-							<Route path="/" element={
-								<PageWrapper component={
-									<Default />
-								} isDefaultPage />
-							} />
-							<Route path="/home/:userID" element={
-								<PageWrapper component={
-									<Home />
-								} isPage />
-							} />
-							<Route path="/admin/*" element={
-								// <PageWrapper component={
-								// 	<Admin />
-								// } isPage />
-								<Admin/>
-							} />
-							<Route path="/followList/:userID/:visituserID" element={
-								<PageWrapper component={
-									<FollowList />
-								} isPage />
-							} />
-							<Route path="/profile/:userID/:visituserID" element={
-								<PageWrapper component={
-									<Profile />
-								} isPage />
-							} />
-							<Route path="/profileedit/:userID" element={
-								<PageWrapper component={
-									<EditProfile />
-								} isPage />
-							} />
-							<Route path="/notifications/:userID" element={
-								<PageWrapper component={
-									<Notifications />
-								} isPage />
-							} />
-							<Route path="/message/:userID/:chatWithID" element={
-								<PageWrapper component={
-									<Message />
-								} isMessagePage />
-							} />
-							<Route path="/explore/:userID" element={
-								<PageWrapper component={
-									<Explore />
-								} isPage />
-							} />
-							<Route path="/browser/:userID" element={
-								<PageWrapper component={
-									<Browser />
-								} isPage />
-							} />
-							<Route path="/status/:userID/:postID" element={
-								<PageWrapper component={
-									<PostDetails />
-								} isPage />
-							} />
-							<Route path="/login" element={
-								<PageWrapper component={
-									<Login />
-								} isLoginPage />
-							} />
-							<Route path="/register" element={
-								<PageWrapper component={
-									<Register />
-								} isLoginPage />
-							} />
-							<Route path="*" element={
-								<Navigate to="/" />
-							} />
-						</Routes>
+						<RetweetProvider>
+							<Routes>
+								<Route path="/" element={
+									<PageWrapper component={
+										<Default />
+									} isDefaultPage />
+								} />
+								<Route path="/home/:userID" element={
+									<PageWrapper component={
+										<Home />
+									} isPage />
+								} />
+								<Route path="/admin/*" element={
+									// <PageWrapper component={
+									// 	<Admin />
+									// } isPage />
+									<Admin/>
+								} />
+								<Route path="/followList/:userID/:visituserID" element={
+									<PageWrapper component={
+										<FollowList />
+									} isPage />
+								} />
+								<Route path="/profile/:userID/:visituserID" element={
+									<PageWrapper component={
+										<Profile />
+									} isPage />
+								} />
+								<Route path="/profileedit/:userID" element={
+									<PageWrapper component={
+										<EditProfile />
+									} isPage />
+								} />
+								<Route path="/notifications/:userID" element={
+									<PageWrapper component={
+										<Notifications />
+									} isPage />
+								} />
+								<Route path="/message/:userID/:chatWithID" element={
+									<PageWrapper component={
+										<Message />
+									} isMessagePage />
+								} />
+								<Route path="/explore/:userID" element={
+									<PageWrapper component={
+										<Explore />
+									} isPage />
+								} />
+								<Route path="/browser/:userID" element={
+									<PageWrapper component={
+										<Browser />
+									} isPage />
+								} />
+								<Route path="/status/:userID/:postID" element={
+									<PageWrapper component={
+										<PostDetails />
+									} isPage />
+								} />
+								<Route path="/login" element={
+									<PageWrapper component={
+										<Login />
+									} isLoginPage />
+								} />
+								<Route path="/register" element={
+									<PageWrapper component={
+										<Register />
+									} isLoginPage />
+								} />
+								<Route path="*" element={
+									<Navigate to="/" />
+								} />
+							</Routes>
+						</RetweetProvider>
 					</MenuActiveProvider>
 				</AppProvider>
 			</BrowserRouter>
