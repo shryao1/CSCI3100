@@ -15,7 +15,7 @@ const corsOptions ={
 
 app.use(cors(corsOptions)) // Use this after the variable declaration
 
-app.use(express.json()); // This should be at the top, before defining your routes
+app.use(express.json({ limit: '50mb' }));
 
 
 // Connect to MongoDB
@@ -501,36 +501,41 @@ app.get('/explore', async (req, res) => {
 });
 
 //browser the post
-async function getFollowingPosts(userId) {
+async function getFollowingPosts(userID) {
   try {
+    //console.log("here is userID",userId);
     // First, find the user's document to get the list of users they are following
-    const user = await User.findById(userId);
+    const user = await User.findOne({ userID })
+                                .select('following')
+                                .exec();
+    console.log("here is user",user.following);
     if (!user) {
       throw new Error('User not found');
     }
-
+    const followingUserIDs = user.following.map(id => parseInt(id));
+    console.log("here is followingUserIDs",followingUserIDs);
+    const followingPosts = await Post.find({ userID: { $in: followingUserIDs.toString() } }).exec();
     // Then, fetch posts of the users the current user is following
-    const followingPosts = await Post.find({ userID: { $in: user.following } })
-      .sort({ post_time: -1 }) // Sorting by post time in descending order
-      .populate('userID'); // Populate user details in the posts
-
+    console.log("here is followingPosts",followingPosts);
     return followingPosts;
   } catch (error) {
     console.error('Error fetching following posts:', error);
     throw error; // Rethrow the error for handling by the caller
   }
-};
-app.get('/browser', async (req, res) => {
+}
+
+app.get('/browser/:userID', async (req, res) => {
   try {
-    const userId = req.query.userId;
-    const posts = await getFollowingPosts(userId);
+    const { userID } = req.params;
+    //console.log("browseruserID", userID);
+    const posts = await getFollowingPosts(userID);
     if (posts.length === 0) {
       res.status(404).send('No posts found');
       return;
     }
     res.json(posts);
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error('Error fetching following posts:', error);
     res.status(500).send('Internal server error');
   }
 });
@@ -554,7 +559,7 @@ async function searchPostsByContent(searchQuery) {
 app.get('/search', async (req, res) => {
   try {
     const content = req.query.content;
-    console.log("!!!!!",content);
+    //console.log("!!!!!",content);
     const posts = await searchPostsByContent(content);
     if (posts.length === 0) {
       res.status(404).send('No posts found');
@@ -658,7 +663,7 @@ app.post('/createpost', async (req, res) => {
 app.post('/updateprofile', async (req, res) => {
   
     try {
-      const {userID, username, password, introduction,avatar} = req.body;
+      const {userID, username, password, introduction} = req.body;
   
       const updatedUser = await User.findOneAndUpdate(
         { userID: userID }, // Find a document with this userID
@@ -666,7 +671,7 @@ app.post('/updateprofile', async (req, res) => {
           username: username,
           password: password,
           //background_image: background_image,
-          avatar: avatar,
+          //avatar: avatar,
           introduction: introduction,
         },
         {
@@ -691,6 +696,35 @@ app.post('/updateprofile', async (req, res) => {
 
 
 
+// profile: upload avatar
+app.post('/upload-avatar', async (req, res) => {
+  const { userID, avatar } = req.body;
+
+  try {
+      const user = await User.findOne({ userID });
+      user.avatar = Buffer.from(avatar, 'base64');
+      await user.save();
+      res.send({ message: 'Avatar updated successfully' });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+  }
+});
+
+// profile: upload bg image
+app.post('/upload-background', async (req, res) => {
+  const { userID, background_image } = req.body;
+
+  try {
+      const user = await User.findOne({ userID });
+      user.background_image = Buffer.from(background_image, 'base64');
+      await user.save();
+      res.send({ message: 'Background image updated successfully' });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+  }
+});
 
 
 
@@ -1253,7 +1287,63 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	  }
 	});
 	
-	
+	app.post('/checkFollow/:userID/:visituserID', async (req, res) => {
+    try {
+        const { userID, visituserID } = req.params;
+
+        const userData = await User.findOne({ userID });
+
+        if (!userData) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if visituserID is included in userData.following
+        const isFollowing = userData.following.includes(visituserID);
+        console.log('11111', isFollowing)
+        // Return 1 if following, 0 if not following
+        res.status(200).json({ isFollowing: isFollowing ? 1 : 0 });
+    } catch (error) {
+        console.error('Error checking follow:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+  app.post('/newFollower/:userID/:visituserID', async (req, res) => {
+    try {
+      const { userID, visituserID } = req.body;
+
+      const userData = await User.findOne({ userID });
+
+      if (!userData) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+
+      if (userData.following.includes(visituserID)) {
+        await User.findOneAndUpdate(
+          { userID: userID },
+          { $pull: { following: visituserID } }
+        );
+        await User.findOneAndUpdate(
+          { userID: visituserID },
+          { $pull: { followers: userID } }
+        );
+        res.status(200).json({ message: 'Unfollowed successfully' });
+      } else {
+        await User.findOneAndUpdate(
+          { userID: userID },
+          { $addToSet: { following: visituserID } }
+        );
+        await User.findOneAndUpdate(
+          { userID: visituserID },
+          { $addToSet: { followers: userID } }
+        );
+        res.status(200).json({ message: 'Followed successfully' });
+      }
+    } catch (error) {
+      console.error('Error adding/removing follower:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
 	
       
 const PORT = process.env.PORT || 3001;
