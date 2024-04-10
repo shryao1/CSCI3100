@@ -160,7 +160,7 @@ const generateUniquePostID = async () => {
     });
     // Save the new post to the database
     const savedPost = await newPost.save();
-    console.log('Post created successfully:', savedPost);
+    // console.log('Post created successfully:', savedPost);
     } catch (error) {
     // Handle any errors that occur during the process
     console.error('Error creating post:', error);
@@ -219,7 +219,7 @@ async function createUser(userID, password, username, avatarPath = './CUChatIcon
     });
 
     await welcomeMessage.save(); // Save the welcome message
-    console.log('Welcome message sent successfully.');
+    // console.log('Welcome message sent successfully.');
   } catch (error) {
     console.error('Error creating the user or sending welcome message:', error.message);
   }
@@ -254,7 +254,7 @@ async function admincreateUser(userID, username, password, introduction) {
 
   try {
     const result = await user.save();
-    console.log('User created successfully:', result);
+    // console.log('User created successfully:', result);
     return result; 
   } catch (error) {
     console.error('Error creating the user:', error.message);
@@ -279,7 +279,7 @@ async function admincreatepost(userID, content, visible, tag, like, dislike) {
   });
   // Save the new post to the database
   const savedPost = await newPost.save();
-  console.log('Post created successfully:', savedPost);
+  // console.log('Post created successfully:', savedPost);
   //console.log(postID_);
   //return postID_;
   } catch (error) {
@@ -370,7 +370,7 @@ app.get("/listuser", async (req, res) => {
       user.self_post = posts.map(post => post.postID);
     }
 
-    console.log(`Fetched ${userData.length} users.`);
+    // console.log(`Fetched ${userData.length} users.`);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -482,7 +482,7 @@ app.get('/explore', async (req, res) => {
   try {
     let postData = await Post.find({}, 'postID userID tag attachment content visible like dislike');
 
-    console.log(`Fetched ${postData.length} posts.`);
+    // console.log(`Fetched ${postData.length} posts.`);
 
     if (postData.length === 0) {
       res.status(404).send("No posts found");
@@ -492,7 +492,7 @@ app.get('/explore', async (req, res) => {
     const randomIndex = Math.floor(Math.random() * postData.length);
     const randomPost = postData[randomIndex];
 
-    console.log("Selected random post:", randomPost);
+    // console.log("Selected random post:", randomPost);
     res.json(randomPost);
   } catch (error) {
     console.error("Error fetching post data:", error);
@@ -508,15 +508,15 @@ async function getFollowingPosts(userID) {
     const user = await User.findOne({ userID })
                                 .select('following')
                                 .exec();
-    console.log("here is user",user.following);
+    // console.log("here is user",user.following);
     if (!user) {
       throw new Error('User not found');
     }
     const followingUserIDs = user.following.map(id => parseInt(id));
-    console.log("here is followingUserIDs",followingUserIDs);
+    // console.log("here is followingUserIDs",followingUserIDs);
     const followingPosts = await Post.find({ userID: { $in: followingUserIDs.toString() } }).exec();
     // Then, fetch posts of the users the current user is following
-    console.log("here is followingPosts",followingPosts);
+    // console.log("here is followingPosts",followingPosts);
     return followingPosts;
   } catch (error) {
     console.error('Error fetching following posts:', error);
@@ -578,7 +578,7 @@ app.get('/listpost', async (req, res) => {
     let postData = await Post.find({}, 'postID userID tag attachment content visible like dislike');
 
 
-      console.log(`Fetched ${postData.length} posts.`);
+      // console.log(`Fetched ${postData.length} posts.`);
       //console.log(postData);
       res.json(postData);
     } catch (error) {
@@ -768,7 +768,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
       const userObject = postData; // Convert Mongoose document to plain JavaScript object
       userObject.avatar = avatar;
 
-      console.log(userObject);
+      // console.log(userObject);
 
       console.log(`Fetched ${postData.length} posts.`);
       if (postData) {
@@ -1004,7 +1004,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
               _id: followerID // Add _id property to match the original followerID
           };
       }));
-      console.log(followers);
+      // console.log(followers);
       res.json(followerDetails);
   
       } catch (error) {
@@ -1034,7 +1034,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
               _id: followingID // Add _id property to match the original followerID
           };
       }));
-      console.log(followings);
+      // console.log(followings);
       res.json(followingDetails);
   
       } catch (error) {
@@ -1108,7 +1108,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
               _id: followerID // Add _id property to match the original followerID
           };
       }));
-      console.log(followers);
+      // console.log(followers);
       res.json(followerDetails);
   
       } catch (error) {
@@ -1136,7 +1136,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
               _id: followingID // Add _id property to match the original followerID
           };
       }));
-      console.log(followings);
+      // console.log(followings);
       res.json(followingDetails);
   
       } catch (error) {
@@ -1157,7 +1157,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
 
         // Fetch favorite posts details
         const favoritePostList = user.favorite; // Assuming favorite is an array of postIDs
-        console.log('here is test', favoritePostList);
+        // console.log('here is test', favoritePostList);
         const postData = [];
 
         for (let postID of favoritePostList) {
@@ -1169,7 +1169,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
         const avatar = await User.find({ 'userID': userID }, 'avatar').lean();
         const userObject = postData; // Convert Mongoose document to plain JavaScript object
         userObject.avatar = avatar;
-        console.log(userObject);
+        // console.log(userObject);
         if (postData) {
           res.json(userObject);
         } else {
@@ -1299,7 +1299,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
 
         // Check if visituserID is included in userData.following
         const isFollowing = userData.following.includes(visituserID);
-        console.log('11111', isFollowing)
+        // console.log('11111', isFollowing)
         // Return 1 if following, 0 if not following
         res.status(200).json({ isFollowing: isFollowing ? 1 : 0 });
     } catch (error) {
@@ -1329,6 +1329,16 @@ app.get('/profilePosts/:userID', async (req, res) => {
         );
         res.status(200).json({ message: 'Unfollowed successfully' });
       } else {
+          if (userData.followers.includes(visituserID)){
+            const welcomeMessage = new Message({
+              sender: userID, // Predefined sender ID
+              receiver: visituserID, // The newly created user's ID
+              text: 'We are friend now',
+              // timestamp is automatically set to now by default
+            });
+            await welcomeMessage.save(); // Save the welcome message
+          }
+
         await User.findOneAndUpdate(
           { userID: userID },
           { $addToSet: { following: visituserID } }
@@ -1344,7 +1354,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
-	
+
       
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
