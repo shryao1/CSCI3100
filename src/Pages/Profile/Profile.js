@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import MichealAvatar from './michaelAvatar.png'
 import MichealBG from './MichaelWorking.png'
 import { AppContext } from '../../Context/AppContext'
-
 import NavProfile from '../../Components/NavPages/NavProfile/NavProfile'
 import MenuTweetsProfile from '../../Components/Menus/MenuTweetsProfile/MenuTweetsProfile'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
@@ -11,16 +10,54 @@ import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 const Profile = () => {
 	const { user, setUser, posts, setPosts, setVisitUserID } = useContext(AppContext)
 	// const [posts, setPosts] = useState(null)
-	const [isFollowing, setIsFollowing] = useState(false)
+	const [isFollowing, setIsFollowing] = useState()
+	
 	const [viewFavorite, setViewFavorite] = useState(false)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
+
+	const checkFollowing = async () => {
+		// Get userID and visitUserID from wherever they are stored
+		if (userID && visituserID) {
+			try {
+				const response = await fetch(`http://localhost:3001/checkFollow/${userID}/${visituserID}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ userID, visituserID })
+				})
+	
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+	
+				const data = await response.json()
+	
+				// Handle the response data if necessary
+				console.log(data)
+	
+				// Check if visitUserID is following or not based on the response
+				if (data.isFollowing === 1) {
+					setIsFollowing(true)
+				} else {
+					setIsFollowing(false)
+				}
+	
+			} catch (error) {
+				console.error('Error checking follow:', error)
+			}
+		} else {
+			console.warn('Invalid user ID')
+		}
+	}
+	
+	checkFollowing()
 
 	useEffect(() => {
 		setVisitUserID(visituserID)
 		
 		const fetchPosts = async () => {
-			console.log('Fetching posts for user:', visituserID)
 
 			if (visituserID) {
 				localStorage.setItem('visitUserID', visituserID)
@@ -29,7 +66,6 @@ const Profile = () => {
 					if (!response.ok) throw new Error('Network response was not ok')
 					const data = await response.json()
 					setPosts(data)
-					console.log(data)
 				} catch (error) {
 					console.error('Error fetching user data:', error)
 				}
@@ -44,11 +80,9 @@ const Profile = () => {
 				localStorage.setItem('visitUserID', visituserID)
 				try {
 					const response = await fetch(`http://localhost:3001/profileFavourites/${visituserID}`)
-					console.log('1111111',response)
 					if (!response.ok) throw new Error('Network response was not ok')
 					const data = await response.json()
 					setPosts(data)
-					console.log(data)
 				} catch (error) {
 					console.error('Error fetching user data:', error)
 				}
@@ -63,10 +97,41 @@ const Profile = () => {
 	  }, [visituserID, viewFavorite])
 
 
+	  const handleFollowUser = async () => {
+		// Get userID and visitUserID from wherever they are stored
 		
+		if (userID && visituserID) {
+			try {
+				const response = await fetch(`http://localhost:3001/newFollower/${userID}/${visituserID}`, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ userID, visituserID })
+				})
+	
+				if (!response.ok) {
+					throw new Error('Network response was not ok')
+				}
+	
+				const data = await response.json()
+	
+				// Handle the response data if necessary
+				console.log(data)
+	
+			} catch (error) {
+				console.error('Error following/unfollowing user:', error)
+			}
+		} else {
+			console.warn('Invalid user ID')
+		}
+	}
 
 	const handleButtonClick = () => {
-		setIsFollowing(prevState => !prevState)
+		handleFollowUser()
+		checkFollowing()
+		window.location.reload()
+		// setIsFollowing(prevState => !prevState)
 	  }
 
 	const handlePostButtonClick = () => {
@@ -76,7 +141,6 @@ const Profile = () => {
 	const handleFavoriteButtonClick = () => {
 		setViewFavorite(true)
 	  }
-	console.log('loook', viewFavorite)
 
 	return (
 		<div className="profile__container">
