@@ -34,7 +34,7 @@ const NavProfile = ({
 	}
 	const navigate = useNavigate()
 	if (!self_post) self_post = []
-	console.log(self_post)
+	// console.log(self_post)
 	// const bg_url = background_image.data?`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(background_image.data))}`
 	return (
 		<div className="container__navProfile">

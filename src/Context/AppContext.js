@@ -16,6 +16,7 @@ const AppProvider = ({ children }) => {
 			const postsData = await getAllPost()
 			if (userData) setUser(userData)
 			if (postsData) setPosts(postsData)
+			// console.log('hhh')
 		} catch (error) {
 			console.error('Error refreshing data:', error)
 		}
