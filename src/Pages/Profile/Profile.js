@@ -35,7 +35,7 @@ const Profile = () => {
 				const data = await response.json()
 	
 				// Handle the response data if necessary
-				console.log(data)
+				// console.log(data)
 	
 				// Check if visitUserID is following or not based on the response
 				if (data.isFollowing === 1) {
