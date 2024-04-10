@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
 import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 import './Browser.scss'
 
 const Browser = () => {
-	const { userID } = useParams()
 	const [postData, setPostData] = useState(null)
 	useEffect(() => {
-        	fetch(`http://localhost:3001/browser/${userID}`)
+        	fetch('http://localhost:3001/browser')
             	.then((response) => {
                 	if (!response.ok) {
                     	  throw new Error('Network response was not ok')
@@ -22,7 +20,7 @@ const Browser = () => {
             	.catch((error) => {
                		console.error('Error fetching user data:', error)
             	})
-      	}, [userID])
+      	}, [])
 	return (
 		<div className="browser__container">
 			<NavBrowser />

@@ -70,10 +70,7 @@ const TweetPost = ({
 			<br></br>
 			{attachment && (
 				<div className="tweet__attachment">
-					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{maxWidth: '100%', // Ensure the image doesn't exceed the container's width
-    					height: 'auto',   // Allow the height to adjust proportionally
-    					width: '90%',    // Take up the full width of its container
-    					marginLeft: '35px'}}/>
+					<img src={`data:image/jpg;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} alt={attachment.filename} style={{width: 450, marginLeft: '50px'}}/>
 				</div>
 			)}
 			<div className="content__options">
@@ -99,14 +96,8 @@ const TweetPost = ({
 						value={comment}
 						onChange={(e) => setComment(e.target.value)}
 						placeholder="Write a comment..."
-						style={{
-							position: 'relative', // or any other position you desire
-							borderRadius: '15px', // or any other value for border-radius
-							// Add any other styles you want here
-						}}
 					/>
-					<button style={{borderRadius: '12px'}}
-						onClick={sendComment}>Send</button>
+					<button onClick={sendComment}>Send</button>
 					{comments.map((comment, index) => (
 						<div key={index} className="tweet__comment">
 							{comment.content}

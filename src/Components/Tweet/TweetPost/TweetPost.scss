@@ -36,7 +36,7 @@
   flex-direction: column;
   align-items: flex-end; // Align items to the right
   margin: 15px 20px; // Add margin to the left and right
-  //border-radius: 10px;;
+
   input {
     margin: 5px 0; // Add margin above and below the input box
     padding: 5px; // Add padding inside the input box for better text visibility
@@ -52,7 +52,7 @@
     margin-bottom: 10px; // Add margin between comments
     width: 100%; // Adjust width as per design requirements
     padding: 5px; // Add padding for spacing inside each comment
-    border-radius: 10px; // Optional: add rounded corners to comment boxes
+    border-radius: 5px; // Optional: add rounded corners to comment boxes
     background-color: #f0f0f0; // Optional: change background color of comment boxes
     align-self: stretch; // Stretch the comment box to match the width of the input and button
   }
