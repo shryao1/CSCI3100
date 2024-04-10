@@ -4,6 +4,7 @@ import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 import SearchLogo from './search_logo.png'
 import SearchIcon from './search_icon.png'
 import sad from './sad.png'
+import { Link } from 'react-router-dom'
 import { set } from 'mongoose'
 const Trends = () => {
 	const [searchQuery, setSearchQuery] = useState('')
@@ -11,6 +12,7 @@ const Trends = () => {
 	const [showTweets, setShowTweets] = useState(false)
 	const [postData, setPostData] = useState(null)
 	const [userData, setUserData] = useState(null)
+	const owner = localStorage.getItem('userTwitterClone')
 	const fetchPostsByContent = async (query) => {
 		setShowTweets(true)
 		fetch('http://localhost:3001/listpost')
@@ -96,7 +98,7 @@ const Trends = () => {
 							<ul>
 								{userData && userData.map((user) => (
 									<li key={user.userID}>
-										<div className="tweet__container-tweetData" >
+										<Link to={`/profile/${owner}/${user.userID}`} className="tweet__container-tweetData" >
 											{user && (
     											<img
         										src={`data:image/jpeg;base64,${user.avatar}`}
@@ -105,7 +107,7 @@ const Trends = () => {
     									/>
 											)}
 											<span className="username">{user.username}</span>
-										</div>
+										</Link>
 									</li>
 								))}
 							</ul>
