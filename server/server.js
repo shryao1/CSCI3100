@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require('fs')
 const app = express()
 
+const { ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -316,7 +317,7 @@ createUser('100', '123', 'test', './hahaha.jpeg', '1');
 createUser('0', 'admin', 'admin'); //admin
 createUser('1', '123', 'File Transfer');
 createPost("8","Hi, this is Winnie",attachment, 1);
-// createPost("100","Hi, this is Winnie 2", 1);
+//createPost("100","Hi, this is Winnie 2", undefined,1);
 // createPost("8","Hi, this is Winnie 3", 1);
 
 
@@ -529,20 +530,19 @@ app.get('/explore', async (req, res) => {
 //browser the post
 async function getFollowingPosts(userID) {
   try {
-    //console.log("here is userID",userId);
+    //console.log("here is userID",userID);
     // First, find the user's document to get the list of users they are following
     const user = await User.findOne({ userID })
                                 .select('following')
                                 .exec();
-    // console.log("here is user",user.following);
+    //console.log("here is user",user.following);
     if (!user) {
       throw new Error('User not found');
     }
-    const followingUserIDs = user.following.map(id => parseInt(id));
-    // console.log("here is followingUserIDs",followingUserIDs);
-    const followingPosts = await Post.find({ userID: { $in: followingUserIDs.toString() } }).exec();
+    //console.log("here is user",user.following);
+    const followingPosts = await Post.find({ userID: { $in: user.following } }).exec();
     // Then, fetch posts of the users the current user is following
-    // console.log("here is followingPosts",followingPosts);
+    //console.log("here is followingPosts",followingPosts);
     return followingPosts;
   } catch (error) {
     console.error('Error fetching following posts:', error);
