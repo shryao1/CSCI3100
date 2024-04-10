@@ -43,6 +43,19 @@ const Default = () => {
 								<span>Sign up</span>
 							</Link>
 						</div>
+						<div className="signUpOptions">
+							
+							<div className="sectionOr">
+								<div></div>
+								<div>
+									<span>or</span>
+								</div>
+								<div></div>
+							</div>
+							<Link to={'/visitor'} className="option phoneEmail">
+								<span>Visitor Mode</span>
+							</Link>
+						</div>
 						
 					</div>
 				</div>
