@@ -696,7 +696,7 @@ app.post('/updateprofile', async (req, res) => {
 
 
 
-// test avatar
+// profile: upload avatar
 app.post('/upload-avatar', async (req, res) => {
   const { userID, avatar } = req.body;
 
@@ -711,6 +711,20 @@ app.post('/upload-avatar', async (req, res) => {
   }
 });
 
+// profile: upload bg image
+app.post('/upload-background', async (req, res) => {
+  const { userID, background_image } = req.body;
+
+  try {
+      const user = await User.findOne({ userID });
+      user.background_image = Buffer.from(background_image, 'base64');
+      await user.save();
+      res.send({ message: 'Background image updated successfully' });
+  } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('An error occurred');
+  }
+});
 
 
 
