@@ -1,10 +1,10 @@
 import SettingItem from './SettingItem'
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
+
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 import './SettingsMenu.scss'
 
 
-const handleShowMenu = ({
+const SettingsMenu = ({
 	id,
 	username,
 	listOptions,
@@ -16,11 +16,28 @@ const handleShowMenu = ({
 		<div className="settingsMenu__container">
 			<div className="settings" onClick={() => handleShowMenu(true)}>
 				<i>
-					<DeleteForeverOutlinedIcon />
+					<MoreHorizOutlinedIcon />
 				</i>
 			</div>
+			{showMenu &&
+				<div className="settings__menuDown">
+					<ul>
+						{listOptions?.map(option => {
+							return (
+								<SettingItem
+									key={option.label}
+									username={username}
+									id={id}
+									option={option}
+									handleShowMenu={handleShowMenu}
+								/>
+							)
+						})}
+					</ul>
+				</div>
+			}
 		</div>
 	)
 }
 
-export default handleShowMenu
+export default SettingsMenu

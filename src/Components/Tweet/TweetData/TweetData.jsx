@@ -42,6 +42,13 @@ const TweetData = ({
 	}, [postID])
 	//const usernameElement = userInfo ? <span className="nav__data-username">{userInfo.username}</span> : null
 	//console.log('usernameElement', userInfo.avatar.data.data)
+	const handleShowMenuTweet = (target) => {
+		if (target) {
+			setShowMenu(true)
+		} else {
+			setShowMenu(false)
+		}
+	}
 	//console.log('useravatar', userInfo.avatar)
 	const name = userInfo ? userInfo.username : null
 	const uint8ArrayToBase64 = (uint8Array) => {
@@ -81,8 +88,11 @@ const TweetData = ({
 			</Link>
 			<div className="content__nav-settings">
 				<SettingsMenu
-					postID={postID}
-					userID={userID}
+					username={username}
+					// id={`${id ? id : _id}`}
+					listOptions={ListOptions}
+					showMenu={showMenu}
+					handleShowMenu={handleShowMenuTweet}
 				/>
 			</div>
 		</div>

@@ -379,16 +379,7 @@ app.get("/listuser", async (req, res) => {
   }
 });
 
-app.get("/listuserforsearch", async (req, res) => {
-  try {
-    let userData = await User.find({}, 'userID username avatar').lean();
-    // console.log(`Fetched ${userData.length} users.`);
-    res.json(userData);
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    res.status(500).send("Internal server error");
-  }
-});
+
 
 // handle admin: delete a user
 app.delete('/deleteuser/:userID', async (req, res) => {
