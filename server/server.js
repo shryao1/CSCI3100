@@ -4,7 +4,9 @@ const fs = require('fs')
 const app = express()
 
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 const cors=require("cors");
 const { log } = require("console");
 const corsOptions ={
@@ -98,6 +100,15 @@ const Attachment = mongoose.model('Attachment', attachmentSchema);
 
 module.exports = Attachment;
 
+const createAttachment = (base64data, media_type) => {
+  const fileData = base64data;
+  return {
+    filename: 'default.jpeg',
+    contentType: media_type,
+    data: fileData
+  }
+}
+
 const createAttachmentFromFile = (filePath) => {
   const fileData = fs.readFileSync(filePath);
   return {
@@ -145,6 +156,11 @@ const generateUniquePostID = async () => {
   }
 };
 
+const getMimeTypeFromDataUrl = (dataUrl) => {
+  const regex = /^data:([^;]+);/
+  const match = dataUrl.match(regex)
+  return match ? match[1] : null
+}
 
   async function createPost(userID, content, attachment, visible) {
     try {
@@ -826,12 +842,18 @@ app.get('/profilePosts/:userID', async (req, res) => {
   app.post("/post", async (req, res) => {
     try {
       // Assuming req.user is populated with the user's data after authentication
-      const { userID, text_posted } = req.body;
-    
-      const attachment = null;
-      const visible = 1;
-      const content = text_posted;
-      createPost(userID, content, attachment, visible)
+      const { userID, text_posted, media_post } = req.body
+      if(!media_post){
+        createPost(userID, text_posted, null, 1)
+      }
+      else{
+        const media_posted = media_post.replace('data','')
+		.replace(/^.+,/,'')
+        const media_type = getMimeTypeFromDataUrl(media_post)
+        const buffer = Buffer.from(media_posted, 'base64')
+        const attachment = createAttachment(buffer, media_type)
+        createPost(userID, text_posted, attachment, 1)
+      }
       res.status(201).json('');
     } catch (error) {
       console.error("Create post error:", error);
