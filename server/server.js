@@ -1207,7 +1207,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
 			{ sender: chatWith, receiver: userId }
 		  ]
 		}).sort('timestamp');
-		console.log(messages)
+		// console.log(messages)
 
 		// Check if messages exist
 		if (!messages.length) {
@@ -1215,7 +1215,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
 		}
 
 		res.json(messages);
-		console.log(messages);
+		// console.log(messages);
 	  } catch (error) {
 		console.error('Failed to fetch messages:', error);
 		// Send a generic error message to the client
@@ -1228,14 +1228,14 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	async function getUserFriends(userID) {
 	  // Find the user by userID
 	  const user = await User.findOne({ userID: userID });
-	  console.log(user)
+	  // console.log(user)
 	  if (!user) {
 		throw new Error('User not found');
 	  }
 
 	  // The followers and following are now assumed to be arrays of strings representing userIDs
 	  const { followers, following } = user;
-	  console.log(followers)
+	  // console.log(followers)
 	  // Find common userIDs in both followers and following to identify friends
 	  const friendUserIDs = followers.filter(followerUserID => following.includes(followerUserID));
 
@@ -1260,8 +1260,9 @@ app.get('/profilePosts/:userID', async (req, res) => {
 		  return res.status(404).send({ message: 'User not found' });
 		}
 		res.json({
-		  username: user.username, // Assuming the user document has a username field
+		  // username: user.username, // Assuming the user document has a username field
 		  // You can add more user fields here as needed
+      user
 		});
 	  } catch (error) {
 		console.error('Failed to fetch user info', error);
@@ -1329,6 +1330,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
         );
         res.status(200).json({ message: 'Unfollowed successfully' });
       } else {
+
           if (userData.followers.includes(visituserID)){
             const welcomeMessage = new Message({
               sender: userID, // Predefined sender ID

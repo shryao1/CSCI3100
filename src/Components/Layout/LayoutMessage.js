@@ -27,7 +27,7 @@ const LayoutMessage = ({ children }) => {
 				const userInfoResponse = await fetch(`http://localhost:3001/fetchuserinfo/${userID}/${chatWithID}`)
 				if (!userInfoResponse.ok) throw new Error('Failed to fetch user info')
 				const userInfoData = await userInfoResponse.json()
-
+				console.log(userInfoData)
 				// Process messages for the chatWithID
 				const friendMessages = messagesData.filter(msg => msg.sender === chatWithID || msg.receiver === chatWithID)
 					.map(msg => ({
@@ -41,12 +41,12 @@ const LayoutMessage = ({ children }) => {
 				// Create a single user chat object
 				const chat = {
 					userID: chatWithID,
-					username: userInfoData.username, // Placeholder for username since we are not fetching friends
-					user_photo: Michael, // Assuming a default for simplicity
+					username: userInfoData.user.username, // Placeholder for username since we are not fetching friends
+					user_photo: userInfoData.user.avatar, // Assuming a default for simplicity
 					chat: {
-						bio: 'This is a chat bio 2', // Placeholder
-						following: 100, // Placeholder
-						followers: 12, // Placeholder
+						bio: 'Please be polite! Happy chatting ^ ^', // Placeholder
+						following: userInfoData.user.following.length,
+						followers: userInfoData.user.followers.length,
 						messages: friendMessages,
 					},
 				}
