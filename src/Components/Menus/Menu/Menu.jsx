@@ -44,7 +44,7 @@ const Menu = () => {
 				</ul>
 			</nav>
 			<div className="container__btnTweet">
-				<label type="button" className="btnTweet__tweet" onClick={() => OpenPopUp()}>Tweet</label>
+				<label type="button" className="btnTweet__tweet" onClick={() => OpenPopUp()}>Post</label>
 				<label type="button" className="btnTweet__icon" onClick={() => OpenPopUp()}><CreateIcon /></label>
 			</div>
 			{/* <div className="container__profile">

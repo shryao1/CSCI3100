@@ -14,7 +14,7 @@ import './NewTweet.scss'
 import ImagePosted from '../ImagePosted/ImagePosted'
 import { set } from 'mongoose'
 const NewTweet = ({
-	placeholder = 'Place Holder',
+	placeholder = 'Type something here!',
 	isComment,
 	toUser,
 	idPost
@@ -112,7 +112,7 @@ const NewTweet = ({
 							</div>
 							<div>
 								<BtnTwitter
-									label={!isComment ? 'Tweet' : 'Reply'}
+									label={!isComment ? 'Post' : 'Reply'}
 									isComment={isComment}
 									textPost={textPost}
 									setTextPost={setTextPost}

@@ -104,7 +104,7 @@ const PostDetails = () => {
 				</div>
 				<div className="tweetDetails__newComment">
 					<NewTweet
-						placeholder="Tweet you reply"
+						placeholder="Post you reply"
 						isComment
 						toUser={post?.username}
 						postID={post?.id}

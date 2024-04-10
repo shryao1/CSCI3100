@@ -15,7 +15,7 @@ const NavPostDetails = () => {
 				</div>
 			</Link>
 			<div>
-				<h2>Tweet</h2>
+				<h2>Post</h2>
 			</div>
 		</section>
 	)
