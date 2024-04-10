@@ -82,7 +82,7 @@ const TweetPost = ({
 		    					marginLeft: '30px' // Optional, adjust as needed
 		  							}}/>
 						):(
-							<video width="450" style={{marginLeft: '50px'}} controls>
+							<video style={{maxWidth: '90%', height:'auto', width:'100%',marginLeft: '30px'}} controls>
   							<source src={`data:video/mp4;base64,${uint8ArrayToBase64(new Uint8Array(attachment.data.data))}`} type="video/mp4" />
 							</video>)
 					}
