@@ -180,12 +180,13 @@ const generateUniquePostID = async () => {
   
 
 // Function to create a new user
-async function createUser(userID, password, username, avatarPath = './CUChatIcon.png', friend) {
+async function createUser(userID, password, username, avatarPath = './CUChatIcon.png', friend, bgPath='./CUChatIcon.png') {
   let avatarData; // Define a variable to store the avatar data
-  if (avatarPath) {
+  if (avatarPath && bgPath) {
     try {
       // Read the avatar file as binary data
       avatarData = fs.readFileSync(avatarPath);
+      bgData = fs.readFileSync(bgPath);
     } catch (error) {
       console.error('Error reading the avatar file:', error.message);
       return; // Stop execution if there's an error with the avatar
@@ -203,7 +204,7 @@ async function createUser(userID, password, username, avatarPath = './CUChatIcon
     favorite: [],
     avatar : avatarData,
     introduction: null,
-    background_image: null,
+    background_image: bgData,
     newNotification: false,
     //self_post: [],
   });
