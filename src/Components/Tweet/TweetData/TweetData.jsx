@@ -21,10 +21,7 @@ const TweetData = ({
 }) => {
 	const [userInfo, setUserInfo] = useState(null)
 	
-	// console.log('WZXWZXWZX', localStorage.getItem('userTwitterClone'))
-	// console.log(localStorage.getItem('userTwitterClone'))
-	//console.log('!!!!!!!',{owner})
-	//console.log('???????',{userID})
+
 	const navigate = useNavigate()
 	const [showMenu, setShowMenu] = useState(false)
 	useEffect(() => {
@@ -54,7 +51,6 @@ const TweetData = ({
 		})
 		return btoa(binary)
 	}
-	
 	return (
 		<div className="tweet__linkContainer" > 
 			<div className="tweet__ID">{'Post #'}{postID}</div>

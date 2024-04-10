@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import PhotoUser from '../../shared/Components/PhotoUser/PhotoUser'
 import './MessageItem.scss'
-import MichealAvatar from './michaelAvatar.png'
+
 
 const MessageItem = () => {
 	const { userID } = useParams()
@@ -17,6 +17,8 @@ const MessageItem = () => {
 				const friendsResponse = await fetch(`http://localhost:3001/friends/${userID}`)
 				if (!friendsResponse.ok) throw new Error('Failed to fetch friends')
 				const friendsData = await friendsResponse.json()
+			
+				//console.log(friendsData)
 
 				const messagesPromises = friendsData.map(async (friend) => {
 					const messagesResponse = await fetch(`http://localhost:3001/message/${userID}/${friend.userID}`)
@@ -33,7 +35,7 @@ const MessageItem = () => {
 						message: {
 							//id: newestMessage.receiver,
 							post: {
-								user_photo: MichealAvatar, // This is a simplification
+								user_photo: friend.avatar,
 								name: '@' + friend.userID,
 								username: friend.username,
 								time: new Date(newestMessage.timestamp).toLocaleTimeString(),
@@ -72,30 +74,37 @@ const MessageItem = () => {
 	if (!friendsMessages.length) {
 		return <div>Loading...</div>
 	}
-
+	
 	return (
 		<div>
-			{friendsMessages.map(({ friendId, message }) => (
-				<div key={friendId} className="Message__container" onClick={() => handleClick(message.id, friendId)}>
-					<div className="Message__container-photo">
-						<PhotoUser url={message.post.user_photo}/>
-					</div>
-					<div className="Message__container-content">
-						<div className="content__head">
-							<div className="content__head-data">
-								<div>
-									<span className="head__data-name">{message.post.name}</span>
-									<span className="head__data-username">{message.post.username}</span>
+			{friendsMessages.map(({ friendId, message }) => {
+				const photoSrc = message.post.user_photo
+				return (
+					<div key={friendId} className="Message__container" onClick={() => handleClick(message.id, friendId)}>
+						<div className="Message__container-photo">
+							<img
+								src={`data:image/jpeg;base64,${photoSrc}`}
+								alt="User Avatar"
+								style={{ width: '48px', height: '48px' }}
+							/>
+						</div>
+						<div className="Message__container-content">
+							<div className="content__head">
+								<div className="content__head-data">
+									<div>
+										<span className="head__data-name">{message.post.name}</span>
+										<span className="head__data-username">{message.post.username}</span>
+									</div>
+									<span className="head__data-time">{message.post.time}</span>
 								</div>
-								<span className="head__data-time">{message.post.time}</span>
+							</div>
+							<div className="content__text">
+								{message.post.text}
 							</div>
 						</div>
-						<div className="content__text">
-							{message.post.text}
-						</div>
 					</div>
-				</div>
-			))}
+				)
+			})}
 		</div>
 	)
 }

@@ -8,11 +8,12 @@ import MenuTweetsProfile from '../../Components/Menus/MenuTweetsProfile/MenuTwee
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 
 const Profile = () => {
-	const { user, setUser, posts, setPosts, setVisitUserID } = useContext(AppContext)
+	const { user, setUser, posts, setPosts, setVisitUserID, refreshData } = useContext(AppContext)
 	// const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState()
-	
+	const [self_post, setself_post] = useState()
 	const [viewFavorite, setViewFavorite] = useState(false)
+	const [initialState, setInitialState] = useState(false)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
 
@@ -35,7 +36,7 @@ const Profile = () => {
 				const data = await response.json()
 	
 				// Handle the response data if necessary
-				console.log(data)
+				// console.log(data)
 	
 				// Check if visitUserID is following or not based on the response
 				if (data.isFollowing === 1) {
@@ -51,50 +52,74 @@ const Profile = () => {
 			console.warn('Invalid user ID')
 		}
 	}
+
 	
 	checkFollowing()
-
+	
 	useEffect(() => {
 		setVisitUserID(visituserID)
-		
-		const fetchPosts = async () => {
+		refreshData()
+		// console.log('data')
+		if(!initialState){
+			setInitialState(true)
+			const fetchPostsNumber = async () => {
 
-			if (visituserID) {
-				localStorage.setItem('visitUserID', visituserID)
-				try {
-					const response = await fetch(`http://localhost:3001/profilePosts/${visituserID}`)
-					if (!response.ok) throw new Error('Network response was not ok')
-					const data = await response.json()
-					setPosts(data)
-				} catch (error) {
-					console.error('Error fetching user data:', error)
+				if (visituserID) {
+					localStorage.setItem('visitUserID', visituserID)
+					try {
+						const response = await fetch(`http://localhost:3001/profileSelfPost/${visituserID}`)
+						if (!response.ok) throw new Error('Network response was not ok')
+						const data = await response.json()
+						setself_post(data)
+						console.log(data)
+					} catch (error) {
+						console.error('Error fetching user data:', error)
+					}
+				} else {
+					console.warn('Invalid user ID')
 				}
-			} else {
-				console.warn('Invalid user ID')
 			}
-		}
+			fetchPostsNumber()
 
-		const fetchfavoritepost = async () => {
+			
+			const fetchPosts = async () => {
 
-			if (visituserID) {
-				localStorage.setItem('visitUserID', visituserID)
-				try {
-					const response = await fetch(`http://localhost:3001/profileFavourites/${visituserID}`)
-					if (!response.ok) throw new Error('Network response was not ok')
-					const data = await response.json()
-					setPosts(data)
-				} catch (error) {
-					console.error('Error fetching user data:', error)
+				if (visituserID) {
+					localStorage.setItem('visitUserID', visituserID)
+					try {
+						const response = await fetch(`http://localhost:3001/profilePosts/${visituserID}`)
+						if (!response.ok) throw new Error('Network response was not ok')
+						const data = await response.json()
+						setPosts(data)
+					} catch (error) {
+						console.error('Error fetching user data:', error)
+					}
+				} else {
+					console.warn('Invalid user ID')
 				}
-			} else {
-				console.warn('Invalid user ID')
 			}
-		}
 
-		if (viewFavorite) fetchfavoritepost()
-		else fetchPosts()
-		
-	  }, [visituserID, viewFavorite])
+			const fetchfavoritepost = async () => {
+
+				if (visituserID) {
+					localStorage.setItem('visitUserID', visituserID)
+					try {
+						const response = await fetch(`http://localhost:3001/profileFavourites/${visituserID}`)
+						if (!response.ok) throw new Error('Network response was not ok')
+						const data = await response.json()
+						setPosts(data)
+					} catch (error) {
+						console.error('Error fetching user data:', error)
+					}
+				} else {
+					console.warn('Invalid user ID')
+				}
+			}
+
+			if (viewFavorite) fetchfavoritepost()
+			else fetchPosts()
+		}
+	  }, [userID, visituserID, viewFavorite, self_post, initialState])
 
 
 	  const handleFollowUser = async () => {
@@ -130,7 +155,8 @@ const Profile = () => {
 	const handleButtonClick = () => {
 		handleFollowUser()
 		checkFollowing()
-		window.location.reload()
+		refreshData()
+		// window.location.reload()
 		// setIsFollowing(prevState => !prevState)
 	  }
 
@@ -147,7 +173,9 @@ const Profile = () => {
 			{user &&
 				<>
 					<NavProfile 
+					
 						user={user} 
+						self_post = {self_post}
 						userID={user.userID}
 						judge={judgement}
 						isFollowing={isFollowing}

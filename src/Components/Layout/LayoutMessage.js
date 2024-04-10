@@ -27,7 +27,7 @@ const LayoutMessage = ({ children }) => {
 				const userInfoResponse = await fetch(`http://localhost:3001/fetchuserinfo/${userID}/${chatWithID}`)
 				if (!userInfoResponse.ok) throw new Error('Failed to fetch user info')
 				const userInfoData = await userInfoResponse.json()
-				console.log(userInfoData)
+				//console.log(userInfoData)
 				// Process messages for the chatWithID
 				const friendMessages = messagesData.filter(msg => msg.sender === chatWithID || msg.receiver === chatWithID)
 					.map(msg => ({
@@ -50,6 +50,8 @@ const LayoutMessage = ({ children }) => {
 						messages: friendMessages,
 					},
 				}
+				
+				//console.log(chat)
 	
 				if (isMounted) setUserChats([chat]) // Since structure should not change, wrap the single chat object in an array
 			

@@ -47,7 +47,7 @@ const Menu = () => {
 				<label type="button" className="btnTweet__tweet" onClick={() => OpenPopUp()}>Tweet</label>
 				<label type="button" className="btnTweet__icon" onClick={() => OpenPopUp()}><CreateIcon /></label>
 			</div>
-			<div className="container__profile">
+			{/* <div className="container__profile">
 				<PhotoUser url={userPhoto} size="40" />
 				<div className="pofile_name-moreicon">
 					<div className="profile__name">
@@ -56,7 +56,7 @@ const Menu = () => {
 					</div>
 					<div className="profile__moreicon"><MoreHorizOutlinedIcon /></div>
 				</div>
-			</div>
+			</div> */}
 		</div>
 	)
 }

@@ -28,7 +28,7 @@ const Notifications = () => {
 						user_photo: userData.useravatar // Assuming the backend endpoint returns { username: '...' }
 					}
 				}))
-				//console.log(notificationsWithUsernames)
+				console.log(notificationsWithUsernames)
 				setNotifications(notificationsWithUsernames)
 			} catch (error) {
 				console.error('Error fetching notifications:', error)
@@ -48,7 +48,7 @@ const Notifications = () => {
 							key={index}
 							notification={{
 								...notification,
-								user_photo: notification.user_photo, // Assuming the backend endpoint returns { user_photo: '...' }
+								// user_photo: notification.user_photo, // Assuming the backend endpoint returns { user_photo: '...' }
 								text_notification: notification.content,
 								name: '@' + notification.sender + '  ' + notification.username + '  ', // Assuming sender is the name, adjust if it's an ID
 								// username: notification.username, // Prefix with '@', adjust according to your data
