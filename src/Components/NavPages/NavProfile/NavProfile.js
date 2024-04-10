@@ -33,7 +33,9 @@ const NavProfile = ({
 		return btoa(binary)
 	}
 	const navigate = useNavigate()
-	// console.log(background_image)
+	if (!self_post) self_post = []
+	console.log(self_post)
+	// const bg_url = background_image.data?`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(background_image.data))}`
 	return (
 		<div className="container__navProfile">
 			<section className="header__navProfile">
