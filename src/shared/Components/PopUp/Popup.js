@@ -13,6 +13,10 @@ const PopUp = ({ children }) => {
 	const ClosePopUp = () => {
 		menuContext?.setPopUp(false)
 		enableScroll()
+		retweetContext?.setText('')
+		retweetContext?.setThereIsText(false)
+		retweetContext?.setAttachment(null)
+		retweetContext?.setThereIsAttachment(false)
 	}
 
 	return (
