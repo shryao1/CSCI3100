@@ -28,7 +28,7 @@ const TweetData = ({
 	const navigate = useNavigate()
 	const [showMenu, setShowMenu] = useState(false)
 	useEffect(() => {
-		fetch(`http://localhost:3001/userinfo/${postID}`) // Notice the use of backticks (`) here
+		fetch(`http://localhost:3001/userinfo/${postID}`)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error('Network response was not ok')

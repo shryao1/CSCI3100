@@ -970,13 +970,13 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	  }
 	});
 	
-	// Get Username by UserID
+	// Get Username and Useravatar by UserID
 	app.get('/user/username/:userId', async (req, res) => {
 	  try {
 		const { userId } = req.params;
-		const user = await User.findOne({ userID: userId }, 'username'); // Select only the username
+		const user = await User.findOne({ userID: userId }, 'username avatar'); // Select only the username
 		if (!user) return res.status(404).send({ message: 'User not found' });
-		res.send({ username: user.username });
+		res.send({ username: user.username, useravatar: user.avatar});
 	  } catch (error) {
 		console.error('Error fetching username:', error);
 		res.status(500).send({ message: 'Internal server error' });

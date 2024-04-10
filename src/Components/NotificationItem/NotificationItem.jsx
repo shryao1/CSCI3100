@@ -3,6 +3,13 @@ import PersonIcon from '@mui/icons-material/Person'
 
 import './NotificationItem.scss'
 
+const uint8ArrayToBase64 = (uint8Array) => {
+	let binary = ''
+	uint8Array.forEach((byte) => {
+		binary += String.fromCharCode(byte)
+	})
+	return btoa(binary)
+}
 const NotificationItem = ({
 	notification: {
 		id,
@@ -14,7 +21,9 @@ const NotificationItem = ({
 		icon_notification
 	},
 	owner
+	
 }) => {
+	//console.log('!!!!!!!', NotificationItem)
 	return (
 		<div className="notification__container">
 			<div className="notification__container-icon">
@@ -22,7 +31,11 @@ const NotificationItem = ({
 			</div>
 			<div className="notification__container-content">
 				<div className="notification__container-photo">
-					<PhotoUser url={user_photo} size='32'/>
+					<img
+        			src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(user_photo))}`}
+        			alt="User.Avatar"
+						style={{ width: '48px', height: '48px' }}
+    				/>
 				</div>
 				<div className="content__text">
 					<span>{name}</span>{text_notification}
