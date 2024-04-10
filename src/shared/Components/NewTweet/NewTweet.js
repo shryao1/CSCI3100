@@ -12,6 +12,7 @@ import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined'
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined'
 import './NewTweet.scss'
 import ImagePosted from '../ImagePosted/ImagePosted'
+import { set } from 'mongoose'
 const NewTweet = ({
 	placeholder = 'Place Holder',
 	isComment,
@@ -20,7 +21,7 @@ const NewTweet = ({
 }) => {
   	const [previewUrl, setPreviewUrl] = useState('')
 	const fileInputRef = useRef(null)
-
+	const [showphoto, setShowphoto] = useState(false)
 	const appContext = useContext(AppContext)
 
 
@@ -45,6 +46,7 @@ const NewTweet = ({
 
 	function handleButtonClick() {
 		fileInputRef.current.click()
+		setShowphoto(true)
 	  }
 	
 	return (
@@ -57,9 +59,7 @@ const NewTweet = ({
 				}
 				<div className="mainNavHome__Content">
 					<div className="mainNavHome__Content-photo">
-						{appContext?.user &&
-							<PhotoUser url={appContext?.user.user_photo} />
-						}
+						
 					</div>
 					<div className="mainNavHome__Content-form">
 						<div className="formNavHome__input">
@@ -124,10 +124,14 @@ const NewTweet = ({
 					</div>
 				</div>
 			</section>
-			<h1>Selected photo</h1>
-			<div style={{ display: 'flex', justifyContent: 'center' }}>
-				{previewUrl && <img src={previewUrl} alt="Preview" width="50"/>}
-			</div>
+			{showphoto &&
+            <>
+                	<h1>Selected photo</h1>
+                	<div style={{ display: 'flex', justifyContent: 'center' }}>
+                    	{previewUrl && <img src={previewUrl} alt="Preview" width="50"/>}
+                	</div>
+            	</>
+        	}
 		</div>
 	)
 }
