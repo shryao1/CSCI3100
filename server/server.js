@@ -1056,7 +1056,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
   
         const followerDetails = await Promise.all(followers.map(async (followerID) => {
           const followerProfile = await User.findOne({ 'userID': followerID })
-                                              .select('avatar username')
+                                              .select('userID username')
                                               .lean()
                                               .exec();
           return {
@@ -1086,7 +1086,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
   
         const followingDetails = await Promise.all(followings.map(async (followingID) => {
           const followingProfile = await User.findOne({ 'userID': followingID })
-                                              .select('avatar username')
+                                              .select('userID username')
                                               .lean()
                                               .exec();
           return {
@@ -1149,61 +1149,9 @@ app.get('/profilePosts/:userID', async (req, res) => {
 			.catch(err => res.status(400).send("unable to find comments"))
 	})
 
-    app.get('/getfollowers/:userID', async (req, res, next) => {
-      try {
-        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
-        const followerList = await User.findOne({ userID })
-                                    .select('followers')
-                                    .exec();
-        const followers = followerList.followers;
-  
-  
-        const followerDetails = await Promise.all(followers.map(async (followerID) => {
-          const followerProfile = await User.findOne({ 'userID': followerID })
-                                              .select('avatar username')
-                                              .lean()
-                                              .exec();
-          return {
-              ...followerProfile, // Spread avatar and username
-              _id: followerID // Add _id property to match the original followerID
-          };
-      }));
-      // console.log(followers);
-      res.json(followerDetails);
-  
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        res.status(500).send("Internal server error");
-      }
-    });
+    
       
-    app.get('/getfollowings/:userID', async (req, res, next) => {
-      try {
-        const { userID } = req.params; // Use req.params to get the userID from the URL parameter
-        const followingList = await User.findOne({ userID })
-                                    .select('following')
-                                    .exec();
-        const followings = followingList.following;
   
-  
-        const followingDetails = await Promise.all(followings.map(async (followingID) => {
-          const followingProfile = await User.findOne({ 'userID': followingID })
-                                              .select('avatar username')
-                                              .lean()
-                                              .exec();
-          return {
-              ...followingProfile, // Spread avatar and username
-              _id: followingID // Add _id property to match the original followerID
-          };
-      }));
-      // console.log(followings);
-      res.json(followingDetails);
-  
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        res.status(500).send("Internal server error");
-      }
-    });
 
     app.get('/profileFavourites/:userID', async (req, res) => {
       try {

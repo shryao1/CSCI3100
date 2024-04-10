@@ -74,7 +74,7 @@ const FollowList = () => {
 					<li key={follower.username}>
 						<div>
 							{/* Assuming there's an avatar field in follower object */}
-							{follower.avatar && <img src={follower.avatar} alt={null} />}
+							{/* {follower.avatar && <img src={follower.avatar} alt={null} />} */}
 							<span>{follower.username}</span>
 						</div>
 					</li>
