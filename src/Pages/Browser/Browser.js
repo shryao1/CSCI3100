@@ -4,34 +4,30 @@ import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
 import { AppContext } from '../../Context/AppContext'
 import './Browser.scss'
+import sad from './sad.png'
+import { set } from 'mongoose'
 
 const Browser = () => {
 	const { setVisitUserID } = useContext(AppContext)
 	const [postData, setPostData] = useState(null)
-	const userID = useParams().userID // Combined these two lines for cleaner code
+	const [showNotFound, setShowNotFound] = useState(false)
 	useEffect(() => {
-		setVisitUserID(userID)
-		
-		//console.log('Fetching posts for user:', userID)
-
-		if (userID) {
-			localStorage.setItem('visitUserID', userID)
-			try {
-				console.log('Fetching posts for user:', userID)
-				const response =  fetch(`http://localhost:3001/browser/${userID}`)
-				//console.log('Fetching posts for user:', userID)
-				if (!response.ok) throw new Error('Network response was not ok')
-				const data = response.json()
-				setPostData(data)
-				console.log(data)
-			} catch (error) {					
-				console.error('Error fetching user data:', error)
-			}
-		} else {
-			console.warn('Invalid user ID')
-		}
-		
-	}, [userID])
+        	fetch(`http://localhost:3001/browser/${userID}`)
+            	.then((response) => {
+                	if (!response.ok) {
+                    	  throw new Error('Network response was not ok')
+                	}
+                	return response.json()
+            	})
+            	.then((data) => {
+                	setPostData(data)
+				setShowNotFound(true)
+                	//console.log('here is test',data)
+            	})
+            	.catch((error) => {
+               		console.error('Error fetching user data:', error)
+            	})
+      	}, [userID])
 	return (
 		<div className="browser__container">
 			<NavBrowser />
@@ -39,6 +35,13 @@ const Browser = () => {
 				{postData?.map((post) => {
 					return <TweetPost key={post.postID} post={post} />
 				})}
+				{showNotFound === false && 
+				<>
+					<br></br>
+					<h2>Sorry, your followings have not send posts now.</h2>
+					<img src={sad} alt="something wrong" className="search-logo" style={{ width: 320, height: 320 }} />
+				</>
+				}
 			</div>
 		</div>
 	)
