@@ -733,18 +733,21 @@ app.post('/upload-background', async (req, res) => {
 app.get('/profile/:userID', async (req, res, next) => {
   try {
     const { userID } = req.params; // Use req.params to get the userID from the URL parameter
-    const userData = await User.findOne({ userID })
-                                .select('avatar background_image username description following followers userID')
-                                .exec();
-  
-    const posts = await Post.find({ 'userID': userID }, 'postID').lean();
-    const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
-    userObject.self_post = posts.map(post => post.postID);
+    // const userData = await User.findOne({ userID })
+    //                             .select('avatar background_image username introduction following followers userID')
+    //                             .exec();
+    const userData = await User.findOne({ userID });
+    console.log(userData);
+
+    const posts = await Post.find({ 'userID': userID }, 'postID').exec();
+    // const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
+    // userObject.self_post = posts.map(post => post.postID);
 
     // console.log(userObject);
 
     if (userData) {
-      res.json(userObject);
+      // res.json(userObject);
+      res.json(userData);
     } else {
       next(); // Move to the next middleware if the user is not found
     }
@@ -754,6 +757,31 @@ app.get('/profile/:userID', async (req, res, next) => {
   }
 });
 
+
+app.get('/profileSelfPost/:userID', async (req, res, next) => {
+  try {
+    const { userID } = req.params; // Use req.params to get the userID from the URL parameter
+    // const userData = await User.findOne({ userID })
+    //                             .select('avatar background_image username introduction following followers userID')
+    //                             .exec();
+    const userData = await User.findOne({ userID });
+    console.log(userData);
+
+    const posts = await Post.find({ 'userID': userID }, 'postID').exec();
+    const self_post = posts.map(posts => posts.postID);
+
+    console.log(self_post);
+
+    if (self_post) {
+      res.json(self_post);
+    } else {
+      next(); // Move to the next middleware if the user is not found
+    }
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).send("Internal server error");
+  }
+});
 
 // list all posts in profile
 app.get('/profilePosts/:userID', async (req, res) => {
