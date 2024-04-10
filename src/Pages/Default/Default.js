@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Default.scss'
 
 import CUChatIcon from './img/CUChatIcon.png'
+import CUChatIconGIF from './img/CUChatIcon.gif'
 import Michael from './img/Michael_photo.jpeg'
 
 const Default = () => {
@@ -12,7 +13,7 @@ const Default = () => {
 				<div className="default__menuInitial">
 					<div className="content">
 						<div className="icon">
-							<img src = {CUChatIcon} alt = "Custom Twitter Icon" style={{ width: '80px', height: '80px' }}/>
+							<img src = {CUChatIconGIF} alt = "Custom Twitter Icon" style={{ width: '80px', height: '80px' }}/>
 						</div>
 						<div className="text">
 							<span className="big">
