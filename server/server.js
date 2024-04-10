@@ -365,7 +365,7 @@ app.post('/register', async (req, res) => {
 		const { user_name, user_password } = req.body;
 		const userID = await generateUniqueUserID();
 
-		createUser(userID, user_password, user_name);
+		createUser(userID, user_password, user_name, undefined, '1');
 
 		// Check if newUser actually has a userID property
 
@@ -388,7 +388,6 @@ app.get("/listuser", async (req, res) => {
       user.self_post = posts.map(post => post.postID);
     }
 
-    // console.log(`Fetched ${userData.length} users.`);
     res.json(userData);
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -763,7 +762,6 @@ app.get('/profile/:userID', async (req, res, next) => {
     //                             .select('avatar background_image username introduction following followers userID')
     //                             .exec();
     const userData = await User.findOne({ userID });
-    console.log(userData);
 
     const posts = await Post.find({ 'userID': userID }, 'postID').exec();
     // const userObject = userData.toObject(); // Convert Mongoose document to plain JavaScript object
@@ -791,12 +789,10 @@ app.get('/profileSelfPost/:userID', async (req, res, next) => {
     //                             .select('avatar background_image username introduction following followers userID')
     //                             .exec();
     const userData = await User.findOne({ userID });
-    console.log(userData);
 
     const posts = await Post.find({ 'userID': userID }, 'postID').exec();
     const self_post = posts.map(posts => posts.postID);
 
-    console.log(self_post);
 
     if (self_post) {
       res.json(self_post);
@@ -1236,7 +1232,6 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	async function getUserFriends(userID) {
 	  // Find the user by userID
 	  const user = await User.findOne({ userID: userID });
-	  // console.log(user)
 	  if (!user) {
 		throw new Error('User not found');
 	  }
@@ -1246,6 +1241,7 @@ app.get('/profilePosts/:userID', async (req, res) => {
 	  // console.log(followers)
 	  // Find common userIDs in both followers and following to identify friends
 	  const friendUserIDs = followers.filter(followerUserID => following.includes(followerUserID));
+	  
 
 	  // Fetch the friend users' details using their userID
 	  const friends = await User.find({ 'userID': { $in: friendUserIDs } });
