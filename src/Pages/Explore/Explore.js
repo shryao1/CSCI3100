@@ -14,7 +14,7 @@ const Explore = () => {
                 	return response.json()
             	})
             	.then((data) => {
-                	const shuffledData = shuffleArray(data)
+                	const shuffledData = sortByCoupon(data)
                 	setPostData(shuffledData)
                 	//console.log('here is test',data)
             	})
@@ -22,14 +22,10 @@ const Explore = () => {
                		console.error('Error fetching user data:', error)
             	})
       	}, [])
-	const shuffleArray = (array) => {
-        	const shuffledArray = [...array]
-        	for (let i = shuffledArray.length - 1; i > 0; i--) {
-            	const j = Math.floor(Math.random() * (i + 1))
-            	;[shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]]
-        	}
-        	return shuffledArray
-    	}
+	const sortByCoupon = (array) => {
+		return array.sort((a, b) => b.dislike - a.dislike)
+	}
+		
 	return (
 		<div className="explore__container">
 			<NavExplore />
