@@ -19,9 +19,13 @@
         border-radius: 30px;
         color: #e8a217;
     }
-
+    .username {
+        font-size: 20px; /* Adjust the font size as needed */
+        /* Add other styling properties as desired */
+    }
+    
     .search-button {
-        padding: 5px 10px;
+        padding: 5px 8px;
         border: none;
         
         color: #fff;
@@ -29,7 +33,11 @@
         cursor: pointer;
         margin-left: 5px;
     }
-
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        grid-gap: 5px;
+    }
     div{
         width: 90%;
         max-width: 350px;
