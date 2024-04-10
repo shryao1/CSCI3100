@@ -214,7 +214,7 @@ const ProfileEdit = () => {
 						<input type="text" id="introduction" name="introduction" value={userData.introduction} onChange={(e) =>handleChange(e)} />
 					</div>
 					<div className={styles.profileEdit__imageUpload}>{userData.background_image ? (
-						<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.background_image.data))}`} alt="User Background" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />):(<div>No background available</div>)}
+						<img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(userData.background_image.data))}`} alt="User Background" style={{ display: 'block', margin: 'auto', width: '300px', height: '300px'}} />):(<div>No background available</div>)}
 					</div>
 					<div className={styles.profileEdit__footer}>
 						<span>Background:</span>
