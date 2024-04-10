@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 
-import TwitterIcon from '@mui/icons-material/Twitter'
-
 import './Default.scss'
 
 import CUChatIcon from './img/CUChatIcon.png'
+import Michael from './img/Michael_photo.jpeg'
 
 const Default = () => {
 	return (
@@ -49,7 +48,7 @@ const Default = () => {
 				</div>
 				<div className="default__imageInitial">
 					<div>
-						<img src="https://croucher-public.s3.ap-southeast-1.amazonaws.com/variants/yb/images/files/747/original/Michael%20Lyu%20Rung%20Tsong.jpg/fcdcc20eeffd52dc907244b89ce897d28c3432b852ff7fd0ddcf62abeded2e5d" alt="bg tweeter initial Page" />
+						<img src= {Michael} alt="bg tweeter initial Page" />
 						<div></div>
 					</div>
 					<div className="logo">
