@@ -4,6 +4,13 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined'
 
 import './MessageProfile.scss'
+const uint8ArrayToBase64 = (uint8Array) => {
+	let binary = ''
+	uint8Array.forEach((byte) => {
+		binary += String.fromCharCode(byte)
+	})
+	return btoa(binary)
+}
 
 const MessageProfile = ({ 
 	post: {
@@ -23,7 +30,11 @@ const MessageProfile = ({
 			<div className="MessageProfile__container-firstinfo">
 				<div className="MessageProfile__photo-name">
 					<div className="MessageProfile__photo">
-						<PhotoUser url={user_photo} size="20"/>
+						<img
+							src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(user_photo.data))}`}
+							alt="User.Avatar"
+							style={{ width: '48px', height: '48px' }}
+						/>
 					</div>
 					<div className="MessageProfile__name">
 						<span className="MessageProfile__data-name">{name}</span>
