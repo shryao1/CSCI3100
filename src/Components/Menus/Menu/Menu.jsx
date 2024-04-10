@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import MenuItem from './MenuItem/MenuItem'
-
+import { useNavigate } from 'react-router-dom'
 import { getListOptionsMenu } from './ListOptions'
 
 import { MenuActiveContext } from '../../../Context/menuActive'
@@ -9,7 +9,6 @@ import { disableScroll } from '../../../Hooks/useScroll'
 
 import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
 
-import TwitterIcon from '@mui/icons-material/Twitter'
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 import CreateIcon from '@mui/icons-material/Create'
 import CUChatIcon from './img/CUChatIcon.png'
@@ -21,6 +20,7 @@ const Menu = () => {
 	const { userID } = useParams()
 	const menuContext = useContext(MenuActiveContext)
 	const ListOptionsMenu = getListOptionsMenu(userID)
+	const navigate = useNavigate()
 
 	const OpenPopUp = () => {
 		menuContext?.setPopUp(true)
@@ -47,16 +47,17 @@ const Menu = () => {
 				<label type="button" className="btnTweet__tweet" onClick={() => OpenPopUp()}>Post</label>
 				<label type="button" className="btnTweet__icon" onClick={() => OpenPopUp()}><CreateIcon /></label>
 			</div>
-			{/* <div className="container__profile">
-				<PhotoUser url={userPhoto} size="40" />
+			<div>
+				<button style={{ position: 'fixed', left: '0', bottom: '0' }} onClick={() => navigate('/')}>Log Out</button>
+				{/* <PhotoUser url={userPhoto} size="40" />
 				<div className="pofile_name-moreicon">
 					<div className="profile__name">
 						<label>Winnie</label>
 						<div><label className="profile__name-username">@winnie3100</label></div>
 					</div>
 					<div className="profile__moreicon"><MoreHorizOutlinedIcon /></div>
-				</div>
-			</div> */}
+				</div> */}
+			</div>
 		</div>
 	)
 }
