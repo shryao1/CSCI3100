@@ -15,17 +15,25 @@ const NavProfile = ({
 		avatar,
 		background_image,
 		username,
-		description,
+		introduction,
 		following,
 		followers,
 		userID,
-		self_post,
 	},
+	self_post,
 	judge,
 	isFollowing,
 	handleButtonClick
 }) => {
+	const uint8ArrayToBase64 = (uint8Array) => {
+		let binary = ''
+		uint8Array.forEach((byte) => {
+			binary += String.fromCharCode(byte)
+		})
+		return btoa(binary)
+	}
 	const navigate = useNavigate()
+	// console.log(background_image)
 	return (
 		<div className="container__navProfile">
 			<section className="header__navProfile">
@@ -36,16 +44,16 @@ const NavProfile = ({
 				</div> */}
 				<div>
 					<h2 style={{ marginBottom: '1px' }}>{username}</h2> {/* Add margin-bottom here */}
-					<span>{self_post.length} Tweets</span>
+					<span>{self_post.length} Posts</span>
 				</div>
 			</section>
 			<section className="main__navProfile">
 				<div className="main__navProfile-bgImage">
-					< img src={background_image} alt="background img" width="600" />
+					< img src={`data:image/jpeg;base64,${uint8ArrayToBase64(new Uint8Array(background_image.data))}`} alt="background img" width="600" />
 				</div>
 				<div className='main__navProfile-imgUser'>
 					<div className='photo__profile'>
-						<PhotoUser url={avatar} size='133' />
+						<PhotoUser url={avatar.data} size='133' />
 					</div>
 				</div>
 				
@@ -86,7 +94,7 @@ const NavProfile = ({
 					</div>
 					<div className='main__dataProfile-description'>
 						<div>
-							{description}
+							Introduction: {introduction}
 						</div>
 					</div>
 					<div className='main__followBtns'>

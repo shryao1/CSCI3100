@@ -11,7 +11,7 @@ const Profile = () => {
 	const { user, setUser, posts, setPosts, setVisitUserID } = useContext(AppContext)
 	// const [posts, setPosts] = useState(null)
 	const [isFollowing, setIsFollowing] = useState()
-	
+	const [self_post, setself_post] = useState()
 	const [viewFavorite, setViewFavorite] = useState(false)
 	const { userID, visituserID } = useParams() // Combined these two lines for cleaner code
 	let judgement = (userID === visituserID)
@@ -56,6 +56,24 @@ const Profile = () => {
 
 	useEffect(() => {
 		setVisitUserID(visituserID)
+
+		const fetchPostsNumber = async () => {
+
+			if (visituserID) {
+				localStorage.setItem('visitUserID', visituserID)
+				try {
+					const response = await fetch(`http://localhost:3001/profileSelfPost/${visituserID}`)
+					if (!response.ok) throw new Error('Network response was not ok')
+					const data = await response.json()
+					setself_post(data)
+				} catch (error) {
+					console.error('Error fetching user data:', error)
+				}
+			} else {
+				console.warn('Invalid user ID')
+			}
+		}
+		fetchPostsNumber()
 		
 		const fetchPosts = async () => {
 
@@ -147,7 +165,9 @@ const Profile = () => {
 			{user &&
 				<>
 					<NavProfile 
+					
 						user={user} 
+						self_post = {self_post}
 						userID={user.userID}
 						judge={judgement}
 						isFollowing={isFollowing}
