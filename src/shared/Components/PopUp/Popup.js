@@ -9,7 +9,7 @@ import './PopUp.scss'
 
 const PopUp = ({ children }) => {
 	const menuContext = useContext(MenuActiveContext)
-
+	const retweetContext = useContext(RetweetContext)
 	const ClosePopUp = () => {
 		menuContext?.setPopUp(false)
 		enableScroll()
