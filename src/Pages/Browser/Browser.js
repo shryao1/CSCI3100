@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'
-import { AppContext } from '../../Context/AppContext'
 import './Browser.scss'
 import sad from './sad.png'
 import { set } from 'mongoose'
 
 const Browser = () => {
-	const { setVisitUserID } = useContext(AppContext)
+	const { userID } = useParams()
 	const [postData, setPostData] = useState(null)
 	const [showNotFound, setShowNotFound] = useState(false)
 	useEffect(() => {
