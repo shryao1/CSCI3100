@@ -19,22 +19,31 @@ const NewTweet = ({
 	toUser,
 	idPost
 }) => {
-  	const [previewUrl, setPreviewUrl] = useState('')
+  	const [previewUrl, setPreviewUrl] = useState(null)
+	const [pUrl, setPUrl] = useState('')
 	const fileInputRef = useRef(null)
 	const [showphoto, setShowphoto] = useState(false)
 	const appContext = useContext(AppContext)
-
+	const retweetContext = useContext(RetweetContext)
 
 	const [textPost, setTextPost] = useState('')
-
+	useEffect(() => {
+		if (retweetContext?.thereistext) {
+		  setTextPost(retweetContext.text)
+		}
+		if (retweetContext?.thereisattachment && !(retweetContext.attachment===null)){
+			if(retweetContext.attachment.contentType==='video/mp4'){
+				setPreviewUrl(`data:${retweetContext.attachment.contentType};base64,${uint8ArrayToBase64(new Uint8Array(retweetContext.attachment.data.data))}`)
+			}
+			else{
+				setPreviewUrl(`data:${retweetContext.attachment.contentType};base64,${uint8ArrayToBase64(new Uint8Array(retweetContext.attachment.data.data))}`)
+			}
+		}
+	  }, [retweetContext])
 	const handleChangeInput = (e) => {
 		setTextPost(e.target.value)
 	}
-	
 	/*
-	function handleFileChange(event) {
-		setSelectedFile(event.target.files[0])
-	}*/
 	function handleFileChange(event) {
 		const file = event.target.files[0]
 		if (file) {
@@ -42,8 +51,34 @@ const NewTweet = ({
 		  setPreviewUrl(fileUrl)
 		  ImagePosted({ fileUrl })
 		}
+	}*/
+
+	function handleFileChange(event) {
+		const file = event.target.files[0]
+		const reader = new FileReader()
+		reader.onload = function(){
+			const base64string = reader.result.replace('data','')
+				.replace(/^.+,/,'')
+			//console.log(reader.result)
+			setPreviewUrl(reader.result)
+		}
+		reader.readAsDataURL(file)
+
+		if(file){
+			const fileUrl = URL.createObjectURL(file)
+			setPUrl(fileUrl)
+		  	ImagePosted({ fileUrl })
+		}
 	}
 
+	
+	const uint8ArrayToBase64 = (uint8Array) => {
+		let binary = ''
+		uint8Array.forEach((byte) => {
+			binary += String.fromCharCode(byte)
+		})
+		return btoa(binary)
+	}
 	function handleButtonClick() {
 		fileInputRef.current.click()
 		setShowphoto(true)
@@ -115,6 +150,7 @@ const NewTweet = ({
 									label={!isComment ? 'Post' : 'Reply'}
 									isComment={isComment}
 									textPost={textPost}
+									media_posted={previewUrl}
 									setTextPost={setTextPost}
 									toUser={toUser}
 									idPost={idPost}
@@ -128,7 +164,7 @@ const NewTweet = ({
             <>
                 	<h1>Selected photo</h1>
                 	<div style={{ display: 'flex', justifyContent: 'center' }}>
-                    	{previewUrl && <img src={previewUrl} alt="Preview" width="50"/>}
+                    	{pUrl && <img src={pUrl} alt="Preview" width="50"/>}
                 	</div>
             	</>
         	}
