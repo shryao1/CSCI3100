@@ -1,3 +1,17 @@
+/**
+ * NavMessage.scss
+ *
+ * Description: This SCSS file defines the styling for the NavMessage component, which represents the navigation bar for the messages section.
+ * Dependencies:
+ * - hoverIconOption: Shared styles for hover effects on icon options.
+ * - breakpoints: Shared styles for defining responsive breakpoints.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage:
+ * @use NavMessage from './NavMessage';
+ * 
+ */
+
 @use '../../../shared/Styles/hoverIconOption' as *;
 @import '../../../shared/Styles/breakpoints';
 @import '../../../shared/Styles/colors.scss';

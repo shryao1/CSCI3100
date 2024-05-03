@@ -1,3 +1,14 @@
+/**
+ * PostDetails.js
+ *
+ * Description: This file contains the PostDetails component, which displays details of a single post.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <PostDetails />
+ */
+
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 

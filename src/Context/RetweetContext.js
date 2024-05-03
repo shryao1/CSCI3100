@@ -1,3 +1,11 @@
+/**
+ * MenuActiveProvider.js
+ *
+ * Description: This file defines the MenuActiveProvider component, which provides context for the active tab and pop-up state within the application's menu.
+ * 
+ * Example Usage:
+ * import MenuActiveContext, { MenuActiveProvider } from './MenuActiveProvider';
+ */
 
 import React, { createContext, useState, useEffect } from 'react'
 

@@ -1,3 +1,14 @@
+/**
+ * GlobalStyles.scss
+ *
+ * Description: This file contains global styles applied to all elements throughout the application.
+ * 
+ * Dependencies: This file depends on variables defined in '../shared/Styles/colors.scss' and '../shared/Styles/breakpoints'.
+ * 
+ * Example Usage: 
+ *   - Import and use this file in your main SCSS file to apply global styles to all elements.
+ */
+
 @import '../shared/Styles/colors.scss';
 @import '../shared/Styles/breakpoints';
 

@@ -1,3 +1,23 @@
+/**
+ * Logged.js
+ *
+ * Description: This file contains the Logged component, which displays the login form for logged-in users.
+ * 
+ * @param {string} passwordInput - The password input value.
+ * @param {Function} handleChangePassword - The function to handle changes in the password input.
+ * @param {object} response - The response object containing user data.
+ * @param {Function} handleLogInUser - The function to handle user login.
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Logged
+ *    passwordInput={passwordInput}
+ *    handleChangePassword={handleChangePassword}
+ *    response={response}
+ *    handleLogInUser={handleLogInUser}
+ * />
+ */
+ 
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined'
 
 const Logged = ({

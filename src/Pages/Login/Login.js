@@ -1,3 +1,14 @@
+/**
+ * Login.js
+ *
+ * Description: This file contains the Login component, which handles user authentication.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Login />
+ */
+ 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import UnLogged from './partials/Unlogged'

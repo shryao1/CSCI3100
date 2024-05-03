@@ -1,3 +1,19 @@
+/**
+ * MenuDown.js
+ *
+ * Description: This file defines the MenuDown component, which represents a dropdown menu at the bottom of the page.
+ * Dependencies:
+ * - React: Library for building user interfaces.
+ * - MenuDownItem: Component for rendering menu items in the dropdown menu.
+ * - ListOptionsMenuDown: Array of options for the dropdown menu.
+ * - MenuActiveProvider: Context provider for managing active menu tab.
+ * 
+ * Example Usage:
+ * import MenuDown from './MenuDown';
+ * <MenuDown />
+ * 
+ */
+
 import MenuDownItem from './MenuDownItem/MenuDownItem'
 import { ListOptionsMenuDown } from './ListMenuDown'
 

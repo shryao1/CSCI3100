@@ -1,3 +1,17 @@
+/**
+ * NavPostDetails.scss
+ *
+ * Description: This SCSS file defines the styling for the NavPostDetails component, which represents the navigation bar for post details.
+ * Dependencies:
+ * - hoverIconOption: Shared styles for hover effects on icon options.
+ * - navBarFixed: Shared styles for fixed navigation bar.
+ * 
+ * Example Usage:
+ * @use NavPostDetails from './NavPostDetails';
+ * 
+ * Note: Ensure that this SCSS file is imported in the appropriate stylesheet to apply the defined styles.
+ */
+
 @use '../../../shared/Styles/hoverIconOption' as *;
 @use '../../../shared/Styles/navBarFixed' as *;
 

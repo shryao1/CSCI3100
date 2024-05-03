@@ -1,3 +1,14 @@
+/*
+ * MessageProfile.js
+ * 
+ * Description: This file contains the MessageProfile component, which displays user profile information within a message.
+ * 
+ * Dependencies:
+ * - PhotoUser component (../../../shared/Components/PhotoUser/PhotoUser)
+ * - Material-UI icons (InfoOutlinedIcon, DateRangeOutlinedIcon from '@mui/icons-material')
+ */
+
+
 import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
 
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'

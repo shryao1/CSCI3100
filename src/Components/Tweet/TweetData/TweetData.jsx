@@ -1,3 +1,23 @@
+/**
+ * TweetData.jsx
+ *
+ * Description: This component renders the data section of a tweet, including user information and settings menu.
+ * Dependencies:
+ * - useState: Hook for managing component state.
+ * - useEffect: Hook for performing side effects in function components.
+ * - Link: Component for navigating between routes in React Router.
+ * - Routes, Route: Components for defining routes in React Router.
+ * - useLocation: Hook for accessing the current URL in React Router.
+ * - useNavigate: Hook for programmatically navigating in React Router.
+ * - ListOptions: Array containing options for tweet actions, such as deleting a tweet.
+ * - SettingsMenu: Component for displaying settings menu options.
+ * 
+ * Example Usage:
+ * import TweetData from './TweetData';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your application.
+ */
+
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'

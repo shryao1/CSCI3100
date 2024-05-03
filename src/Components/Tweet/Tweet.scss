@@ -1,3 +1,17 @@
+/**
+ * TweetPost.scss
+ *
+ * Description: This SCSS file defines the styling for the TweetPost component, which represents a single tweet in the application.
+ * 
+ * Dependencies:
+ * - hoverIconOption: Shared styles for hover effects on icon options.
+ * - breakpoints: Shared styles for responsive design breakpoints.
+ * - colors.scss: Shared color variables.
+ * 
+ * Example Usage:
+ * @use TweetPost from './TweetPost';
+ */
+
 @use '../../shared/Styles/hoverIconOption' as *;
 @use '../../shared/Styles/breakpoints' as *;
 @import '../../shared/Styles/colors.scss';

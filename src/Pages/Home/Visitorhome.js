@@ -1,3 +1,12 @@
+/**
+ * VisitorHome.js
+ *
+ * Description: This file contains the VisitorHome component, which displays the home page for visitors.
+ * 
+ * Example Usage:
+ * <VisitorHome />
+ */
+
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'

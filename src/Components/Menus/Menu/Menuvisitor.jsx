@@ -1,3 +1,22 @@
+/**
+ * Menuvisitor.js
+ * Description: This file defines the Menu component, which displays a navigation menu for visitor mode.
+ * Dependencies:
+ * - React: Library for building user interfaces.
+ * - react-router-dom: React library for routing in web applications.
+ * - MenuItem: Custom component for rendering menu items.
+ * - ListOptionsvisitor: Function for getting a list of menu options for visitors.
+ * - MenuActiveContext: Context for managing menu state.
+ * - useScroll: Custom hook for disabling scrolling.
+ * 
+ * Example Usage:
+ * import Menu from './Menu';
+ * <Menu />
+ * 
+ * Note: Ensure that the necessary context providers are wrapped around the component to provide required context values.
+ */
+
+
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import MenuItem from './MenuItem/MenuItem'

@@ -1,3 +1,18 @@
+/**
+ * NotificationItem.jsx
+ *
+ * Description: This JavaScript file defines the NotificationItem component, which represents a single notification item in a list.
+ * Dependencies:
+ * - PhotoUser: Component for displaying user photos.
+ * - PersonIcon: Material-UI icon for representing a person.
+ * - NotificationItem.scss: SCSS file containing styling for the NotificationItem component.
+ * 
+ * Example Usage:
+ * import NotificationItem from './NotificationItem';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your React application.
+ */
+
 import PhotoUser from '../../shared/Components/PhotoUser/PhotoUser'
 import PersonIcon from '@mui/icons-material/Person'
 

@@ -1,3 +1,14 @@
+/*
+ * Layout.js
+ * 
+ * Description: This file contains the Layout component, which provides the overall structure for the application layout.
+ * 
+ * Dependencies:
+ * - Menu component (../Menus/Menu/Menu)
+ * - MenuDown component (../Menus/MenuDown/MenuDown)
+ * - Trends component (../Trends/Trends)
+ */
+
 import Menu from '../Menus/Menu/Menu'
 import MenuDown from '../Menus/MenuDown/MenuDown'
 import Trends from '../Trends/Trends'

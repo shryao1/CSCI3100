@@ -1,3 +1,12 @@
+/*
+ * LayoutLogin.js
+ * 
+ * Description: This file contains the LayoutLogin component, which provides the overall structure for the login layout.
+ * 
+ * Dependencies: None
+ */
+
+
 import './LayoutLogin.scss'
 
 const LayoutLogin = ({ children }) => {

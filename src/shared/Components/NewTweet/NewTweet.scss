@@ -1,3 +1,15 @@
+/**
+ * NewTweet.scss
+ *
+ * Description: This SCSS file defines the styles for the NewTweet component, which represents a new tweet/post input form.
+ * It includes styles for the main container, input fields, icons, and responsiveness for different screen sizes.
+ * 
+ * Dependencies: This file depends on the breakpoints defined in the shared Styles/breakpoints file and the colors defined
+ * in the shared Styles/colors file.
+ * 
+ * Note: The styles defined here are specific to the NewTweet component and are organized into nested selectors for clarity.
+ */
+ 
 @use '../../../shared/Styles/breakpoints' as *;
 
 @import '../../../shared/Styles/colors';

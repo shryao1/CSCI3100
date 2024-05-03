@@ -1,3 +1,15 @@
+/**
+ * File: MenuDownItem.scss
+ * Description: This SCSS file defines the styling for the MenuDownItem component, which represents a single item in the dropdown menu.
+ * Dependencies:
+ * - Breakpoints: Shared styles for defining responsive breakpoints.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage:
+ * import './MenuDownItem.scss';
+ * 
+ */
+
 @use '../../../../shared/Styles/breakpoints' as *;
 @import '../../../../shared/Styles/colors.scss';
 

@@ -1,3 +1,15 @@
+/**
+ * CreatePost.js
+ *
+ * Description: This file contains a component for creating a new post.
+ * 
+ * @param {object} e - The event object.
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <CreatePost />
+ */
+
 import React from 'react'
 
 class CreatePost extends React.Component {

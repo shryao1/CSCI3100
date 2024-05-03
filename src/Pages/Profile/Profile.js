@@ -1,3 +1,14 @@
+/**
+ * Profile.js
+ *
+ * Description: This file contains the Profile component, which displays user profile information and posts.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Profile />
+ */
+
 import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import MichealAvatar from './michaelAvatar.png'

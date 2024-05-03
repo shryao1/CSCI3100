@@ -1,3 +1,14 @@
+/**
+ * Message.js
+ *
+ * Description: This file contains the Message component, which displays a list of messages for a specific user.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Message />
+ */
+
 import NavMessage from '../../Components/NavPages/NavMessage/NavMessage'
 import MessageItem from '../../Components/MessageItem/MessageItem'
 import { useContext } from 'react'

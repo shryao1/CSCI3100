@@ -1,3 +1,15 @@
+/**
+ * BtnLike.scss
+ *
+ * Description: This file contains styles for the BtnLike component, which represents a button to like a post. It styles the appearance of the like button and its associated icon.
+ * 
+ * Dependencies: This file depends on styles defined in '../../Styles/hoverIconOption'.
+ * 
+ * Example Usage: 
+ *   - Import and use this SCSS file in your component to style the like button.
+ *   - Apply the 'like' class to customize the appearance of the like button.
+ */
+
 @use '../../Styles/hoverIconOption' as *;
 
 .BtnLike__container{

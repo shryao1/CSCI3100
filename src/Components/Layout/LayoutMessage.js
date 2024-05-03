@@ -1,3 +1,16 @@
+/*
+ * LayoutMessage.js
+ * 
+ * Description: This file contains the LayoutMessage component, which provides the overall structure for the message layout.
+ * 
+ * Dependencies:
+ * - react-router-dom (https://reactrouter.com/)
+ * - Menu component (../Menus/Menu/Menu)
+ * - MenuDown component (../Menus/MenuDown/MenuDown)
+ * - InsideMessage component (../InsideMessage/InsideMessage)
+ * - MessageProvider (../../Context/contextMessage)
+ */
+
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Menu from '../Menus/Menu/Menu'

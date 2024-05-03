@@ -1,3 +1,16 @@
+/**
+ * Unlogged.js
+ *
+ * Description: This file contains the Unlogged component, which displays the login form for unauthenticated users.
+ * 
+ * @param {Function} setLogin - The function to set the login status.
+ * @param {Function} navigate - The function to navigate to another page.
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Unlogged setLogin={setLogin} navigate={navigate} />
+ */
+ 
 import { useState } from 'react'
 
 const Unlogged = ({ setLogin, navigate }) => {

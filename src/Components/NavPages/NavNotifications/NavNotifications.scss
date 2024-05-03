@@ -1,3 +1,16 @@
+/**
+ * NavNotifications.scss
+ *
+ * Description: This SCSS file defines the styling for the NavNotifications component, which represents the navigation bar for notifications.
+ * Dependencies:
+ * - hoverIconOption: Shared styles for hover effects on icon options.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage:
+ * @use NavNotifications from './NavNotifications';
+ * 
+ */
+
 @use '../../../shared/Styles/hoverIconOption' as *;
 @import '../../../shared/Styles/colors.scss';
 

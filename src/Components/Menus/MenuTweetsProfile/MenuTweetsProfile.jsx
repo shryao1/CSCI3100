@@ -1,3 +1,18 @@
+/**
+ * MenuTweetsProfile.js
+ *
+ * Description: This file defines the MenuTweetsProfile component, which represents the menu for managing tweets on a user's profile.
+ * Dependencies:
+ * - React: Library for building user interfaces.
+ * - ItemMenuTweetsProfile: Component for rendering individual menu items in the profile menu.
+ * - ListOptionsMenu: Array of options for the profile menu.
+ * 
+ * Example Usage:
+ * import MenuTweetsProfile from './MenuTweetsProfile';
+ * 
+ * Note: This component expects two functions, `handlePostButtonClick` and `handleFavoriteButtonClick`, to be passed as props to handle button click events.
+ */
+
 import ItemMenuTweetsProfile from './ItemMenuTweetsProfile/ItemMenuTweetsProfile'
 import { ListOptionsMenu } from './ListOptions'
 import React from 'react'

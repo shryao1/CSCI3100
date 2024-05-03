@@ -1,3 +1,12 @@
+/**
+ * server.js
+ * This is a Node.js server configuration file using Express, Mongoose, and several other modules to
+ * set up a RESTful API server. The server handles user authentication, registration, CRUD operations
+ * for users and posts, file uploads, and real-time interactions such as liking and commenting on posts.
+ * The MongoDB database is used for storage, handling user data, posts, comments, and notifications.
+ */
+ 
+// Module imports 
 const express = require("express");
 const path = require("path");
 const fs = require('fs')

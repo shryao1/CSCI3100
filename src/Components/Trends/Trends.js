@@ -1,3 +1,20 @@
+/**
+ * Trends.js
+ *
+ * Description: This JavaScript file defines the Trends component, which represents the trending topics and search functionality in the application.
+ * Dependencies:
+ * - TweetPost: Component for displaying individual tweets.
+ * - SearchLogo: Image asset for the search logo.
+ * - SearchIcon: Image asset for the search icon.
+ * - sad: Image asset for representing sad emotions.
+ * - Link: Component for navigation within the application.
+ * 
+ * Example Usage:
+ * import Trends from './Trends';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your React application.
+ */
+
 import './Trends.scss'
 import { useState } from 'react'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'

@@ -1,3 +1,22 @@
+/**
+ * Trendsvistor.js
+ *
+ * Description: This JavaScript file defines the Trends component for vistor mode, which represents trending topics and search functionality.
+ * Dependencies:
+ * - useState: React hook for managing component state.
+ * - TweetPost: Component for rendering individual tweet posts.
+ * - SearchLogo: Image file for the search logo.
+ * - SearchIcon: Image file for the search icon.
+ * - sad: Image file for representing a sad emotion.
+ * - useNavigate: Hook for navigating between routes in a React application.
+ * - set: Mongoose method for setting values.
+ * 
+ * Example Usage:
+ * import Trends from './Trends';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your React application.
+ */
+
 import './Trends.scss'
 import { useState } from 'react'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'

@@ -1,3 +1,18 @@
+/**
+ * NavBrowser.scss
+ *
+ * Description: This SCSS file defines the styling for the NavBrowser component, which represents the navigation bar for the browser section.
+ * Dependencies:
+ * - hoverIconOption: Shared styles for hover effects on icon options.
+ * - navBarFixed: Shared styles for fixed navigation bar.
+ * - breakpoints: Shared styles for defining responsive breakpoints.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage:
+ * @use NavBrowser from './NavBrowser';
+ * 
+ */
+
 @use '../../../shared/Styles/hoverIconOption' as *;
 @use '../../../shared/Styles/navBarFixed' as *;
 @use '../../../shared/Styles/breakpoints' as *;

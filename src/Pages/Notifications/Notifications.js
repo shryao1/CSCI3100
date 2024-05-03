@@ -1,3 +1,14 @@
+/**
+ * Notifications.js
+ *
+ * Description: This file contains the Notifications component, which displays a list of notifications for a specific user.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <Notifications />
+ */
+
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import NavNotifications from '../../Components/NavPages/NavNotifications/NavNotifications'

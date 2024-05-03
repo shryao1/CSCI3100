@@ -1,3 +1,14 @@
+/**
+ * NavMessage.js
+ *
+ * Description: This file contains the NavMessage component, which displays the navigation bar and search functionality for messages.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ * 
+ * Example Usage:
+ * <NavMessage />
+ */
+
 import './NavMessage.scss'
 
 import SettingsIcon from '@mui/icons-material/SettingsOutlined'

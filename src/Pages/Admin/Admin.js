@@ -1,3 +1,15 @@
+/**
+ * Admin.js
+ *
+ * Description: This file contains components for the admin dashboard, including user and post management.
+ * 
+ * @param {object} e - The event object.
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <Admin />
+ */
+
 import './Admin.scss'
 import React, { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
@@ -5,17 +17,6 @@ import CreatePost from './CreatePost'
 // import UpdatePost from './UpdatePost'
 import CreateUser from './CreateUser'
 // import UpdateUser from './UpdateUser'
-
-
-
-
-
-
-
-
-
-
-
 
 
 const Admin = () => {

@@ -1,3 +1,15 @@
+/**
+ * BtnTwitter.js
+ *
+ * Description: This file contains the BtnTwitter component, which represents a button for posting tweets or comments. It allows users to post tweets or comments and updates the UI accordingly.
+ * 
+ * Dependencies: This component depends on React's useContext and useParams hooks from 'react'. It also imports various context providers from '../../../Context', including AppContext, MenuActiveContext, and RetweetContext. Additionally, it imports functions getAllPost, newComment, and newPost from '../../../Services/api', and the enableScroll function from '../../../Hooks/useScroll'.
+ * 
+ * Example Usage: 
+ *   - Import and use this component in your application to provide users with the ability to post tweets or comments.
+ *   - Pass props like 'label', 'textPost', 'setTextPost', 'media_posted', 'isComment', 'toUser', and 'idPost' to customize the behavior of the button.
+ */
+
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom' // Import useParams
 import { AppContext } from '../../../Context/AppContext'

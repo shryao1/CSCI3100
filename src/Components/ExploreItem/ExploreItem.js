@@ -1,3 +1,21 @@
+/*
+ * ExploreItem.js
+ * 
+ * Description: This file contains the ExploreItem component, which renders a single item in an explore list.
+ * 
+ * Dependencies:
+ * - PhotoUser component (../../shared/Components/PhotoUser/PhotoUser)
+ * - Material-UI icons (PersonIcon from '@mui/icons-material/Person')
+ * 
+ * Props:
+ * - explore: Object containing explore information (id, user_photo, name, username, time, text_explore, icon_explore)
+ * - owner: Boolean indicating if the user is the owner of the explore item
+ * 
+ * Usage:
+ * import ExploreItem from './ExploreItem';
+ * <ExploreItem explore={exploreData} owner={true} />
+ */
+
 import PhotoUser from '../../shared/Components/PhotoUser/PhotoUser'
 import PersonIcon from '@mui/icons-material/Person'
 

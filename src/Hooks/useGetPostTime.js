@@ -1,3 +1,16 @@
+/**
+ * useGetPostTime.js
+ *
+ * Description: This custom hook provides functionality to format the post time based on the provided date.
+ * 
+ * @param {string} datePosted - The date when the post was posted.
+ * @param {boolean} exactDate - A boolean flag indicating whether to return the exact date or the time difference from the current date.
+ * @returns {string} The formatted post time based on the provided date and the specified options.
+ * 
+ * Example Usage:
+ * const formattedTime = useGetPostTime(datePosted, true);
+ */
+
 const format24to12 = (hour) => {
 	return (hour > 12) ? (hour - 12) : hour
 }

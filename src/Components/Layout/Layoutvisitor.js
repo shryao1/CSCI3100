@@ -1,3 +1,16 @@
+/*
+ * Layoutvisitor.js
+ * 
+ * Description: This file contains the Layout component, which provides the overall structure for the application layout.
+ * 
+ * Dependencies:
+ * - Menuvisitor component (../Menus/Menu/Menuvisitor)
+ * - MenuDownvisitor component (../Menus/MenuDown/MenuDownvisitor)
+ * - Trendsvisitor component (../Trends/Trendsvisitor)
+ * - react-router-dom (https://reactrouter.com/)
+ */
+
+
 import Menuvisitor from '../Menus/Menu/Menuvisitor'
 import MenuDownvisitor from '../Menus/MenuDown/MenuDownvisitor'
 import Trendsvisitor from '../Trends/Trendsvisitor'

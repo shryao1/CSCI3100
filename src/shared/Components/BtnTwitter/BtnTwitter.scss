@@ -1,3 +1,15 @@
+/**
+ * BtnTwitter.scss
+ *
+ * Description: This file contains styles for the BtnTwitter component, which represents a button for posting tweets or comments. It styles the appearance of the button and its label.
+ * 
+ * Dependencies: This file depends on styles defined in '../../Styles/colors.scss'.
+ * 
+ * Example Usage: 
+ *   - Import and use this SCSS file in your component to style the BtnTwitter button.
+ *   - Apply the 'container__btnTwitter' class to customize the appearance of the button.
+ */
+
 @import '../../Styles/colors.scss';
 
 .container__btnTwitter{

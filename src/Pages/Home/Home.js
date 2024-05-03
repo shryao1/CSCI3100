@@ -1,3 +1,15 @@
+/**
+ * Home.js
+ *
+ * Description: This file contains the Home component, which displays a list of tweets from the user's home feed.
+ * 
+ * @returns {JSX.Element} JSX for Home component.
+ * 
+ * Example Usage:
+ * <Home />
+ */
+
+
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import NavHome from '../../Components/NavPages/NavHome/NavHome'

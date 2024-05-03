@@ -1,3 +1,15 @@
+/**
+ * BtnLike.js
+ *
+ * Description: This file contains the BtnLike component, which represents a button to like a post. It allows users to like posts and updates the UI accordingly.
+ * 
+ * Dependencies: This component depends on React's useContext and useParams hooks from 'react'. It also imports useILikeThis hook from '../../../Hooks/useILikeThis' and functions getAllPost and newLike from '../../../Services/api'.
+ * 
+ * Example Usage: 
+ *   - Import and use this component in your application to provide users with the ability to like posts.
+ *   - Pass props like 'likes', 'id', and 'showDetail' to customize the behavior and appearance of the button.
+ */
+
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../../../Context/AppContext'

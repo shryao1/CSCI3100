@@ -1,3 +1,14 @@
+/**
+ * Default.js
+ *
+ * Description: This file contains the default landing page component.
+ * 
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <Default />
+ */
+
 import { Link } from 'react-router-dom'
 
 import './Default.scss'

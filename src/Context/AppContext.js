@@ -1,6 +1,19 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { getAllPost, myGetUser } from '../Services/api'
 
+/**
+ * AppProvider.js
+ *
+ * Description: This file defines the AppProvider component, which provides context for the entire application.
+ * 
+ * Dependencies:
+ * - getAllPost: Function to fetch all posts from the API.
+ * - myGetUser: Function to fetch user data from the API.
+ * 
+ * Example Usage:
+ * import AppProvider from './AppProvider';
+ */
+
 export const AppContext = createContext({})
 
 const AppProvider = ({ children }) => {

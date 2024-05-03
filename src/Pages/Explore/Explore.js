@@ -1,3 +1,14 @@
+/**
+ * Explore.js
+ *
+ * Description: This file contains the Explore page component.
+ * 
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <Explore />
+ */
+
 import { useState, useEffect } from 'react'
 import NavExplore from '../../Components/NavPages/NavExplore/NavExplore'
 import TweetPost from '../../Components/Tweet/TweetPost/TweetPost'

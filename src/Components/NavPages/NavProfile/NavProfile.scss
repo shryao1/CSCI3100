@@ -1,3 +1,18 @@
+/**
+ * NavProfile.scss
+ *
+ * Description: This SCSS file contains the styling for the NavProfile component, which represents the navigation bar for user profiles.
+ * Dependencies:
+ * - navBarFixed: SCSS mixin for fixed navigation bars.
+ * - hoverIconOption: SCSS mixin for styling icons with hover effects.
+ * - colors: SCSS file containing color variables.
+ * - breakpoints: SCSS file containing breakpoint variables.
+ * 
+ * Example Usage:
+ * import NavProfile from './NavProfile';
+ * 
+ */
+
 @use '../../../shared/Styles/navBarFixed' as *;
 @use '../../../shared/Styles/hoverIconOption' as *;
 @import '../../../shared/Styles/colors';

@@ -1,3 +1,14 @@
+/*
+ * MenuItem.jsx
+ * 
+ * Description: This file contains the MenuItem component, which represents an individual item in a menu.
+ * 
+ * Dependencies:
+ * - react-router-dom (https://reactrouter.com/)
+ * - menuActive context (../../../../Context/menuActive)
+ */
+
+
 import {useContext} from 'react'
 import { Link } from 'react-router-dom'
 import './MenuItem.scss'

@@ -1,3 +1,24 @@
+/**
+ * TweetComment.js
+ *
+ * Description: This JavaScript file defines the TweetComment component, which represents a single tweet with options for commenting, retweeting, liking, and sharing.
+ * Dependencies:
+ * - useContext: React hook for accessing context in functional components.
+ * - AppContext: Context object for the entire application.
+ * - useIsMyTweet: Custom hook for checking if the tweet belongs to the current user.
+ * - TweetDataComment: Component for rendering tweet data and comments.
+ * - ChatBubbleOutlineOutlinedIcon: Material-UI icon for chat bubble outline.
+ * - AutorenewOutlinedIcon: Material-UI icon for autorenew outline.
+ * - FavoriteBorderOutlinedIcon: Material-UI icon for favorite border outline.
+ * - IosShareOutlinedIcon: Material-UI icon for iOS share outline.
+ * - BarChartOutlinedIcon: Material-UI icon for bar chart outline.
+ * 
+ * Example Usage:
+ * import TweetComment from './TweetComment';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your React application.
+ */
+
 import { useContext } from 'react'
 
 import { AppContext } from '../../../Context/AppContext'

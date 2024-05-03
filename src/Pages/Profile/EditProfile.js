@@ -1,3 +1,12 @@
+/**
+ * ProfileEdit.js
+ *
+ * Description: This file contains the ProfileEdit component, which allows users to edit their profile information.
+ * 
+ * Example Usage:
+ * <ProfileEdit />
+ */
+ 
 import React, { useState, useEffect } from 'react'
 import styles from './EditProfile.scss'
 import { useNavigate, useParams } from 'react-router-dom'

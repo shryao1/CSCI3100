@@ -1,3 +1,23 @@
+/**
+ * NavProfile.js
+ *
+ * Description: This JavaScript file defines the NavProfile component, which represents the navigation bar for user profiles.
+ * Dependencies:
+ * - Button: Material-UI component for buttons.
+ * - PhotoUser: Custom component for displaying user photos.
+ * - TextBlue: Custom component for displaying blue text.
+ * - purple, yellow: Colors imported from Material-UI colors.
+ * - ArrowBackOutlinedIcon: Material-UI icon for navigating back.
+ * - EventNoteOutlinedIcon: Material-UI icon for event note.
+ * - Routes, Route, useLocation, useNavigate: Components and hooks from react-router-dom for navigation.
+ * - NavProfile.scss: SCSS file containing styling for the NavProfile component.
+ * 
+ * Example Usage:
+ * import NavProfile from './NavProfile';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your React application.
+ */
+
 import Button from '@mui/material/Button'
 import PhotoUser from '../../../shared/Components/PhotoUser/PhotoUser'
 import TextBlue from '../../../shared/Components/TextBlue/TextBlue'

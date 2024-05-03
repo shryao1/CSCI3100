@@ -1,3 +1,14 @@
+/**
+ * Browser.js
+ * Description: This file contains a component for browsing posts by user ID.
+ * 
+ * @param {object} e - The event object.
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <Browser />
+ */
+
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import NavBrowser from '../../Components/NavPages/NavBrowser/NavBrowser'

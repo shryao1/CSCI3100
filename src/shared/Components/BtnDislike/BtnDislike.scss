@@ -1,3 +1,15 @@
+/**
+ * BtnDislike.scss
+ *
+ * Description: This file contains styles for the BtnDislike component, which represents a button to dislike a post. It styles the appearance of the dislike button and its associated icon.
+ * 
+ * Dependencies: This file depends on styles defined in '../../Styles/hoverIconOption'.
+ * 
+ * Example Usage: 
+ *   - Import and use this SCSS file in your component to style the dislike button.
+ *   - Apply the 'dislike' class to customize the appearance of the dislike button.
+ */
+
 @use '../../Styles/hoverIconOption' as *;
 
 .BtnDislike__container{

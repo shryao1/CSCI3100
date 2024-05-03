@@ -1,3 +1,14 @@
+/**
+ * api.js
+ *
+ * Description: This file contains functions for making API requests using fetch and axios to interact with the backend server endpoints.
+ * 
+ * Dependencies: This file depends on the 'axios' library for making HTTP requests and uses 'fetch' for some API calls. It also depends on the backend server running on 'http://localhost:3001'.
+ * 
+ * Example Usage: 
+ *   - Import and use these functions in your application to make API requests for retrieving data, creating new posts, comments, likes, etc.
+ */
+
 import axios from 'axios'
 const PRODUCTION_URL = 'http://localhost:3001'
 const LOCAL_URL = 'http://localhost:3001'

@@ -1,3 +1,18 @@
+/**
+ * NavMessage.js
+ *
+ * Description: This JavaScript file defines the NavMessage component, which represents the navigation bar for the messages section.
+ * Dependencies:
+ * - SettingsIcon: Material-UI icon for settings.
+ * - MailOutlineIcon: Material-UI icon for mail outline.
+ * - SearchIcon: Material-UI icon for search.
+ * - NavMessage.scss: SCSS file containing styling for the NavMessage component.
+ * 
+ * Example Usage:
+ * import NavMessage from './NavMessage';
+ * 
+ */
+
 import './NavMessage.scss'
 
 import SettingsIcon from '@mui/icons-material/SettingsOutlined'

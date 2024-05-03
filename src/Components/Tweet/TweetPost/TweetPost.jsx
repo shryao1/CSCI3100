@@ -1,3 +1,20 @@
+/**
+ * TweetPost.jsx
+ *
+ * Description: This component renders a single tweet post, including its content, attachments, and options.
+ * Dependencies:
+ * - TweetData: Component for rendering the data section of a tweet.
+ * - BtnLike: Component for handling like functionality.
+ * - BtnDislike: Component for handling dislike functionality.
+ * - BtnRetweet: Component for handling retweet functionality.
+ * - useGetcurrentusername: Hook for getting the current username.
+ * 
+ * Example Usage:
+ * import TweetPost from './TweetPost';
+ * 
+ * Note: Ensure that this component is imported and used appropriately within your application.
+ */
+
 import './TweetPost.scss'
 import { AppContext } from '../../../Context/AppContext'
 import React, { useState, useEffect } from 'react'

@@ -1,3 +1,18 @@
+/*
+ * InsideMessage.js
+ * 
+ * Description: This file contains the InsideMessage component, which displays messages exchanged between users.
+ * 
+ * Dependencies:
+ * - React (https://reactjs.org/)
+ * - react-router-dom (https://reactrouter.com/)
+ * - MessageContext (../../Context/contextMessage)
+ * - MessageProfile component (./MessageProfile/MessageProfile)
+ * - PhotoUser component (../../shared/Components/PhotoUser/PhotoUser)
+ * - Material-UI icons (BrokenImageOutlinedIcon, GifBoxOutlinedIcon, SentimentSatisfiedOutlinedIcon, SendOutlinedIcon from '@mui/icons-material')
+ */
+
+
 import { useContext, useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 

@@ -1,3 +1,16 @@
+/**
+ * Menu.scss
+ * Description: This SCSS file defines the styling for the Menu component.
+ * Dependencies: 
+ * - Breakpoints: Shared styles for defining responsive breakpoints.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage: 
+ * import './Menu.scss';
+ * 
+ */
+
+
 @use '../../../shared/Styles/breakpoints' as *;
 @import '../../../shared/Styles/colors.scss';
 

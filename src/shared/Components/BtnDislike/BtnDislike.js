@@ -1,3 +1,15 @@
+/**
+ * BtnDislike.js
+ *
+ * Description: This file contains the BtnDislike component, which represents a button to dislike a post. It allows users to dislike posts and updates the UI accordingly.
+ * 
+ * Dependencies: This component depends on React's useContext, useEffect, useState, and useParams hooks from 'react'. It also imports useIDislikeThis hook from '../../../Hooks/useIDislikeThis' and functions getAllPost and newDislike from '../../../Services/api'.
+ * 
+ * Example Usage: 
+ *   - Import and use this component in your application to provide users with the ability to dislike posts.
+ *   - Pass props like 'dislikes', 'id', and 'showDetail' to customize the behavior and appearance of the button.
+ */
+
 import { useContext,useEffect,useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../../../Context/AppContext'

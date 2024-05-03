@@ -1,3 +1,16 @@
+/**
+ * MenuDown.scss
+ *
+ * Description: This SCSS file defines the styling for the MenuDown component, which represents a dropdown menu at the bottom of the page.
+ * Dependencies:
+ * - Breakpoints: Shared styles for defining responsive breakpoints.
+ * - colors.scss: Shared styles for defining color variables.
+ * 
+ * Example Usage:
+ * import './MenuDown.scss';
+ * 
+ */
+
 @import '../../../shared/Styles/colors';
 
 .menuTweetsProfile__container{

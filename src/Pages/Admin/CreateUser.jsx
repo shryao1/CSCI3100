@@ -1,3 +1,15 @@
+/**
+ * CreateUser.js
+ *
+ * Description: This file contains a component for creating a new user.
+ * 
+ * @param {object} e - The event object.
+ * @returns {void}
+ * 
+ * Example Usage:
+ * <CreateUser />
+ */
+
 import React from 'react'
 
 class CreateUser extends React.Component {

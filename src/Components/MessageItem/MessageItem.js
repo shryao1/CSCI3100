@@ -1,3 +1,18 @@
+/**
+ * MessageItem.js
+ *
+ * Description: This JavaScript file defines the MessageItem component, which displays messages from friends.
+ * Dependencies:
+ * - React: Library for building user interfaces in JavaScript.
+ * - react-router-dom: Library for routing in React applications.
+ * - PhotoUser: Component for displaying user photos.
+ * - MessageItem.scss: SCSS file containing styling for the MessageItem component.
+ * 
+ * Example Usage:
+ * import MessageItem from './MessageItem';
+ * 
+ */
+
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import PhotoUser from '../../shared/Components/PhotoUser/PhotoUser'

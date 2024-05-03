@@ -1,3 +1,11 @@
+/**
+ * FollowList.js
+ *
+ * Description: This file contains the FollowList component, which displays a list of followers or following users.
+ * 
+ * @returns {JSX.Element} JSX for FollowList component.
+ */
+
 import './FollowList.scss'
 import { useParams } from 'react-router-dom'
 import React from 'react'

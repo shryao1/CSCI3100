@@ -1,3 +1,19 @@
+/**
+ * listOptionsMenu.js
+ * Description: This file contains a function getListOptionsMenu(userID) that generates a list of options for the user's menu, including icons and URLs.
+ * Dependencies:
+ * - React: Library for building user interfaces.
+ * - react-router-dom: React library for routing in web applications.
+ * - Material-UI icons: Icons library for React components.
+ * 
+ * Example Usage:
+ * import { getListOptionsMenu } from './listOptionsMenu';
+ * const optionsMenu = getListOptionsMenu(userID);
+ * console.log(optionsMenu);
+ * 
+ * Note: Ensure that the icons and routes are appropriately configured and handled within the application.
+ */
+
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'

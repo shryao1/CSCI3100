@@ -1,3 +1,18 @@
+/**
+ * Explore.scss
+ *
+ * Description: This file contains styles for the Explore page component.
+ * 
+ * Example Usage:
+ * .explore__container {
+ *     .explore__tweetsList {
+ *         @media(max-width: $MobileXL) {
+ *             padding: 53px 0 0 0;
+ *         }
+ *     }
+ * }
+ */
+
 @use '../../shared/Styles/breakpoints' as *;
 
 .explore__container{

@@ -1,3 +1,22 @@
+/*
+ * BrowserItem.js
+ * 
+ * Description: This file contains the BrowserItem component, which renders a single item in a browser list.
+ * 
+ * Dependencies: 
+ * - React (https://reactjs.org/)
+ * - Material-UI (https://mui.com/)
+ * - PhotoUser component (../../shared/Components/PhotoUser/PhotoUser)
+ * 
+ * Props:
+ * - browser: Object containing browser information (id, user_photo, name, username, time, text_browser, icon_browser)
+ * - owner: Boolean indicating if the user is the owner of the browser item
+ * 
+ * Usage:
+ * import BrowserItem from './BrowserItem';
+ * <BrowserItem browser={browserData} owner={true} />
+ */
+ 
 import PhotoUser from '../../shared/Components/PhotoUser/PhotoUser'
 import PersonIcon from '@mui/icons-material/Person'
 

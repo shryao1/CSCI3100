@@ -1,3 +1,15 @@
+/**
+ * PageWrapper.js
+ *
+ * Description: This file contains the PageWrapper component, which wraps different layouts based on the type of page being rendered.
+ * 
+ * Dependencies: This component imports React's useContext hook and various layout components from '../../Components/Layout' directory. It also imports NewTweet and PopUp components from '../../shared/Components'.
+ * 
+ * Example Usage: 
+ *  - Import PageWrapper in the component where different layouts need to be rendered based on the page type.
+ *  - Pass appropriate props (isPage, isMessagePage, isLoginPage, isDefaultPage, isVisitorPage) to determine the layout to be rendered.
+ */
+
 import { useContext } from 'react'
 
 import { MenuActiveContext } from '../../Context/menuActive'

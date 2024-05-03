@@ -1,3 +1,16 @@
+/**
+ * scrollControl.js
+ *
+ * Description: This module provides functions to control scrolling behavior.
+ * 
+ * @param {object} e - The event object.
+ * @returns {void}
+ * 
+ * Example Usage:
+ * disableScroll();
+ * enableScroll();
+ */
+ 
 // left: 37, up: 38, right: 39, down: 40,
 const keys = { 37: 1, 38: 1, 39: 1, 40: 1 }
 

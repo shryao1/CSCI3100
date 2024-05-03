@@ -1,3 +1,23 @@
+/**
+ * NewTweet.jsx
+ *
+ * Description: This component represents a new tweet/post input form. It allows users to type text, upload media,
+ * and interact with various options like adding GIFs, polls, emojis, and locations. It also enables users to post
+ * new tweets or replies.
+ * 
+ * Dependencies: This component depends on React, as well as the AppContext and RetweetContext contexts.
+ * 
+ * Props:
+ *   - placeholder: The placeholder text for the input field.
+ *   - isComment: A boolean indicating whether the new tweet is a reply to another tweet.
+ *   - toUser: The username of the user being replied to (if it's a comment).
+ *   - idPost: The ID of the post being replied to (if it's a comment).
+ * 
+ * Example Usage:
+ *   <NewTweet placeholder="What's happening?" />
+ *   <NewTweet placeholder="Replying to..." isComment={true} toUser="username" idPost="postId" />
+ */
+
 import React, { useContext, useState, useEffect, useRef } from 'react'
 import { AppContext } from '../../../Context/AppContext'
 import PhotoUser from '../PhotoUser/PhotoUser'

@@ -1,3 +1,16 @@
+/**
+ * ListOptions.js
+ *
+ * Description: This file exports a list of options for the dropdown menu.
+ * Dependencies:
+ * - Material-UI icons: Icons library for React components.
+ * 
+ * Example Usage:
+ * import { ListOptionsMenuDown } from './ListOptions';
+ * console.log(ListOptionsMenuDown);
+ * 
+ */
+
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import HomeIcon from '@mui/icons-material/Home'
 import SearchIcon from '@mui/icons-material/Search'

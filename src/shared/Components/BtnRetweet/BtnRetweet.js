@@ -1,3 +1,15 @@
+/**
+ * BtnRetweet.js
+ *
+ * Description: This file contains the BtnRetweet component, which represents a button to retweet a post. It allows users to retweet posts and opens a popup window to compose a new tweet with the retweeted content.
+ * 
+ * Dependencies: This component depends on React's useContext and useParams hooks from 'react'. It also imports various context providers from '../../../Context', including MenuActiveContext and RetweetContext. Additionally, it imports the disableScroll function from '../../../Hooks/useScroll' and functions getAllPost and newLike from '../../../Services/api'.
+ * 
+ * Example Usage: 
+ *   - Import and use this component in your application to provide users with the ability to retweet posts.
+ *   - Pass props like 'content', 'attachment', and 'username' to customize the retweet behavior.
+ */
+
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { AppContext } from '../../../Context/AppContext'

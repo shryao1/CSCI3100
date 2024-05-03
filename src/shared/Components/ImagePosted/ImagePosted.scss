@@ -1,3 +1,15 @@
+/**
+ * ImagePosted.scss
+ *
+ * Description: This file contains styles for the ImagePosted component, which represents an image posted in a tweet or post. It styles the appearance of the container for the image.
+ * 
+ * Dependencies: This file depends on styles defined in '../../Styles/colors.scss'.
+ * 
+ * Example Usage: 
+ *   - Import and use this SCSS file in your component to style the ImagePosted container.
+ *   - Apply the 'ImagePosted__container' class to customize the appearance of the image container.
+ */
+
 @import '../../Styles/colors.scss';
 
 .ImagePosted__container{

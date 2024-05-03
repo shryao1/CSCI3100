@@ -1,3 +1,15 @@
+/**
+ * BtnRetweet.scss
+ *
+ * Description: This file contains styles for the BtnRetweet component, which represents a button to retweet a post. It styles the appearance of the retweet button and its associated icon.
+ * 
+ * Dependencies: This file depends on styles defined in '../../Styles/hoverIconOption'.
+ * 
+ * Example Usage: 
+ *   - Import and use this SCSS file in your component to style the retweet button.
+ *   - Apply the 'retweet' class to customize the appearance of the retweet button.
+ */
+
 @use '../../Styles/hoverIconOption' as *;
 
 .BtnRetweet__container{

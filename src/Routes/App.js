@@ -1,3 +1,17 @@
+/**
+ * App.js
+ *
+ * Description: This file serves as the entry point for the application. It sets up the routing using React Router and wraps each route component with the PageWrapper component to apply layout styles and other context providers.
+ * 
+ * Dependencies: 
+ *   - React Router: Imports BrowserRouter, Navigate, Route, and Routes components from 'react-router-dom'.
+ *   - Components: Imports various page components from '../Pages' directory.
+ *   - Context Providers: Imports context providers from '../Context' directory.
+ * 
+ * Example Usage: 
+ *   - Import and use this file as the root component in your application to define routing and page layout.
+ */
+
 import {
 	BrowserRouter,
 	Navigate,
